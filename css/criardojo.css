@@ -97,16 +97,6 @@ textarea {
     background: #cc0000;
 }
 
-button[type="button"]:not(.schedule-item button) {
-    padding: 10px 20px;
-    background: #ff6600;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
-}
 
 button[type="button"]:hover {
     background: #e55a00;
@@ -129,9 +119,17 @@ button[type="button"]:hover {
 }
 
 .btn-primary {
-    background: #ff6600;
-    color: white;
-    position:fixed;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+    border: 1px solid #000000;
+        display: flex;
+    align-items: center;
 }
 
 .btn-primary:hover {
@@ -162,6 +160,11 @@ button[type="button"]:hover {
     object-fit: cover;
     border-radius: 4px;
     border: 1px solid #ddd;
+}
+
+#dojoImagePreviewContainer {
+    max-height: 150px;
+    overflow-y: auto;
 }
 
 @media (max-width: 600px) {
@@ -226,7 +229,8 @@ button[type="button"]:hover {
     background: #ffffff;
     color: rgb(0, 0, 0);
     border: 1px solid #000000;
-    position:fixed;
+    display: flex;
+    align-items: center;
 }
 
 .btn-agenda:hover {
@@ -234,5 +238,60 @@ button[type="button"]:hover {
     transform: translateY(-2px);
 }
 
+.btn-adicionar {
+    padding: 10px 20px;
+    background: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    width: 120px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.Agenda {
+    margin-bottom: 3vh;
+    margin-top: 2% ;
+    width: 90%;
+    display: none;
+    min-height: 25vh;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.calendar {
+    display: flex;
+    flex-direction: row ;
+    width: 100% ;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+}
+
+.day{
+    margin-left: 2%;
+    margin-right: 2%;
+    display: flex;
+    flex-direction: column ;
+    align-items: center;
+
+}
+
+.divider{
+   border: 1px solid #ddd;
+    border-radius: 8px;
+    height: 90%;
+    content: '';
+}
+
 
         
+.Aula {
+    display: none;
+}

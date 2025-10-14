@@ -11,7 +11,22 @@ if (!isset($_SESSION['academia_id']) && !isset($_SESSION['academia_id'])) {
     exit();
 }
 
-$academias = "SELECT * from tb_academia";
+
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = "SELECT id_modalidade, nm_modalidade FROM tb_modalidade";
+    $result = $pdo->query($sql);
+
+    $modalidade = $result->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Erro ao conectar ou consultar: " . $e->getMessage());
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -120,21 +135,99 @@ $academias = "SELECT * from tb_academia";
                
 
                 
-                     <div class="form-actions">
-                    <a type="submit" class="btn-agenda">Criar Agenda</a>
-                     </div>
+                   
                 
 
                 <div class="form-actions">
+                         <a type="submit" class="btn-agenda" id="btn-agenda">Criar Agenda</a>
                     <button type="submit" class="btn-primary">Criar Academia</button>
                 </div>
             </form>
+            
         </div>
+         
+                   
+                  
+                     
+                <div class="form-actions">
+                     <div class="Agenda" id="Agenda" >
+                        <div class="calendar">
+                            <div class="day">
+                                <h3>Domingo</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="day">
+                                <h3>Segunda</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
+                                <div class="Aula" id="Aula" >
+                                    <form action="#" method="post" class="aula-form">
+                                        <div class="form-group">
+                                            <label for="aulaNome">Nome da Aula:</label>
+                                            <input type="text" id="aulaNome" name="aulaNome" minlength="2" maxlength="100" required>
+                                            <Select id="aulaTipo" name="aulaTipo" required>
+                                                <option value="">Selecione o tipo de aula</option>
+                                                 <?php foreach ($modalidade as $modalidade): ?>
+                <option value="<?php echo htmlspecialchars($modalidade['id_modalidade']); ?>">
+                    <?php echo htmlspecialchars($modalidade['nm_modalidade']); ?>
+                </option>
+            <?php endforeach; ?>
+                </select>
+                                                
+                                </div>
+                            </div>
+                             <div class="divider"></div>
+                            <div class="day">
+                                <h3>Terça</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
+                            </div>
+                             <div class="divider"></div>
+                            <div class="day">
+                                <h3>Quarta</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
+                            </div>
+                             <div class="divider"></div>
+                            <div class="day">
+                                <h3>Quinta</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
+                            </div>
+                             <div class="divider"></div>
+                            <div class="day">
+                                <h3>Sexta</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
+                            </div>
+                             <div class="divider"></div>
+                            <div class="day">
+                                <h3>Sábado</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
+                            </div>
+                        </div>
+                     </div>
     </main>
 
     <script>
 
-        // Removido: buscarEndereco duplicado
+
+//Aparecer a Agenda
+document.getElementById("btn-agenda").addEventListener("click", function() {
+        var elemento = document.getElementById("Agenda");
+        if (elemento.style.display === "none") {
+          elemento.style.display = "flex";
+        } else {
+          elemento.style.display = "none";
+        }
+      });
+
+    //Aparecer opções de aula
+    
+document.getElementById("btn-aula").addEventListener("click", function() {
+        var elemento = document.getElementById("Aula");
+        if (elemento.style.display === "none") {
+          elemento.style.display = "flex";
+        } else {
+          elemento.style.display = "none";
+        }
+      });
 
         // CEP restringindo oa forma com que ele será escrito 
         document.getElementById('dojoCEP').addEventListener('input', function(e) {
