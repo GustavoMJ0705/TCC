@@ -9,6 +9,7 @@ body {
 
 .main {
     width: 100vh;
+    height: 100%;
 }
 
 .form-container {
@@ -130,6 +131,7 @@ button[type="button"]:hover {
 .btn-primary {
     background: #ff6600;
     color: white;
+    display: block;
 }
 
 .btn-primary:hover {
@@ -224,6 +226,7 @@ button[type="button"]:hover {
     background: #ffffff;
     color: rgb(0, 0, 0);
     border: 1px solid #000000;
+    display: block;
 }
 
 .btn-agenda:hover {
