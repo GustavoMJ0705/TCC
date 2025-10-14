@@ -1,0 +1,153 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #fafafa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    border: 1.5px solid #222;
+    border-radius: 18px;
+    margin: 32px auto;
+    padding: 24px 0 32px 0;
+    max-width: 700px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.nomeAcademia {
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 18px;
+    margin-bottom: 18px;
+}
+
+.carousel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.carousel-main img {
+    width: 320px;
+    height: 180px;
+    border-radius: 18px;
+    object-fit: cover;
+    background: #222;
+}
+
+.carousel-thumbs {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.carousel-thumbs img {
+    width: 48px;
+    height: 32px;
+    margin: 0 4px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    background: #222;
+}
+
+.carousel-btn {
+    background: #ff6600;
+    border: none;
+    color: #fff;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 18px;
+    margin: 0 4px;
+    cursor: pointer;
+}
+
+.section {
+    margin: 24px 0 0 0;
+    padding: 0 24px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 17px;
+    margin-bottom: 8px;
+    margin-top: 0;
+}
+
+.table-box {
+    border: 1.5px solid #222;
+    border-radius: 16px;
+    padding: 8px;
+    background: #fafafa;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+    text-align: left;
+}
+
+th {
+    background: #fff;
+    font-weight: 600;
+}
+
+.admin-section {
+    margin-top: 32px;
+}
+
+.admin-box {
+    border: 1.5px solid #222;
+    border-radius: 16px;
+    padding: 18px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #fafafa;
+}
+
+.admin-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90px;
+}
+
+.admin-item img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 6px;
+}
+
+.admin-label {
+    font-size: 13px;
+    text-align: center;
+    margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        max-width: 98vw;
+        margin: 8px;
+        padding: 0;
+    }
+    .carousel-main img {
+        width: 98vw;
+        max-width: 98vw;
+        height: 120px;
+    }
+    .admin-box {
+        flex-direction: column;
+        gap: 18px;
+    }
+}

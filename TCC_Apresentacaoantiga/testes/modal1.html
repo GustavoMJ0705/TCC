@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Modal com HTML + CSS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    /* Card que funciona como botão */
+    .card {
+      width: 200px;
+      height: 100px;
+      background: purple;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    /* Estilo básico do modal */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Caixa do conteúdo */
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      text-align: center;
+    }
+
+    /* Quando o alvo for chamado, exibe o modal */
+    #meuModal:target {
+      display: flex;
+    }
+
+    /* Botão de fechar */
+    .fechar {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 8px 12px;
+      background: crimson;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Card como link -->
+  <a href="#meuModal" class="card">Abrir Modal</a>
+
+  <!-- Modal -->
+  <div id="meuModal" class="modal">
+    <div class="modal-content">
+      <h2>Este é o modal</h2>
+      <p>Texto do modal aqui 😃</p>
+      <a href="#" class="fechar">Fechar</a>
+    </div>
+  </div>
+
+</body>
+</html>

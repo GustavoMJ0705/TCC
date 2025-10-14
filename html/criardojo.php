@@ -1,0 +1,327 @@
+<?php
+
+$host = 'localhost'; 
+$dbname = 'matchfight'; 
+$username = 'root'; 
+$password = 'root'; 
+
+session_start();
+if (!isset($_SESSION['academia_id']) && !isset($_SESSION['academia_id'])) {
+    header("Location: ../html/contas.html");
+    exit();
+}
+
+$academias = "SELECT * from tb_academia";
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crie a página de seu dojo!</title>
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/criardojo.css">
+    <script src="../js/nav.js"></script>
+</head>
+<body>
+   <header>
+        <nav class="navbar">
+            <div class="menu-icon" onclick="toggleSidebar()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+           
+             
+          
+            <div class="search-bar">
+                <input type="text" placeholder="Pesquisar academias...">
+            </div>
+            <div class="Perfil">
+                 <?php if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
+                   
+                <a href="mperfil.php" class="lbottom">Meu Perfil</a>
+                <?php elseif (isset($_SESSION['academia_id'])):    ?>
+                   <?php else: ?>
+                    <a href="contas.html" id="login-link" class="lbottom">Login</a></div>
+              
+            <?php endif; ?>
+            </div> 
+        </nav>
+        
+        <aside class="sidebar" id="sidebar">
+            <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+            <ul>
+                <li><a href="home.php">Pagina Inicial</a></li>
+                <li><a href="suporte_tecnico.php">Suporte técnico</a></li>
+                <li><a href="seja_parceiro.php">Seja um parceiro</a></li>
+                <li><a href="#">Calendário de aulas</a></li>
+                <?php if (isset($_SESSION['academia_id']) || isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
+                    <li><a href="../php/logout.php" id="logout-link">Sair</a></li>
+               
+                
+                <?php endif; ?>
+            </ul>
+        </aside>
+    </header>
+    <main>
+        <div class="form-container">
+            <h1>Criar Nova Academia</h1>
+            <form action="../php/Criacao_dojo.php" method="post" enctype="multipart/form-data" class="dojo-form">
+                <div class="form-group">
+                    <label for="dojoName">Nome da Academia:</label>
+                    <input type="text" id="dojoName" name="dojoName" minlength="2" maxlength="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dojoDescription">Descrição:</label>
+                    <textarea id="dojoDescription" name="dojoDescription" rows="4" style="resize: none;" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="dojoPhone">Telefone:</label>
+                    <input type="tel" id="dojoPhone" name="dojoPhone" onkeydown="return apenasNumeros(event)" minlength="8" maxlength="11" required>
+                </div>
+
+                 <div class="form-group">
+                    <label for="dojoPhone">Email:</label>
+                    <input type="text" id="dojoEmail" name="dojoEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="dojoCEP">CEP:</label>
+                    <input type="text" id="dojoCEP" name="dojoCEP" placeholder="00000-000" maxlength="9" required>
+                </div>
+                <div class="form-group">
+                    <label for="rua">Rua:</label>
+                    <input type="text" id="rua" name="rua" maxlength="40" required>
+                </div>
+                <div class="form-group">
+                    <label for="numero">Número:</label>
+                    <input type="text" id="numero" name="numero" maxlength="12" required>
+                </div>
+                <div class="form-group">
+                    <label for="bairro">Bairro:</label>
+                    <input type="text" id="bairro" name="bairro" maxlength="40" required>
+                </div>
+                <div class="form-group">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" id="cidade" name="cidade" maxlength="40" required>
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <input type="text" id="estado" name="estado" maxlength="40" required>
+                </div>
+
+                <div class="form-group">
+                 <label for="dojoImage">Imagens da Academia:</label>
+                    <input type="file" id="dojoImage" name="dojoImages[]" accept="image/*" multiple onchange="previewDojoImage(event)">
+                    <div id="dojoImagePreviewContainer" style="margin-top:10px; display: flex; gap: 10px;"></div>
+                </div>
+
+               
+
+                
+                     <div class="form-actions">
+                    <a type="submit" class="btn-agenda">Criar Agenda</a>
+                </div>
+                
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Criar Academia</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+
+        // Removido: buscarEndereco duplicado
+
+        // CEP restringindo oa forma com que ele será escrito 
+        document.getElementById('dojoCEP').addEventListener('input', function(e) {
+            let valor = e.target.value.replace(/\D/g, ''); // Apenas números
+            if (valor.length > 5) {
+                valor = valor.slice(0, 5) + '-' + valor.slice(5, 8);
+            }
+            e.target.value = valor;
+        });
+
+
+        // Preencher endereço automaticamente ao perder o foco do campo CEP
+        document.getElementById('dojoCEP').addEventListener('blur', function(e) {
+            var cep = e.target.value.replace(/\D/g, '');
+            if (cep.length === 8) {
+                fetch('https://viacep.com.br/ws/' + cep + '/json/')
+                    .then(function(response) { return response.json(); })
+                    .then(function(data) {
+                        if (!data.erro) {
+                            document.getElementById('rua').value = data.logradouro || '';
+                            document.getElementById('bairro').value = data.bairro || '';
+                            document.getElementById('cidade').value = data.localidade || '';
+                            document.getElementById('estado').value = data.uf || '';
+                        } else {
+                            alert('CEP não encontrado!');
+                            document.getElementById('rua').value = '';
+                            document.getElementById('bairro').value = '';
+                            document.getElementById('cidade').value = '';
+                            document.getElementById('estado').value = '';
+                        }
+                    })
+                    .catch(function(err) {
+                        alert('Erro ao consultar o CEP');
+                        console.error('Erro fetch ViaCep:', err);
+                    });
+            } else if (cep.length > 0) {
+                alert('CEP incompleto!');
+                document.getElementById('rua').value = '';
+                document.getElementById('bairro').value = '';
+                document.getElementById('cidade').value = '';
+                document.getElementById('estado').value = '';
+            }
+        });
+
+        // Mapeamento de DDDs por UF
+        const dddPorUF = {
+            "AC": ["68"], "AL": ["82"], "AP": ["96"], "AM": ["92", "97"],
+            "BA": ["71", "73", "74", "75", "77"], "CE": ["85", "88"], "DF": ["61"],
+            "ES": ["27", "28"], "GO": ["61", "62", "64"], "MA": ["98", "99"],
+            "MT": ["65", "66"], "MS": ["67"], "MG": ["31","32","33","34","35","37","38"],
+            "PA": ["91","93","94"], "PB": ["83"], "PR": ["41","42","43","44","45","46"],
+            "PE": ["81","87"], "PI": ["86","89"], "RJ": ["21","22","24"], "RN": ["84"],
+            "RS": ["51","53","54","55"], "RO": ["69"], "RR": ["95"], "SC": ["47","48","49"],
+            "SP": ["11","12","13","14","15","16","17","18","19"], "SE": ["79"], "TO": ["63"]
+        };
+
+        // Se quiser preencher DDD, chame preencherDDDs(data.uf) dentro do fetch do evento acima
+
+        function preencherDDDs(uf) {
+            const select = document.getElementById('dddSelect');
+            select.innerHTML = `<option value="">Selecione</option>`;
+            if (dddPorUF[uf]) {
+                dddPorUF[uf].forEach(ddd => {
+                    const opt = document.createElement('option');
+                    opt.value = ddd;
+                    opt.textContent = ddd;
+                    select.appendChild(opt);
+                });
+                if (dddPorUF[uf].length === 1) {
+                    select.value = dddPorUF[uf][0]; // Seleciona automático se só tiver um
+                }
+            }
+        }
+        // Função para permitir apenas numero no telefone
+        function apenasNumeros(event) {
+            const charCode = event.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+
+        // Validação do domínio do email
+        document.getElementById('dojoEmail').addEventListener('blur', function() {
+            const email = this.value.trim().toLowerCase();
+            const allowedDomains = [
+                '@gmail.com',
+                '@outlook.com',
+                '@hotmail.com',
+                '@yahoo.com',
+                '@icloud.com',
+                '@aol.com' 
+            ];
+            const isValid = allowedDomains.some(domain => email.endsWith(domain));
+            if (email && !isValid) {
+                alert('O email registrado não é compatível.\nUse apenas:\n gmail.com, outlook.com, hotmail.com, yahoo.com, icloud.com ou aol.com');
+                this.value = '';
+                this.focus();
+            }
+        });
+
+              
+                
+        // Form handling and validation
+        document.getElementById('dojoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            createDojo();
+        });
+
+        function createDojo() {
+            const formData = new FormData(document.getElementById('dojoForm'));
+            // Monta schedules a partir do objeto horariosPorDia
+            const schedules = [];
+            for (const dia in horariosPorDia) {
+                if (horariosPorDia[dia].length > 0) {
+                    schedules.push({ day: dia, times: horariosPorDia[dia].filter(h=>h) });
+                }
+            }
+            // Imagem
+            let images = [];
+            const imageInput = document.getElementById('dojoImage');
+            if (imageInput && imageInput.files && imageInput.files.length > 0) {
+                let filesProcessed = 0;
+                Array.from(imageInput.files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        images.push(e.target.result);
+                        filesProcessed++;
+                        if (filesProcessed === imageInput.files.length) {
+                            salvarAcademia();
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                images = ['../img/afapm_jiu.png'];
+                salvarAcademia();
+            }
+
+            function salvarAcademia() {
+                const dojoData = {
+                    name: formData.get('dojoName'),
+                    description: formData.get('dojoDescription'),
+                    address: formData.get('dojoAddress'),
+                    phone: formData.get('dojoPhone'),
+                    email: formData.get('dojoEmail'),
+                    images: images,
+                    schedules: schedules
+                };
+                try {
+                    const newDojo = DojoStorage.saveDojo(dojoData);
+                    alert('Academia criada com sucesso!');
+                    window.location.href = '../html/home_dojo.html';
+                } catch (error) {
+                    alert('Erro ao criar academia: ' + error.message);
+                }
+            }
+        }
+        // Preview da imagem
+       function previewDojoImage(event) {
+            const container = document.getElementById('dojoImagePreviewContainer');
+            container.innerHTML = '';
+            const files = event.target.files;
+            if (files) {
+                Array.from(files).forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.style.maxWidth = '120px';
+                            img.style.maxHeight = '120px';
+                            img.style.borderRadius = '8px';
+                            img.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+                            container.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        }
+
+        // Add sample data on first load
+        if (DojoStorage.getAllDojos().length === 0) {
+            DojoStorage.addSampleDojos();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<?php
+session_start();
+if (!isset($_SESSION['aluno_id']) && !isset($_SESSION['professor_id'])) {
+    header("Location: ../html/contas.html");
+    exit();
+}
+?>
