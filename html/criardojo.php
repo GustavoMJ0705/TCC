@@ -122,7 +122,7 @@ $academias = "SELECT * from tb_academia";
                 
                      <div class="form-actions">
                     <a type="submit" class="btn-agenda">Criar Agenda</a>
-                </div>
+                     </div>
                 
 
                 <div class="form-actions">

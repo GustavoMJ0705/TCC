@@ -7,8 +7,12 @@ body {
     padding: 0;
 }
 
+.main {
+    width: 100vh;
+}
+
 .form-container {
-    max-width: 600px;
+    width: 90%;
     margin: 40px auto;
     padding: 20px;
     background: white;
@@ -24,14 +28,22 @@ body {
 }
 
 .form-group {
+    width: 30%;
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
 }
 
+.dojo-form {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+gap: 3%;
+}
+
 .form-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 4fr 4fr;
     gap: 15px;
 }
 
