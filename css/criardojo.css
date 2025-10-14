@@ -131,7 +131,7 @@ button[type="button"]:hover {
 .btn-primary {
     background: #ff6600;
     color: white;
-    display: block;
+    position:fixed;
 }
 
 .btn-primary:hover {
@@ -226,7 +226,7 @@ button[type="button"]:hover {
     background: #ffffff;
     color: rgb(0, 0, 0);
     border: 1px solid #000000;
-    display: block;
+    position:fixed;
 }
 
 .btn-agenda:hover {
