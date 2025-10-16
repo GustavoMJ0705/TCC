@@ -152,26 +152,36 @@ if ($id_usuario && $tipo) {
             <br>
             <input type="file" id="inputFoto" accept="image/*" style="margin-top:10px;" >
         </div>
-        <form id="perfilForm" method="post" action="../php/updateperfil.php">
+    <form id="perfilForm" method="post" action="../php/updateperfil.php">
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($dados['nome']); ?>" required>
 
             <label for="telefone">Telefone</label>
-            <input type="text" id="telefone" name="telefone" value="<?php echo htmlspecialchars($dados['telefone']); ?>" required>
+            <input type="text" id="telefone" name="telefone" readonly value="<?php echo htmlspecialchars($dados['telefone']); ?>" required>
 
             <label for="email">E-mail</label>
             <input type="email" id="email" name="email" readonly value="<?php echo htmlspecialchars($dados['email']); ?>" required>
 
-            <label for="senha_confirmacao">Confirme sua senha:</label>
-<input type="password" id="senha_confirmacao" name="senha_confirmacao" required>
+            <label for="senha_confirmacao">Digite sua senha:</label>
+<input type="password" id="senha_confirmacao" name="senha_confirmacao" placeholder="Insira sua senha para confirmar alterações" required>
 
+            <div class="senha">
+
+             <label for="nova_senha">Digite sua nova senha:</label>
+            <input type="password" id="nova_senha" name="nova_senha" placeholder="Digite uma nova senha se quiser alterar" >
+
+        <label for="confirma_nova_senha">confirme sua nova senha:</label>
+        <input type="password" id="confirma_nova_senha" name="confirma_nova_senha" placeholder="Confirme a nova senha caso queira altera-la" >
+
+            </div>
+            
            <!-- <label for="senha">Senha</label>
             <input type="password" id="senha" name="senha" value="" required> -->
             <!-- Nunca exiba o hash da senha! -->
             <!-- Peça para digitar nova senha se quiser alterar -->
 <div class="btn-group">
                 
-                <button type="button" class="btn-apagar" onclick="AtualizarUsuario()" name="botaoDel" style= "align-items: center">Salvar Alterações</button>
+                <button type="button" class="btn-apagar" onclick="validarESalvar()" name="botaoDel" style= "align-items: center">Salvar Alterações</button>
             </div>
         </form>
 
@@ -183,6 +193,26 @@ function AtualizarUsuario() {
     // Envia o formulário de edição para atualizar os dados do usuário
     document.getElementById('perfilForm').submit();
 
+}
+</script>
+
+<script>
+function validarESalvar() {
+    const origem = document.getElementById('senha_confirmacao');
+    const nova = document.getElementById('nova_senha');
+    const confirma = document.getElementById('confirma_nova_senha');
+
+    // confirma senha atual preenchida
+    if (!origem.value) {
+        alert('Digite sua senha atual para confirmar as alterações.');
+        origem.focus();
+        return;
+    }
+
+    
+
+    // tudo ok, submete o formulário
+    document.getElementById('perfilForm').submit();
 }
 </script>
 
