@@ -93,7 +93,7 @@ if ($id_usuario && $tipo) {
 <head>
     <meta charset="UTF-8">
     <title>Meu Perfil - Aluno</title>
-    <link rel="stylesheet" href="../css/mperfil.css">
+    <link rel="stylesheet" href="../css/editperfil.css">
     <link rel="stylesheet" href="../css/navbar.css">
     <script src="../js/nav.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -164,24 +164,11 @@ if ($id_usuario && $tipo) {
 
             <label for="senha_confirmacao">Digite sua senha:</label>
 <input type="password" id="senha_confirmacao" name="senha_confirmacao" placeholder="Insira sua senha para confirmar alterações" required>
-
-            <div class="senha">
-
-             <label for="nova_senha">Digite sua nova senha:</label>
-            <input type="password" id="nova_senha" name="nova_senha" placeholder="Digite uma nova senha se quiser alterar" >
-
-        <label for="confirma_nova_senha">confirme sua nova senha:</label>
-        <input type="password" id="confirma_nova_senha" name="confirma_nova_senha" placeholder="Confirme a nova senha caso queira altera-la" >
-
-            </div>
             
-           <!-- <label for="senha">Senha</label>
-            <input type="password" id="senha" name="senha" value="" required> -->
-            <!-- Nunca exiba o hash da senha! -->
-            <!-- Peça para digitar nova senha se quiser alterar -->
 <div class="btn-group">
                 
-                <button type="button" class="btn-apagar" onclick="validarESalvar()" name="botaoDel" style= "align-items: center">Salvar Alterações</button>
+                <button type="button" class="btn-save" onclick="validarESalvar()" name="salvar" style= "align-items: center; background: #ff7728; color: #fff">Salvar Alterações</button>
+                <button type="button" class="btn-trocarsenha" style="background: #ff2828ff; color: #fff; " > Alterar a senha?</button>
             </div>
         </form>
 
@@ -195,31 +182,7 @@ function AtualizarUsuario() {
 
 }
 </script>
-
-<script>
-function validarESalvar() {
-    const origem = document.getElementById('senha_confirmacao');
-    const nova = document.getElementById('nova_senha');
-    const confirma = document.getElementById('confirma_nova_senha');
-
-    // confirma senha atual preenchida
-    if (!origem.value) {
-        alert('Digite sua senha atual para confirmar as alterações.');
-        origem.focus();
-        return;
-    }
-
-    
-
-    // tudo ok, submete o formulário
-    document.getElementById('perfilForm').submit();
-}
-</script>
-
-    </div>
     <script>
-    
-
 window.addEventListener('pageshow', function(event) {
     if (event.persisted) {
         window.location.reload();

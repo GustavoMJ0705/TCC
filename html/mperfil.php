@@ -153,7 +153,7 @@ if ($id_usuario && $tipo) {
         </div>
         <form id="perfilForm" method="post" action="../php/updateperfil.php">
            <div class="info-group"> 
-            <label for="telefone" class="title">Nome de Usuário: </label>  
+            <label for="Nome" class="title">Nome de Usuário: </label>  
              <label class="info"><?php echo htmlspecialchars($dados['nome']); ?></label>
         </div>
         
@@ -165,7 +165,7 @@ if ($id_usuario && $tipo) {
       
            
            <div class="info-group"> 
-            <label for="telefone" class="title">Email: </label>  
+            <label for="email" class="title">Email: </label>  
              <label class="info"><?php echo htmlspecialchars($dados['email']); ?></label>
         </div>
       

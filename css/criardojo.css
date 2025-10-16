@@ -130,6 +130,8 @@ button[type="button"]:hover {
     border: 1px solid #000000;
         display: flex;
     align-items: center;
+    position: fixed;
+    right: 25%;
 }
 
 .btn-primary:hover {
@@ -231,6 +233,8 @@ button[type="button"]:hover {
     border: 1px solid #000000;
     display: flex;
     align-items: center;
+    position: fixed;
+    right: 15%;
 }
 
 .btn-agenda:hover {

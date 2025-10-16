@@ -1,0 +1,63 @@
+       *{
+    padding:0;
+    margin:0;
+        }  
+        
+         body { 
+  font-family: Arial, sans-serif; 
+  background: #f4f4f4; 
+        }
+
+
+       .perfil-container {
+            max-width: 400px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+    .Perfil {
+        margin: 20px 20px 20px 20px;
+        display: flex;
+        align-items: center;
+            }  
+
+        h2 { text-align: center; 
+            margin-bottom: 24px;
+         }
+        
+        label { display: block;
+            margin-top: 16px; 
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
+            width: 100%; padding: 7px; padding-right: 0px; padding-left: 0px; border: 1px solid #ccc; border-radius: 4px;
+        }
+
+        .btn-group {
+             margin-top: 28px;
+              display: flex;
+               justify-content: space-evenly;
+                align-items: center; 
+            }
+        button {
+            padding: 12px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85vw;
+        }
+
+
+        .btn-salvar{
+            font-size: 0.85vw;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+        }
