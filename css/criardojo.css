@@ -104,46 +104,51 @@ button[type="button"]:hover {
 
 .form-actions {
     display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 30px;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
 
-.btn-primary, .btn-secondary {
+    .form-actions .btn-primary,
+        .form-actions .btn-agenda {
+            width: 180px;
+            min-width: 180px;
+            max-width: 180px;
+            height: 50px;
+            box-sizing: border-box;
+            flex: 0 0 180px; 
+        }
+
+.btn-secondary {
     padding: 15px 30px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
     transition: all 0.3s;
+    background: #6c757d;
+    color: white;
+}
+.btn-secondary:hover {
+    background: #545b62;
+    transform: translateY(-2px);
 }
 
 .btn-primary {
     padding: 15px 30px;
-    border: none;
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
     transition: all 0.3s;
     background: #ffffff;
     color: rgb(0, 0, 0);
-    border: 1px solid #000000;
-        display: flex;
+    border: 1px solid #c7c7c7;
+     display: flex;
     align-items: center;
 }
 
 .btn-primary:hover {
     background: #e55a00;
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background: #6c757d;
-    color: white;
-}
-
-.btn-secondary:hover {
-    background: #545b62;
     transform: translateY(-2px);
 }
 
@@ -162,10 +167,15 @@ button[type="button"]:hover {
     border: 1px solid #ddd;
 }
 
-#dojoImagePreviewContainer {
-    max-height: 150px;
-    overflow-y: auto;
-}
+   #dojoImagePreviewContainer {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-height: 140px;
+            overflow: auto;
+            margin-top: 20px;
+            width: 100%;
+        }
 
 @media (max-width: 600px) {
     .form-container {
@@ -220,7 +230,7 @@ button[type="button"]:hover {
 
 
 .btn-agenda{
-    padding: 15px 30px;
+    padding: 10px 12px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -228,9 +238,10 @@ button[type="button"]:hover {
     transition: all 0.3s;
     background: #ffffff;
     color: rgb(0, 0, 0);
-    border: 1px solid #000000;
-    display: flex;
+    border: 1px solid #c7c7c7;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
 }
 
 .btn-agenda:hover {
@@ -252,46 +263,65 @@ button[type="button"]:hover {
     flex-shrink: 0;
 }
 
-.Agenda {
-    margin-bottom: 3vh;
-    margin-top: 2% ;
-    width: 90%;
-    display: none;
-    min-height: 25vh;
-    padding: 20px;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    border-radius: 18px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
 .calendar {
     display: flex;
-    flex-direction: row ;
-    width: 100% ;
+    flex-direction: row;
     justify-content: space-between;
-    height: 100%;
-    align-items: center;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px auto;
+    width: 100%;
+    overflow-x: auto;
 }
 
-.day{
-    margin-left: 2%;
-    margin-right: 2%;
-    display: flex;
-    flex-direction: column ;
-    align-items: center;
-
-}
-
-.divider{
-   border: 1px solid #ddd;
+.day {
+    flex: 0 0 auto;
+    min-width: 120px;
+    height: auto;
+    padding: 15px;
+    background: #ececec;
     border-radius: 8px;
-    height: 90%;
-    content: '';
+    text-align: center;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
 }
 
+.day:hover {
+    transform: translateY(-5px);
+    background: #afafaf;
+}
+
+.day h3 {
+    color: #000000;
+    font-size: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .calendar {
+        justify-content: flex-start;
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    .day {
+        margin-right: 5px;
+    }
+}
 
         
 .Aula {
     display: none;
+}
+
+.Agenda {
+    display: none;
+    width: 90%;
+    background: #fafafa;
+    border-radius: 18px;
+    padding: 20px;
+    margin: 0 auto;
 }

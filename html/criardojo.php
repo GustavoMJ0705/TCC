@@ -145,21 +145,44 @@ try {
             </form>
             
         </div>
-         
-                   
-                  
                      
                 <div class="form-actions">
                      <div class="Agenda" id="Agenda" >
                         <div class="calendar">
                             <div class="day">
-                                <h3>Domingo</h3>
-                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
+        <h3>Domingo</h3>
+        <button type="button" class="btn-adicionar" id="btn-aula-domingo">Adicionar aula</button>                           
+        </div>
+                            <div class="day">
+                                <h3>Segunda</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula-segunda">Adicionar aula</button>
                             </div>
                             <div class="divider"></div>
                             <div class="day">
-                                <h3>Segunda</h3>
-                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
+                                <h3>Terça</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula-terca">Adicionar aula</button>
+                                        </div>
+                                 
+                            <div class="divider"></div>
+                            <div class="day">
+                                <h3>Quarta</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula-quarta">Adicionar aula</button>
+                                </div>
+                              
+                            <div class="divider"></div>
+                            <div class="day">
+                                <h3>Quinta</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula-quinta">Adicionar aula</button>
+                                </div>
+                            <div class="divider"></div>
+                            <div class="day">
+                                <h3>Sexta</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula-sexta">Adicionar aula</button>
+                                </div>
+                            <div class="divider"></div>
+                            <div class="day">
+                                <h3>Sábado</h3>
+                                <button type="button" class="btn-adicionar" id="btn-aula-sabado">Adicionar aula</button>
                                 <div class="Aula" id="Aula" >
                                     <form action="#" method="post" class="aula-form">
                                         <div class="form-group">
@@ -172,34 +195,8 @@ try {
                     <?php echo htmlspecialchars($modalidade['nm_modalidade']); ?>
                 </option>
             <?php endforeach; ?>
-                </select>
-                                                
-                                </div>
+                </select>  
                             </div>
-                             <div class="divider"></div>
-                            <div class="day">
-                                <h3>Terça</h3>
-                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
-                            </div>
-                             <div class="divider"></div>
-                            <div class="day">
-                                <h3>Quarta</h3>
-                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
-                            </div>
-                             <div class="divider"></div>
-                            <div class="day">
-                                <h3>Quinta</h3>
-                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
-                            </div>
-                             <div class="divider"></div>
-                            <div class="day">
-                                <h3>Sexta</h3>
-                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
-                            </div>
-                             <div class="divider"></div>
-                            <div class="day">
-                                <h3>Sábado</h3>
-                                <button type="button" class="btn-adicionar" id="btn-aula">Adicionar aula</button>
                             </div>
                         </div>
                      </div>
@@ -210,13 +207,13 @@ try {
 
 //Aparecer a Agenda
 document.getElementById("btn-agenda").addEventListener("click", function() {
-        var elemento = document.getElementById("Agenda");
-        if (elemento.style.display === "none") {
-          elemento.style.display = "flex";
-        } else {
-          elemento.style.display = "none";
-        }
-      });
+    var elemento = document.getElementById("Agenda");
+    if (getComputedStyle(elemento).display === "none") {
+        elemento.style.display = "flex";
+    } else {
+        elemento.style.display = "none";
+    }
+});
 
     //Aparecer opções de aula
     
@@ -229,7 +226,7 @@ document.getElementById("btn-aula").addEventListener("click", function() {
         }
       });
 
-        // CEP restringindo oa forma com que ele será escrito 
+      // CEP restringindo oa forma com que ele será escrito 
         document.getElementById('dojoCEP').addEventListener('input', function(e) {
             let valor = e.target.value.replace(/\D/g, ''); // Apenas números
             if (valor.length > 5) {
@@ -270,7 +267,7 @@ document.getElementById("btn-aula").addEventListener("click", function() {
                 document.getElementById('cidade').value = '';
                 document.getElementById('estado').value = '';
             }
-        });
+        }); 
 
         // Mapeamento de DDDs por UF
         const dddPorUF = {
@@ -409,12 +406,7 @@ document.getElementById("btn-aula").addEventListener("click", function() {
                     }
                 });
             }
-        }
-
-        // Add sample data on first load
-        if (DojoStorage.getAllDojos().length === 0) {
-            DojoStorage.addSampleDojos();
-        }
+        };
     </script>
 </body>
 </html>
