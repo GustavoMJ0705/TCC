@@ -50,7 +50,7 @@ try {
         <input type="text" id="nome" name="nome" maxlength="100" required>
 
         <label for="nascimento">Data de nascimento:</label>
-        <input type="date" id="nascimento" name="nascimento" min="1930-01-01" 
+        <input type="date" id="nascimento" name="nascimento" min="1960-01-01" 
         max="2025-12-31" required>
 
         <label for="genero">Gênero:</label>
@@ -67,16 +67,16 @@ try {
         <input type="tel" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX" onkeydown="return apenasNumeros(event)" minlength="8" maxlength="15" required>
 
         <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" maxlength="40" required>
+        <input type="email" id="email" name="email" maxlength="40" placeholder="matchfight@gmail.com"  required>
          <?php if (!empty($erroEmail)): ?>
     <span style="color: red; font-size: 14px;"><?php echo htmlspecialchars($erroEmail); ?></span>
 <?php endif; ?>
 
         <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" maxlength="40" required>
+        <input type="password" id="senha" name="senha" maxlength="40" placeholder="Password" required>
 
         <label for="confirmar_senha">Confirmar Senha:</label>
-        <input type="password" id="confirmar" name="confirmar" maxlength="40" required>
+        <input type="password" id="confirmar" name="confirmar" maxlength="40" placeholder="Password" required>
 
         <button class="cadastrar" type="submit">
             <a>Cadastre-se</a>
