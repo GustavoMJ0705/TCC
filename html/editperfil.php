@@ -93,7 +93,7 @@ if ($id_usuario && $tipo) {
 <head>
     <meta charset="UTF-8">
     <title>Meu Perfil - Aluno</title>
-    <link rel="stylesheet" href="../css/mperfil.css">
+    <link rel="stylesheet" href="../css/editperfil.css">
     <link rel="stylesheet" href="../css/navbar.css">
     <script src="../js/nav.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -152,26 +152,23 @@ if ($id_usuario && $tipo) {
             <br>
             <input type="file" id="inputFoto" accept="image/*" style="margin-top:10px;" >
         </div>
-        <form id="perfilForm" method="post" action="../php/updateperfil.php">
+    <form id="perfilForm" method="post" action="../php/updateperfil.php">
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($dados['nome']); ?>" required>
 
             <label for="telefone">Telefone</label>
-            <input type="text" id="telefone" name="telefone" value="<?php echo htmlspecialchars($dados['telefone']); ?>" required>
+            <input type="text" id="telefone" name="telefone" readonly value="<?php echo htmlspecialchars($dados['telefone']); ?>" required>
 
             <label for="email">E-mail</label>
             <input type="email" id="email" name="email" readonly value="<?php echo htmlspecialchars($dados['email']); ?>" required>
 
-            <label for="senha_confirmacao">Confirme sua senha:</label>
-<input type="password" id="senha_confirmacao" name="senha_confirmacao" required>
-
-           <!-- <label for="senha">Senha</label>
-            <input type="password" id="senha" name="senha" value="" required> -->
-            <!-- Nunca exiba o hash da senha! -->
-            <!-- Peça para digitar nova senha se quiser alterar -->
+            <label for="senha_confirmacao">Digite sua senha:</label>
+<input type="password" id="senha_confirmacao" name="senha_confirmacao" placeholder="Insira sua senha para confirmar alterações" required>
+            
 <div class="btn-group">
                 
-                <button type="button" class="btn-apagar" onclick="AtualizarUsuario()" name="botaoDel" style= "align-items: center">Salvar Alterações</button>
+                <button type="button" class="btn-save" onclick="validarESalvar()" name="salvar" style= "align-items: center; background: #ff7728; color: #fff">Salvar Alterações</button>
+                <button type="button" class="btn-trocarsenha" style="background: #ff2828ff; color: #fff; " > Alterar a senha?</button>
             </div>
         </form>
 
@@ -185,11 +182,7 @@ function AtualizarUsuario() {
 
 }
 </script>
-
-    </div>
     <script>
-    
-
 window.addEventListener('pageshow', function(event) {
     if (event.persisted) {
         window.location.reload();
