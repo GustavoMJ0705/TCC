@@ -145,7 +145,7 @@ button[type="button"]:hover {
     border: 1px solid #c7c7c7;
      display: flex;
     align-items: center;
-    position: fixed;
+
     right: 25%;
 }
 
@@ -281,14 +281,19 @@ button[type="button"]:hover {
 
 .day {
     flex: 0 0 auto;
-    min-width: 120px;
-    height: auto;
+    min-width: 180px;
+    height: auto; /* define altura fixa para padronizar */
     padding: 15px;
     background: #ececec;
     border-radius: 8px;
     text-align: center;
     margin-right: 10px;
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden; /* impede variação de altura quando .Aula aparece */
 }
 
 .day:hover {
@@ -315,10 +320,19 @@ button[type="button"]:hover {
 }
 
         
-.Aula {
-    display: none;
-}
 
+.Aula {
+display: none;
+    width: 100%;
+    margin-top: 10px;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+ 
+.day.expandido .Aula {
+    display: flex;
+    flex-direction: column;
+}
 .Agenda {
     display: none;
     width: 90%;
@@ -326,4 +340,24 @@ button[type="button"]:hover {
     border-radius: 18px;
     padding: 20px;
     margin: 0 auto;
+}
+
+.btn-excluir {
+background-color: white;
+border: 1px solid red;
+border-radius: 8px;
+width: 50%;
+}
+
+.btn-salvar {
+background-color: white;
+border: 1px solid orange;
+border-radius: 8px;
+width: 50%;
+}
+
+.btn-actions {
+
+justify-content: space-between;
+width: 100%;
 }
