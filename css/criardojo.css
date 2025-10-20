@@ -243,12 +243,7 @@ button[type="button"]:hover {
     border: 1px solid #c7c7c7;
     display: inline-flex;
     align-items: center;
-<<<<<<< HEAD
     justify-content: center;
-=======
-    position: fixed;
-    right: 15%;
->>>>>>> origin/Perfil
 }
 
 .btn-agenda:hover {
