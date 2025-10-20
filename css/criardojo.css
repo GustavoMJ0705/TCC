@@ -106,7 +106,7 @@ button[type="button"]:hover {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: center;
 }
 
     .form-actions .btn-primary,

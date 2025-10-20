@@ -404,7 +404,7 @@ document.getElementById("btn-aula").addEventListener("click", function() {
                         };
                         reader.readAsDataURL(file);
                     }
-                });
+                })};
                 // Add sample data on first load
         if (DojoStorage.getAllDojos().length === 0) {
             DojoStorage.addSampleDojos();
