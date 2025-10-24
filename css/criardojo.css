@@ -269,6 +269,7 @@ button[type="button"]:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+<<<<<<< Updated upstream
     align-items: flex-start;
     background: #fff;
     border-radius: 10px;
@@ -277,6 +278,12 @@ button[type="button"]:hover {
     margin: 20px auto;
     width: 100%;
     overflow-x: auto;
+=======
+    align-items: center;
+     width: 100%;
+    overflow-x: auto;
+    padding-top:20px ;
+>>>>>>> Stashed changes
 }
 
 .day {
@@ -292,7 +299,11 @@ button[type="button"]:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+<<<<<<< Updated upstream
     align-items: center;
+=======
+    align-items: center; /*emntendeu*/
+>>>>>>> Stashed changes
     overflow: hidden; /* impede variação de altura quando .Aula aparece */
 }
 
@@ -335,11 +346,18 @@ display: none;
 }
 .Agenda {
     display: none;
+<<<<<<< Updated upstream
     width: 90%;
     background: #fafafa;
     border-radius: 18px;
     padding: 20px;
     margin: 0 auto;
+=======
+    width: 100%;
+    border-radius: 18px;
+    margin-top: 20px;
+    padding: 40px;
+>>>>>>> Stashed changes
 }
 
 .btn-excluir {
@@ -351,7 +369,11 @@ width: 50%;
 
 .btn-salvar {
 background-color: white;
+<<<<<<< Updated upstream
 border: 1px solid orange;
+=======
+border: 1px solid #e55a00;
+>>>>>>> Stashed changes
 border-radius: 8px;
 width: 50%;
 }
@@ -360,4 +382,28 @@ width: 50%;
 
 justify-content: space-between;
 width: 100%;
+<<<<<<< Updated upstream
+=======
+}
+
+
+.day.expandido .lista-resumos {
+  display: none; /* quando expandido, esconde os resumos */
+}
+
+.day:not(.expandido) .lista-resumos {
+
+  display: flex; /* quando encolhido, mostra os resumos */
+    flex-direction: column;
+    list-style: none;
+    text-decoration: none;
+background-color: #fafafa;
+justify-content: center;
+align-items: center;
+padding: 0.5rem;
+font-weight: bold;
+    border-radius: 8px;
+    border: 0.05rem solid #000000;
+    font-size: 0.83rem;
+>>>>>>> Stashed changes
 }

@@ -142,6 +142,7 @@ try {
 
 
                 <div class="form-actions">
+<<<<<<< Updated upstream
                     <a type="submit" class="btn-agenda" id="btn-agenda">Criar Agenda</a>
                     <button type="submit" class="btn-primary">Criar Academia</button>
                 </div>
@@ -316,11 +317,211 @@ try {
 
                 </div>
             </div>
+=======
+                    <button type="button" class="btn-agenda" id="btn-agenda">Criar Agenda</button>
+                    <button type="submit" class="btn-primary">Criar Academia</button>
+                </div>
+                <div id="Agenda">
+                    <div class="Agenda">
+                        <div class="calendar">
+
+                            <!-- Domingo -->
+                            <div class="day">
+                                <h3>Domingo</h3>
+                                <div class="Aula" id="Aula-domingo">
+                                    <label for="aulaNome-domingo">Nome da Aula:</label>
+                                    <input type="text" id="aulaNome-domingo" name="aulaNome[]" minlength="2" maxlength="100" required>
+                                    <select id="aulaTipo-domingo" name="aulaTipo[]" required>
+                                        <option value="">Selecione o tipo de aula</option>
+                                        <?php foreach ($modalidade as $mod): ?>
+                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-domingo" name="aulaTime[]" required>
+                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-domingo" name="aulaTimefim[]" required>
+                                </div>
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-salvar-domingo">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-domingo" style="display: none; margin-top: 10px;">
+
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+                            </div>
+
+                            <!-- Segunda -->
+                            <div class="day">
+                                <h3>Segunda</h3>
+                                <div class="Aula" id="Aula-segunda">
+                                    <label for="aulaNome-segunda">Nome da Aula:</label>
+                                    <input type="text" id="aulaNome-segunda" name="aulaNome[]" minlength="2" maxlength="100" required>
+                                    <select id="aulaTipo-segunda" name="aulaTipo[]" required>
+                                        <option value="">Selecione o tipo de aula</option>
+                                        <?php foreach ($modalidade as $mod): ?>
+                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-segunda" name="aulaTime[]" required>
+                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-segunda" name="aulaTimefim[]" required>
+                                </div>
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-salvar-segunda">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-segunda" style="display: none; margin-top: 10px;">
+
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+                            </div>
+
+                            <!-- Terça -->
+                            <div class="day">
+                                <h3>Terça</h3>
+                                <div class="Aula" id="Aula-terca">
+                                    <label for="aulaNome-terca">Nome da Aula:</label>
+                                    <input type="text" id="aulaNome-terca" name="aulaNome[]" minlength="2" maxlength="100" required>
+                                    <select id="aulaTipo-terca" name="aulaTipo[]" required>
+                                        <option value="">Selecione o tipo de aula</option>
+                                        <?php foreach ($modalidade as $mod): ?>
+                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-terca" name="aulaTime[]" required>
+                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-terca" name="aulaTimefim[]" required>
+                                </div>
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-salvar-terca">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-terca" style="display: none; margin-top: 10px;">
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+                            </div>
+
+                            <!-- Quarta -->
+                            <div class="day">
+                                <h3>Quarta</h3>
+                                <div class="Aula" id="Aula-quarta">
+                                    <label for="aulaNome-quarta">Nome da Aula:</label>
+                                    <input type="text" id="aulaNome-quarta" name="aulaNome[]" minlength="2" maxlength="100" required>
+                                    <select id="aulaTipo-quarta" name="aulaTipo[]" required>
+                                        <option value="">Selecione o tipo de aula</option>
+                                        <?php foreach ($modalidade as $mod): ?>
+                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-quarta" name="aulaTime[]" required>
+                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-quarta" name="aulaTimefim[]" required>
+                                </div>
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-salvar-quarta">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-quarta" style="display: none; margin-top: 10px;">
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+                            </div>
+
+                            <!-- Quinta -->
+                            <div class="day">
+                                <h3>Quinta</h3>
+                                <div class="Aula" id="Aula-quinta">
+                                    <label for="aulaNome-quinta">Nome da Aula:</label>
+                                    <input type="text" id="aulaNome-quinta" name="aulaNome[]" minlength="2" maxlength="100" required>
+                                    <select id="aulaTipo-quinta" name="aulaTipo[]" required>
+                                        <option value="">Selecione o tipo de aula</option>
+                                        <?php foreach ($modalidade as $mod): ?>
+                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-quinta" name="aulaTime[]" required>
+                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-quinta" name="aulaTimefim[]" required>
+                                </div>
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-salvar-quinta">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-quinta" style="display: none; margin-top: 10px;">
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+                            </div>
+
+                            <!-- Sexta -->
+                            <div class="day">
+                                <h3>Sexta</h3>
+                                <div class="Aula" id="Aula-sexta">
+                                    <label for="aulaNome-sexta">Nome da Aula:</label>
+                                    <input type="text" id="aulaNome-sexta" name="aulaNome[]" minlength="2" maxlength="100" required>
+                                    <select id="aulaTipo-sexta" name="aulaTipo[]" required>
+                                        <option value="">Selecione o tipo de aula</option>
+                                        <?php foreach ($modalidade as $mod): ?>
+                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-sexta" name="aulaTime[]" required>
+                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-sexta" name="aulaTimefim[]" required>
+                                </div>
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-salvar-sexta">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-sexta" style="display: none; margin-top: 10px;">
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+                                </div>
+                            </div>
+
+                            <!-- Sábado -->
+                            <div class="day">
+                                <h3>Sábado</h3>
+                                <div class="Aula" id="Aula-sabado">
+                                    <label for="aulaNome-sabado">Nome da Aula:</label>
+                                    <input type="text" id="aulaNome-sabado" name="aulaNome[]" minlength="2" maxlength="100" required>
+                                    <select id="aulaTipo-sabado" name="aulaTipo[]" required>
+                                        <option value="">Selecione o tipo de aula</option>
+                                        <?php foreach ($modalidade as $mod): ?>
+                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <label>Inicio da aula</label><input type="time" id="aulaTime-sabado" name="aulaTime[]" required>
+                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-sabado" name="aulaTime[]" required>
+                                </div>
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-salvar-sabado">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-sabado" style="display: none; margin-top: 10px;">
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+        </div>
+
+>>>>>>> Stashed changes
         </form>
 
     </main>
 
     <script>
+<<<<<<< Updated upstream
         //interatividade dos botões de adicionar na agenda
         const botoes = document.querySelectorAll('.btn-adicionar');
 
@@ -375,6 +576,107 @@ dias.forEach(dia => {
         });
     }
 });
+=======
+      document.querySelectorAll('.day').forEach(day => {
+  const btnSalvar = day.querySelector('.btn-salvar');
+  const btnExcluir = day.querySelector('.btn-excluir');
+  const resumoLista = day.querySelector('.lista-resumos');
+
+  btnSalvar.addEventListener('click', () => {
+    const nome = day.querySelector('input[name="aulaNome[]"]').value;
+    const modalidade = day.querySelector('select[name="aulaTipo[]"] option:checked').text;
+    const inicio = day.querySelector('input[name="aulaTime[]"]').value;
+    const fim = day.querySelector('input[name="aulaTimefim[]"]').value;
+
+    if (nome && modalidade && inicio && fim) {
+      // Cria item de resumo
+      const li = document.createElement('li');
+      li.textContent = `${nome} - ${modalidade} (${inicio} às ${fim})`;
+      resumoLista.appendChild(li);
+
+      // Limpa os campos para permitir adicionar outra aula
+      day.querySelectorAll('input, select').forEach(el => el.value = "");
+    }
+  });
+
+  btnExcluir.addEventListener('click', () => {
+    // Limpa todos os resumos e campos
+    resumoLista.innerHTML = "";
+    day.querySelectorAll('input, select').forEach(el => el.value = "");
+  });
+});
+        //interatividade dos botões de adicionar na agenda
+        const botoes = document.querySelectorAll('.btn-adicionar');
+
+        botoes.forEach(botao => {
+            botao.addEventListener('click', () => {
+                const day = botao.closest('.day');
+                day.classList.toggle('expandido');
+            });
+        });
+        // Mostrar/esconder a agenda
+        document.getElementById("btn-agenda").addEventListener("click", function() {
+            const agenda = document.querySelector(".Agenda");
+            agenda.style.display = getComputedStyle(agenda).display === "none" ? "flex" : "none";
+        });
+
+
+        const dias = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
+
+        dias.forEach(dia => {
+            const btnAdicionar = document.getElementById(`btn-salvar-${dia}`);
+            const btnActions = document.getElementById(`btn-actions-${dia}`);
+            const aula = document.getElementById(`Aula-${dia}`);
+
+            if (btnAdicionar && btnActions && aula) {
+                // Botão Adicionar
+                btnAdicionar.addEventListener('click', () => {
+                    btnAdicionar.style.display = 'none';
+                    btnActions.style.display = 'block';
+                    aula.classList.add('expandido'); // abre a aula
+                });
+
+                // Botão Excluir
+                btnActions.querySelector('.btn-excluir').addEventListener('click', () => {
+                    // Limpa campos
+                    aula.querySelectorAll('input, select').forEach(i => i.value = '');
+
+                    // Fecha a aula
+                    aula.classList.remove('expandido');
+
+                    // Fecha o dia (importante!)
+                    const day = btnAdicionar.closest('.day');
+                    day.classList.remove('expandido');
+
+                    // Esconde botões Salvar/Excluir
+                    btnActions.style.display = 'none';
+
+                    // Mostra botão Adicionar
+                    btnAdicionar.style.display = 'inline-block';
+                });
+
+                // Botão Salvar
+                // Botão Excluir
+                btnActions.querySelector('.btn-salvar').addEventListener('click', () => {
+                    // Limpa campos
+                    aula.querySelectorAll('input, select').forEach(i => i.value = '');
+
+                    // Fecha a aula
+                    aula.classList.remove('expandido');
+
+                    // Fecha o dia (importante!)
+                    const day = btnAdicionar.closest('.day');
+                    day.classList.remove('expandido');
+
+                    // Esconde botões Salvar/Excluir
+                    btnActions.style.display = 'none';
+
+                    // Mostra botão Adicionar
+                    btnAdicionar.style.display = 'inline-block';
+                });
+            }
+        });
+>>>>>>> Stashed changes
         // CEP restringindo oa forma com que ele será escrito 
         document.getElementById('dojoCEP').addEventListener('input', function(e) {
             let valor = e.target.value.replace(/\D/g, ''); // Apenas números

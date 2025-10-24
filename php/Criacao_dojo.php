@@ -19,7 +19,13 @@ try {
     $estado = $_POST['estado'];
     $telefone = $_POST['dojoPhone'];
     $email = $_POST['dojoEmail'];
+    $nomeAula = $_POST['aulaNome'];
+    $hora = $_POST['aulaTime'];
+    $tipo = $_POST['aulaTipo'];
    
+
+
+
     // Validação de email existente
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM tb_perfil_academia WHERE ds_email = :email");
     $stmt->execute([':email' => $email]);
@@ -31,6 +37,8 @@ try {
     }
 
     $pdo->beginTransaction();
+
+    
 
     $stmt = $pdo->prepare("INSERT INTO tb_perfil_academia
             (nm_academia, ds_descricao, nr_cep, ds_rua, nr_numero_endereco, ds_bairro, ds_cidade, ds_estado, nr_telefone, ds_email)
@@ -74,6 +82,44 @@ try {
             }
         }
     }
+    
+if (!empty($_POST['aulaNome'])) {
+    $stmt_aula = $pdo->prepare("
+        INSERT INTO tb_aulas 
+            (nm_aulas, hr_inicio_aula, hr_fim_aula, id_perfil_academia, id_professor) 
+        VALUES 
+            (:nome, :hora_inicio, :hora_fim, :id_academia, :id_professor)
+    ");
+
+    $stmt_aula_modalidade = $pdo->prepare("
+        INSERT INTO aula_modalidade (id_aulas, id_modalidade) 
+        VALUES (:id_aula, :id_modalidade)
+    ");
+
+    foreach ($_POST['aulaNome'] as $i => $nomeAula) {
+        $idModalidade = $_POST['aulaTipo'][$i];   // vem do <select>
+        $horaInicio   = $_POST['aulaTime'][$i];   // hora de início
+        $horaFim      = $_POST['aulaTimefim'][$i]; // hora de fim
+
+        // Insere aula
+        $stmt_aula->execute([
+            ':nome' => $nomeAula,
+            ':hora_inicio' => $horaInicio,
+            ':hora_fim' => $horaFim,
+            ':id_academia' => $id_perfil_academia,
+            ':id_professor' => 1 // por enquanto fixo
+        ]);
+
+        // Pega o ID da aula recém-criada
+        $idAula = $pdo->lastInsertId();
+
+        // Relaciona aula com modalidade
+        $stmt_aula_modalidade->execute([
+            ':id_aula' => $idAula,
+            ':id_modalidade' => $idModalidade
+        ]);
+    }
+}
 
     $pdo->commit();
 
