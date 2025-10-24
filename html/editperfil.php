@@ -176,7 +176,7 @@ if ($id_usuario && $tipo) {
                 <h3>Alteração de senha</h3>
                 <p class="senha-info">.</p>
                 
-                <form id="alterarSenhaForm" method="post" action="#"> <!-- Redirecionando pra pagina dps de alterar a senha -->
+                <form id="alterarSenhaForm" method="post" action="../html/home.php"> <!-- Redirecionando pra pagina dps de alterar a senha -->
                     <div class="form-group">
                         <label for="senhaAtual">Digite a senha atual</label>
                         <div class="password-input">
