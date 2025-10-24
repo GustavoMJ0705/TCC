@@ -4,7 +4,7 @@
     --card-shadow: 0 6px 18px rgba(0,0,0,0.06);
     --accent-1: #ff7728;
     --accent-2: #ff4d6d;
-    --text-1: #333;
+    --text-1: #000;
 }
 
 *{
@@ -39,7 +39,7 @@ body {
 }
 
 .matricula-card p.lead{
-    color: #555;
+    color: #000;
     margin-bottom: 18px;
 }
 
@@ -163,12 +163,20 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="password
     color: var(--text-1);
 }
 
+.pedidos {
+    margin: 20px 12%;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
 .pedidos-pendentes {
     display: block;
-    margin-left: 12%; /* ainda mais à direita */
     font-size: 1rem;
-    color: #444;
-    margin-top: 6px;
+    color: #000;
+    margin: 0;
 }
 
 @media (max-width: 900px){
