@@ -521,7 +521,6 @@ try {
     </main>
 
     <script>
-<<<<<<< Updated upstream
         //interatividade dos botões de adicionar na agenda
         const botoes = document.querySelectorAll('.btn-adicionar');
 
@@ -576,107 +575,6 @@ dias.forEach(dia => {
         });
     }
 });
-=======
-      document.querySelectorAll('.day').forEach(day => {
-  const btnSalvar = day.querySelector('.btn-salvar');
-  const btnExcluir = day.querySelector('.btn-excluir');
-  const resumoLista = day.querySelector('.lista-resumos');
-
-  btnSalvar.addEventListener('click', () => {
-    const nome = day.querySelector('input[name="aulaNome[]"]').value;
-    const modalidade = day.querySelector('select[name="aulaTipo[]"] option:checked').text;
-    const inicio = day.querySelector('input[name="aulaTime[]"]').value;
-    const fim = day.querySelector('input[name="aulaTimefim[]"]').value;
-
-    if (nome && modalidade && inicio && fim) {
-      // Cria item de resumo
-      const li = document.createElement('li');
-      li.textContent = `${nome} - ${modalidade} (${inicio} às ${fim})`;
-      resumoLista.appendChild(li);
-
-      // Limpa os campos para permitir adicionar outra aula
-      day.querySelectorAll('input, select').forEach(el => el.value = "");
-    }
-  });
-
-  btnExcluir.addEventListener('click', () => {
-    // Limpa todos os resumos e campos
-    resumoLista.innerHTML = "";
-    day.querySelectorAll('input, select').forEach(el => el.value = "");
-  });
-});
-        //interatividade dos botões de adicionar na agenda
-        const botoes = document.querySelectorAll('.btn-adicionar');
-
-        botoes.forEach(botao => {
-            botao.addEventListener('click', () => {
-                const day = botao.closest('.day');
-                day.classList.toggle('expandido');
-            });
-        });
-        // Mostrar/esconder a agenda
-        document.getElementById("btn-agenda").addEventListener("click", function() {
-            const agenda = document.querySelector(".Agenda");
-            agenda.style.display = getComputedStyle(agenda).display === "none" ? "flex" : "none";
-        });
-
-
-        const dias = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
-
-        dias.forEach(dia => {
-            const btnAdicionar = document.getElementById(`btn-salvar-${dia}`);
-            const btnActions = document.getElementById(`btn-actions-${dia}`);
-            const aula = document.getElementById(`Aula-${dia}`);
-
-            if (btnAdicionar && btnActions && aula) {
-                // Botão Adicionar
-                btnAdicionar.addEventListener('click', () => {
-                    btnAdicionar.style.display = 'none';
-                    btnActions.style.display = 'block';
-                    aula.classList.add('expandido'); // abre a aula
-                });
-
-                // Botão Excluir
-                btnActions.querySelector('.btn-excluir').addEventListener('click', () => {
-                    // Limpa campos
-                    aula.querySelectorAll('input, select').forEach(i => i.value = '');
-
-                    // Fecha a aula
-                    aula.classList.remove('expandido');
-
-                    // Fecha o dia (importante!)
-                    const day = btnAdicionar.closest('.day');
-                    day.classList.remove('expandido');
-
-                    // Esconde botões Salvar/Excluir
-                    btnActions.style.display = 'none';
-
-                    // Mostra botão Adicionar
-                    btnAdicionar.style.display = 'inline-block';
-                });
-
-                // Botão Salvar
-                // Botão Excluir
-                btnActions.querySelector('.btn-salvar').addEventListener('click', () => {
-                    // Limpa campos
-                    aula.querySelectorAll('input, select').forEach(i => i.value = '');
-
-                    // Fecha a aula
-                    aula.classList.remove('expandido');
-
-                    // Fecha o dia (importante!)
-                    const day = btnAdicionar.closest('.day');
-                    day.classList.remove('expandido');
-
-                    // Esconde botões Salvar/Excluir
-                    btnActions.style.display = 'none';
-
-                    // Mostra botão Adicionar
-                    btnAdicionar.style.display = 'inline-block';
-                });
-            }
-        });
->>>>>>> Stashed changes
         // CEP restringindo oa forma com que ele será escrito 
         document.getElementById('dojoCEP').addEventListener('input', function(e) {
             let valor = e.target.value.replace(/\D/g, ''); // Apenas números
