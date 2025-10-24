@@ -165,7 +165,7 @@ if ($id_usuario && $tipo) {
             
 <div class="btn-group">
                 
-                <button type="button" class="btn-save" onclick="validarESalvar()" name="salvar">Salvar Alterações</button>
+                <button type="submit" class="btn-save" name="salvar">Salvar Alterações</button>
                 <button type="button" class="btn-trocarsenha"> Alterar a senha?</button>
             </div>
         </form>
@@ -176,7 +176,7 @@ if ($id_usuario && $tipo) {
                 <h3>Alteração de senha</h3>
                 <p class="senha-info">.</p>
                 
-                <form id="alterarSenhaForm" method="post" action="../html/home.php"> <!-- Redirecionando pra pagina dps de alterar a senha -->
+                <form id="alterarSenhaForm" method="post" action="../php/altsenha.php"> <!-- envia para altsenha.php para processar a alteração -->
                     <div class="form-group">
                         <label for="senhaAtual">Digite a senha atual</label>
                         <div class="password-input">
