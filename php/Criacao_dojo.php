@@ -19,9 +19,7 @@ try {
     $estado = $_POST['estado'];
     $telefone = $_POST['dojoPhone'];
     $email = $_POST['dojoEmail'];
-    $nomeAula = $_POST['aulaNome'];
-    $hora = $_POST['aulaTime'];
-    $tipo = $_POST['aulaTipo'];
+
    
 
 
@@ -82,47 +80,59 @@ try {
             }
         }
     }
-    
-if (!empty($_POST['aulaNome'])) {
-    $stmt_aula = $pdo->prepare("
-        INSERT INTO tb_aulas 
-            (nm_aulas, hr_inicio_aula, hr_fim_aula, id_perfil_academia, id_professor) 
-        VALUES 
-            (:nome, :hora_inicio, :hora_fim, :id_academia, :id_professor)
-    ");
+       // Inserção de aulas (corrige nomes de POST)
+    $aulaNomes = $_POST['aulaNome'] ?? [];
+    $aulaTimesInicio = $_POST['aulaTime'] ?? [];
+    $aulaTimesFim = $_POST['aulaTimefim'] ?? [];
+    $aulaTipos = $_POST['aulaTipo'] ?? [];
 
-    $stmt_aula_modalidade = $pdo->prepare("
-        INSERT INTO aula_modalidade (id_aulas, id_modalidade) 
-        VALUES (:id_aula, :id_modalidade)
-    ");
+    // Verifica se existem aulas e se os arrays têm tamanhos compatíveis
+    if (!empty($aulaNomes)) {
+        $count = count($aulaNomes);
+        if ($count === count($aulaTimesInicio) && $count === count($aulaTimesFim) && $count === count($aulaTipos)) {
+            $stmt_aula = $pdo->prepare("
+                INSERT INTO tb_aulas (nm_aulas, hr_inicio_aula, hr_fim_aula, id_perfil_academia, id_professor)
+                VALUES (:nome, :hora_inicio, :hora_fim, :id_academia, :id_professor)
+            ");
+            $stmt_aula_modalidade = $pdo->prepare("
+                INSERT INTO aula_modalidade (id_aulas, id_modalidade) VALUES (:id_aula, :id_modalidade)
+            ");
 
-    foreach ($_POST['aulaNome'] as $i => $nomeAula) {
-        $idModalidade = $_POST['aulaTipo'][$i];   // vem do <select>
-        $horaInicio   = $_POST['aulaTime'][$i];   // hora de início
-        $horaFim      = $_POST['aulaTimefim'][$i]; // hora de fim
+            for ($i = 0; $i < $count; $i++) {
+                $nomeAula = trim($aulaNomes[$i]);
+                $horaInicio = trim($aulaTimesInicio[$i]);
+                $horaFim = trim($aulaTimesFim[$i]);
+                $idModalidade = intval($aulaTipos[$i]);
 
-        // Insere aula
-        $stmt_aula->execute([
-            ':nome' => $nomeAula,
-            ':hora_inicio' => $horaInicio,
-            ':hora_fim' => $horaFim,
-            ':id_academia' => $id_perfil_academia,
-            ':id_professor' => 1 // por enquanto fixo
-        ]);
+                // Validações mínimas
+                if ($nomeAula === '' || !preg_match('/^\d{2}:\d{2}$/', $horaInicio) || !preg_match('/^\d{2}:\d{2}$/', $horaFim)) {
+                    continue;
+                }
 
-        // Pega o ID da aula recém-criada
-        $idAula = $pdo->lastInsertId();
+                // Se não houver professor no form, inserir NULL
+                $idProfessor = null;
+                if (isset($_POST['aulaProfessor'][$i]) && $_POST['aulaProfessor'][$i] !== '') {
+                    $idProfessor = intval($_POST['aulaProfessor'][$i]);
+                }
 
-        // Relaciona aula com modalidade
-        $stmt_aula_modalidade->execute([
-            ':id_aula' => $idAula,
-            ':id_modalidade' => $idModalidade
-        ]);
+                $stmt_aula->execute([
+                    ':nome' => $nomeAula,
+                    ':hora_inicio' => $horaInicio,
+                    ':hora_fim' => $horaFim,
+                    ':id_academia' => $id_perfil_academia,
+                    ':id_professor' => $idProfessor
+                ]);
+
+                $idAula = $pdo->lastInsertId();
+                $stmt_aula_modalidade->execute([
+                    ':id_aula' => $idAula,
+                    ':id_modalidade' => $idModalidade
+                ]);
+            }
+        }
     }
-}
 
     $pdo->commit();
-
     header("Location: ../html/home.php");
     exit();
 

@@ -269,7 +269,7 @@ button[type="button"]:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
      width: 100%;
     overflow-x: auto;
     padding-top:20px ;
@@ -335,6 +335,8 @@ display: none;
     border-radius: 18px;
     margin-top: 20px;
     padding: 40px;
+    height: 50vh;
+    max-width: 85vw;
 }
 
 .btn-excluir {
@@ -352,9 +354,12 @@ width: 50%;
 }
 
 .btn-actions {
-
-justify-content: space-between;
+    display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
 width: 100%;
+gap: 5%;
 }
 
 
@@ -376,4 +381,18 @@ font-weight: bold;
     border-radius: 8px;
     border: 0.05rem solid #000000;
     font-size: 0.83rem;
+}
+
+fieldset {
+    border: none;
+
+}
+
+.select-modalidade {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    width: 90%;
 }

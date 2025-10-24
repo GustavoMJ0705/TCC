@@ -153,183 +153,218 @@ try {
                             <div class="day">
                                 <h3>Domingo</h3>
                                 <div class="Aula" id="Aula-domingo">
-                                    <label for="aulaNome-domingo">Nome da Aula:</label>
-                                    <input type="text" id="aulaNome-domingo" name="aulaNome[]" minlength="2" maxlength="100" required>
-                                    <select id="aulaTipo-domingo" name="aulaTipo[]" required>
-                                        <option value="">Selecione o tipo de aula</option>
-                                        <?php foreach ($modalidade as $mod): ?>
-                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
-                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-domingo" name="aulaTime[]" required>
-                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-domingo" name="aulaTimefim[]" required>
+                                    <fieldset id="fieldset-domingo" disabled>
+                                        <label for="aulaNome-domingo">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-domingo" name="aulaNome[]" minlength="2" maxlength="100" data-required-on-active="true">
+                                        <label>Selecione a modalidade da aula</label>
+                                        <select id="aulaTipo-domingo" name="aulaTipo[]" class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-domingo" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-domingo" name="aulaTimefim[]" data-required-on-active="true">
+                                                 </fieldset>
                                 </div>
+                       
                                 <ul class="lista-resumos"></ul>
-                                <button type="button" class="btn-adicionar" id="btn-salvar-domingo">Adicionar aula</button>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-domingo">Adicionar aula</button>
                                 <div class="btn-actions" id="btn-actions-domingo" style="display: none; margin-top: 10px;">
 
                                     <button type="button" class="btn-salvar">Salvar</button>
                                     <button type="button" class="btn-excluir">Excluir</button>
 
                                 </div>
+
                             </div>
 
                             <!-- Segunda -->
                             <div class="day">
                                 <h3>Segunda</h3>
                                 <div class="Aula" id="Aula-segunda">
-                                    <label for="aulaNome-segunda">Nome da Aula:</label>
-                                    <input type="text" id="aulaNome-segunda" name="aulaNome[]" minlength="2" maxlength="100" required>
-                                    <select id="aulaTipo-segunda" name="aulaTipo[]" required>
-                                        <option value="">Selecione o tipo de aula</option>
-                                        <?php foreach ($modalidade as $mod): ?>
-                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
-                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-segunda" name="aulaTime[]" required>
-                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-segunda" name="aulaTimefim[]" required>
+                                    <fieldset id="fieldset-segunda" disabled>
+                                        <label for="aulaNome-segunda">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-segunda" name="aulaNome[]" minlength="2" maxlength="100" data-required-on-active="true">
+                                        <label>Selecione a modalidade da aula</label>
+                                        <select id="aulaTipo-segunda" name="aulaTipo[]" class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-segunda" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-segunda" name="aulaTimefim[]" data-required-on-active="true">
+                                                    </fieldset>
                                 </div>
+                    
                                 <ul class="lista-resumos"></ul>
-                                <button type="button" class="btn-adicionar" id="btn-salvar-segunda">Adicionar aula</button>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-segunda">Adicionar aula</button>
                                 <div class="btn-actions" id="btn-actions-segunda" style="display: none; margin-top: 10px;">
 
                                     <button type="button" class="btn-salvar">Salvar</button>
                                     <button type="button" class="btn-excluir">Excluir</button>
 
                                 </div>
+
                             </div>
 
                             <!-- Terça -->
                             <div class="day">
                                 <h3>Terça</h3>
                                 <div class="Aula" id="Aula-terca">
-                                    <label for="aulaNome-terca">Nome da Aula:</label>
-                                    <input type="text" id="aulaNome-terca" name="aulaNome[]" minlength="2" maxlength="100" required>
-                                    <select id="aulaTipo-terca" name="aulaTipo[]" required>
-                                        <option value="">Selecione o tipo de aula</option>
-                                        <?php foreach ($modalidade as $mod): ?>
-                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
-                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-terca" name="aulaTime[]" required>
-                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-terca" name="aulaTimefim[]" required>
+                                    <fieldset id="fieldset-terca" disabled>
+                                        <label for="aulaNome-terca">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-terca" name="aulaNome[]" minlength="2" maxlength="100"data-required-on-active="true">
+                                        <label>Selecione</label>
+                                        <select id="aulaTipo-terca" name="aulaTipo[]" class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-terca" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-terca" name="aulaTimefim[]" data-required-on-active="true">
+                                           </fieldset>
                                 </div>
+                             
                                 <ul class="lista-resumos"></ul>
-                                <button type="button" class="btn-adicionar" id="btn-salvar-terca">Adicionar aula</button>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-terca">Adicionar aula</button>
                                 <div class="btn-actions" id="btn-actions-terca" style="display: none; margin-top: 10px;">
                                     <button type="button" class="btn-salvar">Salvar</button>
                                     <button type="button" class="btn-excluir">Excluir</button>
 
                                 </div>
+
                             </div>
 
                             <!-- Quarta -->
                             <div class="day">
                                 <h3>Quarta</h3>
                                 <div class="Aula" id="Aula-quarta">
-                                    <label for="aulaNome-quarta">Nome da Aula:</label>
-                                    <input type="text" id="aulaNome-quarta" name="aulaNome[]" minlength="2" maxlength="100" required>
-                                    <select id="aulaTipo-quarta" name="aulaTipo[]" required>
-                                        <option value="">Selecione o tipo de aula</option>
-                                        <?php foreach ($modalidade as $mod): ?>
-                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
-                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-quarta" name="aulaTime[]" required>
-                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-quarta" name="aulaTimefim[]" required>
+                                    <fieldset id="fieldset-quarta" disabled>
+                                        <label for="aulaNome-quarta">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-quarta" name="aulaNome[]" minlength="2" maxlength="100" data-required-on-active="true">
+                                        <label>Selecione</label>
+                                        <select id="aulaTipo-quarta" name="aulaTipo[]"  class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-quarta" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-quarta" name="aulaTimefim[]" data-required-on-active="true">
+                                                   </fieldset>
                                 </div>
+                     
                                 <ul class="lista-resumos"></ul>
-                                <button type="button" class="btn-adicionar" id="btn-salvar-quarta">Adicionar aula</button>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-quarta">Adicionar aula</button>
                                 <div class="btn-actions" id="btn-actions-quarta" style="display: none; margin-top: 10px;">
                                     <button type="button" class="btn-salvar">Salvar</button>
                                     <button type="button" class="btn-excluir">Excluir</button>
 
                                 </div>
+
                             </div>
 
                             <!-- Quinta -->
                             <div class="day">
                                 <h3>Quinta</h3>
                                 <div class="Aula" id="Aula-quinta">
-                                    <label for="aulaNome-quinta">Nome da Aula:</label>
-                                    <input type="text" id="aulaNome-quinta" name="aulaNome[]" minlength="2" maxlength="100" required>
-                                    <select id="aulaTipo-quinta" name="aulaTipo[]" required>
-                                        <option value="">Selecione o tipo de aula</option>
-                                        <?php foreach ($modalidade as $mod): ?>
-                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
-                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-quinta" name="aulaTime[]" required>
-                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-quinta" name="aulaTimefim[]" required>
+                                    <fieldset id="fieldset-quinta" disabled>
+                                        <label for="aulaNome-quinta">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-quinta" name="aulaNome[]" minlength="2" maxlength="100"data-required-on-active="true">
+                                        <label>Selecione</label>
+                                        <select id="aulaTipo-quinta" name="aulaTipo[]"  class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-quinta" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-quinta" name="aulaTimefim[]" data-required-on-active="true">
+                                              </fieldset>
                                 </div>
+                          
                                 <ul class="lista-resumos"></ul>
-                                <button type="button" class="btn-adicionar" id="btn-salvar-quinta">Adicionar aula</button>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-quinta">Adicionar aula</button>
                                 <div class="btn-actions" id="btn-actions-quinta" style="display: none; margin-top: 10px;">
                                     <button type="button" class="btn-salvar">Salvar</button>
                                     <button type="button" class="btn-excluir">Excluir</button>
 
                                 </div>
+
                             </div>
 
                             <!-- Sexta -->
                             <div class="day">
                                 <h3>Sexta</h3>
                                 <div class="Aula" id="Aula-sexta">
-                                    <label for="aulaNome-sexta">Nome da Aula:</label>
-                                    <input type="text" id="aulaNome-sexta" name="aulaNome[]" minlength="2" maxlength="100" required>
-                                    <select id="aulaTipo-sexta" name="aulaTipo[]" required>
-                                        <option value="">Selecione o tipo de aula</option>
-                                        <?php foreach ($modalidade as $mod): ?>
-                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
-                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <label>Inicio da aula</label> <input type="time" id="aulaTime-sexta" name="aulaTime[]" required>
-                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-sexta" name="aulaTimefim[]" required>
+                                    <fieldset id="fieldset-sexta" disabled>
+                                        <label for="aulaNome-sexta">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-sexta" name="aulaNome[]" minlength="2" maxlength="100" data-required-on-active="true">
+                                        <label>Selecione</label>
+                                        <select id="aulaTipo-sexta" name="aulaTipo[]" class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-sexta" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-sexta" name="aulaTimefim[]" data-required-on-active="true">
+                                              </fieldset>
                                 </div>
+                          
                                 <ul class="lista-resumos"></ul>
-                                <button type="button" class="btn-adicionar" id="btn-salvar-sexta">Adicionar aula</button>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-sexta">Adicionar aula</button>
                                 <div class="btn-actions" id="btn-actions-sexta" style="display: none; margin-top: 10px;">
                                     <button type="button" class="btn-salvar">Salvar</button>
                                     <button type="button" class="btn-excluir">Excluir</button>
                                 </div>
+
                             </div>
 
                             <!-- Sábado -->
                             <div class="day">
                                 <h3>Sábado</h3>
                                 <div class="Aula" id="Aula-sabado">
-                                    <label for="aulaNome-sabado">Nome da Aula:</label>
-                                    <input type="text" id="aulaNome-sabado" name="aulaNome[]" minlength="2" maxlength="100" required>
-                                    <select id="aulaTipo-sabado" name="aulaTipo[]" required>
-                                        <option value="">Selecione o tipo de aula</option>
-                                        <?php foreach ($modalidade as $mod): ?>
-                                            <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
-                                                <?= htmlspecialchars($mod['nm_modalidade']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <label>Inicio da aula</label><input type="time" id="aulaTime-sabado" name="aulaTime[]" required>
-                                    <label>Fim da aula</label><input type="time" id="aulaTimefim-sabado" name="aulaTime[]" required>
+                                    <fieldset id="fieldset-sabado" disabled>
+                                        <label for="aulaNome-sabado">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-sabado" name="aulaNome[]" minlength="2" maxlength="100"data-required-on-active="true">
+                                        <label>Selecione</label>
+                                        <select id="aulaTipo-sabado" name="aulaTipo[]" class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione o tipo de aula</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label><input type="time" id="aulaTime-sabado" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-sabado" name="aulaTime[]" data-required-on-active="true">
+                                          </fieldset>
                                 </div>
+                              
                                 <ul class="lista-resumos"></ul>
-                                <button type="button" class="btn-adicionar" id="btn-salvar-sabado">Adicionar aula</button>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-sabado">Adicionar aula</button>
                                 <div class="btn-actions" id="btn-actions-sabado" style="display: none; margin-top: 10px;">
                                     <button type="button" class="btn-salvar">Salvar</button>
                                     <button type="button" class="btn-excluir">Excluir</button>
 
                                 </div>
+
                             </div>
 
                         </div>
@@ -344,60 +379,197 @@ try {
     </main>
 
     <script>
-        //interatividade dos botões de adicionar na agenda
-        const botoes = document.querySelectorAll('.btn-adicionar');
 
-        botoes.forEach(botao => {
-            botao.addEventListener('click', () => {
-                const day = botao.closest('.day');
-                day.classList.toggle('expandido');
-            });
-        });
-        // Mostrar/esconder a agenda
-        document.getElementById("btn-agenda").addEventListener("click", function() {
-            const agenda = document.querySelector(".Agenda");
-            agenda.style.display = getComputedStyle(agenda).display === "none" ? "flex" : "none";
-        });
+   document.addEventListener("DOMContentLoaded", () => {
 
+  const form = document.querySelector('form.dojo-form');
+  if (!form) return;
 
-const dias = ["domingo","segunda","terca","quarta","quinta","sexta","sabado"];
+  const dias = ["domingo","segunda","terca","quarta","quinta","sexta","sabado"];
 
-dias.forEach(dia => {
+  // container oculto para inputs hidden
+  let container = document.getElementById('aulas-salvas');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'aulas-salvas';
+    container.style.display = 'none';
+    form.appendChild(container);
+  }
+
+  dias.forEach(dia => {
+    const aula = document.getElementById(`Aula-${dia}`);
+    const fieldset = document.getElementById(`fieldset-${dia}`);
+    const btnActions = document.getElementById(`btn-actions-${dia}`);
+    const btnSalvar = btnActions ? btnActions.querySelector('.btn-salvar') : null;
     const btnAdicionar = document.getElementById(`btn-salvar-${dia}`);
+    const lista = (aula && aula.parentElement.querySelector('.lista-resumos')) || null;
+
+    if (!aula || !fieldset || !btnSalvar || !btnAdicionar || !lista) return;
+
+    // estado inicial
+    btnActions.style.display = 'none';
+    fieldset.disabled = true;
+
+    // Adicionar -> abre o editor (determinístico)
+    btnAdicionar.addEventListener('click', () => {
+      btnAdicionar.style.display = 'none';
+      btnActions.style.display = 'block';
+      fieldset.disabled = false;
+      // ativa required nos inputs marcados
+      aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.setAttribute('required','required'));
+    });
+
+    // Salvar -> cria hidden inputs e adiciona resumo
+    btnSalvar.addEventListener('click', () => {
+      // lê valores
+      const nomeInput = aula.querySelector(`[id^="aulaNome"]`);
+      const tipoInput = aula.querySelector(`[id^="aulaTipo"]`);
+      const inicioInput = aula.querySelector(`[id^="aulaTime"]`);
+      const fimInput = aula.querySelector(`[id^="aulaTimefim"]`);
+
+      const nome = nomeInput ? nomeInput.value.trim() : '';
+      const tipo = tipoInput ? tipoInput.value : '';
+      const inicio = inicioInput ? inicioInput.value : '';
+      const fim = fimInput ? fimInput.value : '';
+
+      if (!nome || !tipo || !inicio || !fim) {
+        alert('Preencha todos os campos da aula antes de salvar.');
+        return;
+      }
+
+      // cria um id único para esse conjunto salvo
+      const savedId = 'saved-' + Date.now() + '-' + Math.floor(Math.random()*1000);
+
+      // criar hidden inputs
+      const hNome = document.createElement('input'); hNome.type='hidden'; hNome.name='aulaNome[]'; hNome.value=nome; hNome.dataset.savedId = savedId;
+      const hTipo = document.createElement('input'); hTipo.type='hidden'; hTipo.name='aulaTipo[]'; hTipo.value=tipo; hTipo.dataset.savedId = savedId;
+      const hInicio = document.createElement('input'); hInicio.type='hidden'; hInicio.name='aulaTime[]'; hInicio.value=inicio; hInicio.dataset.savedId = savedId;
+      const hFim = document.createElement('input'); hFim.type='hidden'; hFim.name='aulaTimefim[]'; hFim.value=fim; hFim.dataset.savedId = savedId;
+
+      container.appendChild(hNome); container.appendChild(hTipo); container.appendChild(hInicio); container.appendChild(hFim);
+
+      // adiciona item visual na lista com botão remover
+      const li = document.createElement('li');
+      li.className = 'resumo-item';
+      li.dataset.savedId = savedId;
+      li.textContent = `${nome} — ${inicio}–${fim} — ${tipoInput.options[tipoInput.selectedIndex].text}`;
+
+      const btnRemove = document.createElement('button');
+      btnRemove.type = 'button';
+      btnRemove.textContent = 'Remover';
+      btnRemove.style.marginLeft = '8px';
+      btnRemove.addEventListener('click', () => {
+        // remove hidden inputs correspondentes
+        container.querySelectorAll(`input[data-saved-id="${savedId}"]`).forEach(n => n.remove());
+        // Remove by dataset property (we used dataset.savedId above but HTML dataset attributes are kebab-case)
+        container.querySelectorAll('input').forEach(n => {
+          if (n.dataset.savedId === savedId) n.remove();
+        });
+        // remove li
+        li.remove();
+      });
+
+      li.appendChild(btnRemove);
+      lista.appendChild(li);
+
+      // limpa editor e fecha
+      aula.querySelectorAll('input, select').forEach(i => i.value = '');
+      aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.removeAttribute('required'));
+      fieldset.disabled = true;
+      btnActions.style.display = 'none';
+      btnAdicionar.style.display = 'inline-block';
+    });
+
+    // Excluir (cancelar edição atual) -> volta ao estado inicial e limpa inputs editor
+    const btnExcluir = btnActions.querySelector('.btn-excluir');
+    if (btnExcluir) {
+      btnExcluir.addEventListener('click', () => {
+        aula.querySelectorAll('input, select').forEach(i => i.value = '');
+        aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.removeAttribute('required'));
+        fieldset.disabled = true;
+        btnActions.style.display = 'none';
+        btnAdicionar.style.display = 'inline-block';
+      });
+    }
+  });
+
+  // Antes do submit: garantir que não existam fieldsets disabled que bloqueiem inputs já salvos.
+  form.addEventListener('submit', () => {
+    // hidden inputs já existem no container; apenas como segurança:
+    document.querySelectorAll('fieldset').forEach(fs => {
+      // se quiser garantir que nenhum fieldset disabled contenha inputs com name[] (não deveria)
+      // nada a fazer, apenas aviso para console se necessário
+    });
+  });
+});
+
+  // Mostrar/esconder a agenda
+  document.getElementById("btn-agenda").addEventListener("click", function() {
+    const agenda = document.querySelector(".Agenda");
+    agenda.style.display = getComputedStyle(agenda).display === "none" ? "flex" : "none";
+  });
+
+  const dias = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
+
+  dias.forEach(dia => {
+    const btnAdicionar = document.getElementById(`btn-adicionar-${dia}`);
     const btnActions = document.getElementById(`btn-actions-${dia}`);
     const aula = document.getElementById(`Aula-${dia}`);
+    const fieldset = document.getElementById(`fieldset-${dia}`);
+    const day = btnAdicionar?.closest('.day');
 
-    if (btnAdicionar && btnActions && aula) {
-        // Botão Adicionar
-        btnAdicionar.addEventListener('click', () => {
-            btnAdicionar.style.display = 'none';
-            btnActions.style.display = 'block';
-            aula.classList.add('expandido'); // abre a aula
-        });
+    if (btnAdicionar && btnActions && aula && fieldset && day) {
 
-        // Botão Excluir
-        btnActions.querySelector('.btn-excluir').addEventListener('click', () => {
-            // Limpa campos
-            aula.querySelectorAll('input, select').forEach(i => i.value = '');
-            // Fecha a aula
-            aula.classList.remove('expandido');
-            // Esconde botões Salvar/Excluir
-            btnActions.style.display = 'none';
-            // Mostra botão Adicionar
-            btnAdicionar.style.display = 'inline-block';
-        });
+      const resumoLista = day.querySelector('.lista-resumos'); // 👈 adicionamos aqui
 
-        // Botão Salvar
-        btnActions.querySelector('.btn-salvar').addEventListener('click', () => {
-            // Fecha a aula
-            aula.classList.remove('expandido');
-            // Esconde botões Salvar/Excluir
-            btnActions.style.display = 'none';
-            // Mostra botão Adicionar
-            btnAdicionar.style.display = 'inline-block';
-        });
+      // ➕ ADICIONAR AULA
+      btnAdicionar.addEventListener('click', () => {
+        btnAdicionar.style.display = 'none';
+        btnActions.style.display = 'flex';
+        day.classList.add('expandido');
+        fieldset.disabled = false;
+      });
+
+      // ❌ EXCLUIR
+      const btnExcluir = btnActions.querySelector('.btn-excluir');
+      btnExcluir.addEventListener('click', () => {
+        aula.querySelectorAll('input, select').forEach(i => i.value = '');
+        day.classList.remove('expandido');
+        btnActions.style.display = 'none';
+        btnAdicionar.style.display = 'inline-block';
+        fieldset.disabled = true;
+
+        // 👇 também limpa os resumos
+        if (resumoLista) resumoLista.innerHTML = '';
+      });
+
+      // 💾 SALVAR
+      const btnSalvar = btnActions.querySelector('.btn-salvar');
+      btnSalvar.addEventListener('click', () => {
+        const nome = day.querySelector('input[name="aulaNome[]"]').value;
+        const modalidade = day.querySelector('select[name="aulaTipo[]"] option:checked').text;
+        const inicio = day.querySelector('input[name="aulaTime[]"]').value;
+        const fim = day.querySelector('input[name="aulaTimefim[]"]').value;
+
+        // Se todos os campos estiverem preenchidos → cria resumo
+        if (nome && modalidade && inicio && fim) {
+          const li = document.createElement('li');
+          li.textContent = `${nome} - ${modalidade} (${inicio} às ${fim})`;
+          resumoLista.appendChild(li);
+        }
+
+        // Fecha o campo mas mantém os dados salvos
+        day.classList.remove('expandido');
+        btnActions.style.display = 'none';
+        btnAdicionar.style.display = 'inline-block';
+        fieldset.disabled = false;
+
+        // Limpa os inputs (para adicionar nova aula)
+        aula.querySelectorAll('input, select').forEach(el => el.value = "");
+      });
     }
-});
+  });
+
         // CEP restringindo oa forma com que ele será escrito 
         document.getElementById('dojoCEP').addEventListener('input', function(e) {
             let valor = e.target.value.replace(/\D/g, ''); // Apenas números
