@@ -31,7 +31,7 @@ try {
             exit;
         }
 
-        // Monta campos para atualização
+    // Monta campos para atualização
         $campos = [];
         $params = [':id' => $id];
 
@@ -50,6 +50,27 @@ try {
         if (!empty($_POST['email'])) {
             $campos[] = "ds_email = :email";
             $params[':email'] = $_POST['email'];
+        }
+
+        // Verifica se o usuário quer alterar a senha
+        $novaSenha = $_POST['nova_senha'] ?? '';
+        $confirmaNova = $_POST['confirma_nova_senha'] ?? '';
+        if (!empty($novaSenha) || !empty($confirmaNova)) {
+            // checa se os dois campos foram preenchidos
+            if (empty($novaSenha) || empty($confirmaNova)) {
+                echo "Preencha os campos de nova senha e confirmação.";
+                exit;
+            }
+            // checa se coincidem
+            if ($novaSenha !== $confirmaNova) {
+                echo "A nova senha e a confirmação não coincidem.";
+                exit;
+            }
+            // validação básica de força (pode ser ajustada)
+        
+            // adiciona o campo de senha (hash)
+            $campos[] = "nm_senha_hash = :senha";
+            $params[':senha'] = password_hash($novaSenha, PASSWORD_DEFAULT);
         }
 
         if ($campos) {

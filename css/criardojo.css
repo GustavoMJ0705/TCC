@@ -97,16 +97,6 @@ textarea {
     background: #cc0000;
 }
 
-button[type="button"]:not(.schedule-item button) {
-    padding: 10px 20px;
-    background: #ff6600;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
-}
 
 button[type="button"]:hover {
     background: #e55a00;
@@ -114,38 +104,53 @@ button[type="button"]:hover {
 
 .form-actions {
     display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 30px;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
-.btn-primary, .btn-secondary {
+    .form-actions .btn-primary,
+        .form-actions .btn-agenda {
+            width: 180px;
+            min-width: 180px;
+            max-width: 180px;
+            height: 50px;
+            box-sizing: border-box;
+            flex: 0 0 180px; 
+        }
+
+.btn-secondary {
     padding: 15px 30px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
     transition: all 0.3s;
+    background: #6c757d;
+    color: white;
+}
+.btn-secondary:hover {
+    background: #545b62;
+    transform: translateY(-2px);
 }
 
 .btn-primary {
-    background: #ff6600;
-    color: white;
-    display: block;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+    border: 1px solid #c7c7c7;
+     display: flex;
+    align-items: center;
+
+    right: 25%;
 }
 
 .btn-primary:hover {
     background: #e55a00;
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background: #6c757d;
-    color: white;
-}
-
-.btn-secondary:hover {
-    background: #545b62;
     transform: translateY(-2px);
 }
 
@@ -163,6 +168,16 @@ button[type="button"]:hover {
     border-radius: 4px;
     border: 1px solid #ddd;
 }
+
+   #dojoImagePreviewContainer {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-height: 140px;
+            overflow: auto;
+            margin-top: 20px;
+            width: 100%;
+        }
 
 @media (max-width: 600px) {
     .form-container {
@@ -217,7 +232,7 @@ button[type="button"]:hover {
 
 
 .btn-agenda{
-    padding: 15px 30px;
+    padding: 10px 12px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -225,8 +240,10 @@ button[type="button"]:hover {
     transition: all 0.3s;
     background: #ffffff;
     color: rgb(0, 0, 0);
-    border: 1px solid #000000;
-    display: block;
+    border: 1px solid #c7c7c7;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-agenda:hover {
@@ -234,5 +251,148 @@ button[type="button"]:hover {
     transform: translateY(-2px);
 }
 
+.btn-adicionar {
+    padding: 10px 20px;
+    background: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    width: 120px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.calendar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+     width: 100%;
+    overflow-x: auto;
+    padding-top:20px ;
+}
+
+.day {
+    flex: 0 0 auto;
+    min-width: 180px;
+    height: auto; /* define altura fixa para padronizar */
+    padding: 15px;
+    background: #ececec;
+    border-radius: 8px;
+    text-align: center;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; /*emntendeu*/
+    overflow: hidden; /* impede variação de altura quando .Aula aparece */
+}
+
+.day:hover {
+    transform: translateY(-5px);
+    background: #afafaf;
+}
+
+.day h3 {
+    color: #000000;
+    font-size: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .calendar {
+        justify-content: flex-start;
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    .day {
+        margin-right: 5px;
+    }
+}
 
         
+
+.Aula {
+display: none;
+    width: 100%;
+    margin-top: 10px;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+ 
+.day.expandido .Aula {
+    display: flex;
+    flex-direction: column;
+}
+.Agenda {
+    display: none;
+    width: 100%;
+    border-radius: 18px;
+    margin-top: 20px;
+    padding: 40px;
+    height: 50vh;
+    max-width: 85vw;
+}
+
+.btn-excluir {
+background-color: white;
+border: 1px solid red;
+border-radius: 8px;
+width: 50%;
+}
+
+.btn-salvar {
+background-color: white;
+border: 1px solid #e55a00;
+border-radius: 8px;
+width: 50%;
+}
+
+.btn-actions {
+    display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+width: 100%;
+gap: 5%;
+}
+
+
+.day.expandido .lista-resumos {
+  display: none; /* quando expandido, esconde os resumos */
+}
+
+.day:not(.expandido) .lista-resumos {
+
+  display: flex; /* quando encolhido, mostra os resumos */
+    flex-direction: column;
+    list-style: none;
+    text-decoration: none;
+background-color: #fafafa;
+justify-content: center;
+align-items: center;
+padding: 0.5rem;
+font-weight: bold;
+    border-radius: 8px;
+    border: 0.05rem solid #000000;
+    font-size: 0.83rem;
+}
+
+fieldset {
+    border: none;
+
+}
+
+.select-modalidade {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    width: 90%;
+}

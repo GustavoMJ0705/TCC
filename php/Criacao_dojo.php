@@ -19,7 +19,11 @@ try {
     $estado = $_POST['estado'];
     $telefone = $_POST['dojoPhone'];
     $email = $_POST['dojoEmail'];
+
    
+
+
+
     // Validação de email existente
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM tb_perfil_academia WHERE ds_email = :email");
     $stmt->execute([':email' => $email]);
@@ -31,6 +35,8 @@ try {
     }
 
     $pdo->beginTransaction();
+
+    
 
     $stmt = $pdo->prepare("INSERT INTO tb_perfil_academia
             (nm_academia, ds_descricao, nr_cep, ds_rua, nr_numero_endereco, ds_bairro, ds_cidade, ds_estado, nr_telefone, ds_email)
@@ -74,9 +80,59 @@ try {
             }
         }
     }
+       // Inserção de aulas (corrige nomes de POST)
+    $aulaNomes = $_POST['aulaNome'] ?? [];
+    $aulaTimesInicio = $_POST['aulaTime'] ?? [];
+    $aulaTimesFim = $_POST['aulaTimefim'] ?? [];
+    $aulaTipos = $_POST['aulaTipo'] ?? [];
+
+    // Verifica se existem aulas e se os arrays têm tamanhos compatíveis
+    if (!empty($aulaNomes)) {
+        $count = count($aulaNomes);
+        if ($count === count($aulaTimesInicio) && $count === count($aulaTimesFim) && $count === count($aulaTipos)) {
+            $stmt_aula = $pdo->prepare("
+                INSERT INTO tb_aulas (nm_aulas, hr_inicio_aula, hr_fim_aula, id_perfil_academia, id_professor)
+                VALUES (:nome, :hora_inicio, :hora_fim, :id_academia, :id_professor)
+            ");
+            $stmt_aula_modalidade = $pdo->prepare("
+                INSERT INTO aula_modalidade (id_aulas, id_modalidade) VALUES (:id_aula, :id_modalidade)
+            ");
+
+            for ($i = 0; $i < $count; $i++) {
+                $nomeAula = trim($aulaNomes[$i]);
+                $horaInicio = trim($aulaTimesInicio[$i]);
+                $horaFim = trim($aulaTimesFim[$i]);
+                $idModalidade = intval($aulaTipos[$i]);
+
+                // Validações mínimas
+                if ($nomeAula === '' || !preg_match('/^\d{2}:\d{2}$/', $horaInicio) || !preg_match('/^\d{2}:\d{2}$/', $horaFim)) {
+                    continue;
+                }
+
+                // Se não houver professor no form, inserir NULL
+                $idProfessor = null;
+                if (isset($_POST['aulaProfessor'][$i]) && $_POST['aulaProfessor'][$i] !== '') {
+                    $idProfessor = intval($_POST['aulaProfessor'][$i]);
+                }
+
+                $stmt_aula->execute([
+                    ':nome' => $nomeAula,
+                    ':hora_inicio' => $horaInicio,
+                    ':hora_fim' => $horaFim,
+                    ':id_academia' => $id_perfil_academia,
+                    ':id_professor' => $idProfessor
+                ]);
+
+                $idAula = $pdo->lastInsertId();
+                $stmt_aula_modalidade->execute([
+                    ':id_aula' => $idAula,
+                    ':id_modalidade' => $idModalidade
+                ]);
+            }
+        }
+    }
 
     $pdo->commit();
-
     header("Location: ../html/home.php");
     exit();
 

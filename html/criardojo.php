@@ -1,9 +1,9 @@
 <?php
 
-$host = 'localhost'; 
-$dbname = 'matchfight'; 
-$username = 'root'; 
-$password = 'root'; 
+$host = 'localhost';
+$dbname = 'matchfight';
+$username = 'root';
+$password = 'root';
 
 session_start();
 if (!isset($_SESSION['academia_id']) && !isset($_SESSION['academia_id'])) {
@@ -11,10 +11,26 @@ if (!isset($_SESSION['academia_id']) && !isset($_SESSION['academia_id'])) {
     exit();
 }
 
-$academias = "SELECT * from tb_academia";
+
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = "SELECT id_modalidade, nm_modalidade FROM tb_modalidade";
+    $result = $pdo->query($sql);
+
+    $modalidade = $result->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Erro ao conectar ou consultar: " . $e->getMessage());
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,32 +39,34 @@ $academias = "SELECT * from tb_academia";
     <link rel="stylesheet" href="../css/criardojo.css">
     <script src="../js/nav.js"></script>
 </head>
+
 <body>
-   <header>
+    <header>
         <nav class="navbar">
             <div class="menu-icon" onclick="toggleSidebar()">
                 <div class="bar"></div>
                 <div class="bar"></div>
                 <div class="bar"></div>
             </div>
-           
-             
-          
+
+
+
             <div class="search-bar">
                 <input type="text" placeholder="Pesquisar academias...">
             </div>
             <div class="Perfil">
-                 <?php if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
-                   
-                <a href="mperfil.php" class="lbottom">Meu Perfil</a>
+                <?php if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
+
+                    <a href="mperfil.php" class="lbottom">Meu Perfil</a>
                 <?php elseif (isset($_SESSION['academia_id'])):    ?>
-                   <?php else: ?>
-                    <a href="contas.html" id="login-link" class="lbottom">Login</a></div>
-              
-            <?php endif; ?>
-            </div> 
+                <?php else: ?>
+                    <a href="contas.html" id="login-link" class="lbottom">Login</a>
+            </div>
+
+        <?php endif; ?>
+        </div>
         </nav>
-        
+
         <aside class="sidebar" id="sidebar">
             <span class="close-btn" onclick="toggleSidebar()">&times;</span>
             <ul>
@@ -58,8 +76,8 @@ $academias = "SELECT * from tb_academia";
                 <li><a href="#">Calendário de aulas</a></li>
                 <?php if (isset($_SESSION['academia_id']) || isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
                     <li><a href="../php/logout.php" id="logout-link">Sair</a></li>
-               
-                
+
+
                 <?php endif; ?>
             </ul>
         </aside>
@@ -82,7 +100,7 @@ $academias = "SELECT * from tb_academia";
                     <input type="tel" id="dojoPhone" name="dojoPhone" onkeydown="return apenasNumeros(event)" minlength="8" maxlength="11" required>
                 </div>
 
-                 <div class="form-group">
+                <div class="form-group">
                     <label for="dojoPhone">Email:</label>
                     <input type="text" id="dojoEmail" name="dojoEmail" required>
                 </div>
@@ -112,29 +130,445 @@ $academias = "SELECT * from tb_academia";
                 </div>
 
                 <div class="form-group">
-                 <label for="dojoImage">Imagens da Academia:</label>
+                    <label for="dojoImage">Imagens da Academia:</label>
                     <input type="file" id="dojoImage" name="dojoImages[]" accept="image/*" multiple onchange="previewDojoImage(event)">
                     <div id="dojoImagePreviewContainer" style="margin-top:10px; display: flex; gap: 10px;"></div>
                 </div>
 
-               
 
-                
-                     <div class="form-actions">
-                    <a type="submit" class="btn-agenda">Criar Agenda</a>
-                     </div>
-                
+
+
+
+
 
                 <div class="form-actions">
+                    <button type="button" class="btn-agenda" id="btn-agenda">Criar Agenda</button>
                     <button type="submit" class="btn-primary">Criar Academia</button>
                 </div>
-            </form>
+                <div id="Agenda">
+                    <div class="Agenda">
+                        <div class="calendar">
+
+                            <!-- Domingo -->
+                            <div class="day">
+                                <h3>Domingo</h3>
+                                <div class="Aula" id="Aula-domingo">
+                                    <fieldset id="fieldset-domingo" disabled>
+                                        <label for="aulaNome-domingo">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-domingo" name="aulaNome[]" minlength="2" maxlength="100" data-required-on-active="true">
+                                        <label>Selecione a modalidade da aula</label>
+                                        <select id="aulaTipo-domingo" name="aulaTipo[]" class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-domingo" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-domingo" name="aulaTimefim[]" data-required-on-active="true">
+                                                 </fieldset>
+                                </div>
+                       
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-domingo">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-domingo" style="display: none; margin-top: 10px;">
+
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Segunda -->
+                            <div class="day">
+                                <h3>Segunda</h3>
+                                <div class="Aula" id="Aula-segunda">
+                                    <fieldset id="fieldset-segunda" disabled>
+                                        <label for="aulaNome-segunda">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-segunda" name="aulaNome[]" minlength="2" maxlength="100" data-required-on-active="true">
+                                        <label>Selecione a modalidade da aula</label>
+                                        <select id="aulaTipo-segunda" name="aulaTipo[]" class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-segunda" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-segunda" name="aulaTimefim[]" data-required-on-active="true">
+                                                    </fieldset>
+                                </div>
+                    
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-segunda">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-segunda" style="display: none; margin-top: 10px;">
+
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Terça -->
+                            <div class="day">
+                                <h3>Terça</h3>
+                                <div class="Aula" id="Aula-terca">
+                                    <fieldset id="fieldset-terca" disabled>
+                                        <label for="aulaNome-terca">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-terca" name="aulaNome[]" minlength="2" maxlength="100"data-required-on-active="true">
+                                        <label>Selecione</label>
+                                        <select id="aulaTipo-terca" name="aulaTipo[]" class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-terca" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-terca" name="aulaTimefim[]" data-required-on-active="true">
+                                           </fieldset>
+                                </div>
+                             
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-terca">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-terca" style="display: none; margin-top: 10px;">
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Quarta -->
+                            <div class="day">
+                                <h3>Quarta</h3>
+                                <div class="Aula" id="Aula-quarta">
+                                    <fieldset id="fieldset-quarta" disabled>
+                                        <label for="aulaNome-quarta">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-quarta" name="aulaNome[]" minlength="2" maxlength="100" data-required-on-active="true">
+                                        <label>Selecione</label>
+                                        <select id="aulaTipo-quarta" name="aulaTipo[]"  class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-quarta" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-quarta" name="aulaTimefim[]" data-required-on-active="true">
+                                                   </fieldset>
+                                </div>
+                     
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-quarta">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-quarta" style="display: none; margin-top: 10px;">
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Quinta -->
+                            <div class="day">
+                                <h3>Quinta</h3>
+                                <div class="Aula" id="Aula-quinta">
+                                    <fieldset id="fieldset-quinta" disabled>
+                                        <label for="aulaNome-quinta">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-quinta" name="aulaNome[]" minlength="2" maxlength="100"data-required-on-active="true">
+                                        <label>Selecione</label>
+                                        <select id="aulaTipo-quinta" name="aulaTipo[]"  class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-quinta" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-quinta" name="aulaTimefim[]" data-required-on-active="true">
+                                              </fieldset>
+                                </div>
+                          
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-quinta">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-quinta" style="display: none; margin-top: 10px;">
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Sexta -->
+                            <div class="day">
+                                <h3>Sexta</h3>
+                                <div class="Aula" id="Aula-sexta">
+                                    <fieldset id="fieldset-sexta" disabled>
+                                        <label for="aulaNome-sexta">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-sexta" name="aulaNome[]" minlength="2" maxlength="100" data-required-on-active="true">
+                                        <label>Selecione</label>
+                                        <select id="aulaTipo-sexta" name="aulaTipo[]" class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label> <input type="time" id="aulaTime-sexta" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-sexta" name="aulaTimefim[]" data-required-on-active="true">
+                                              </fieldset>
+                                </div>
+                          
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-sexta">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-sexta" style="display: none; margin-top: 10px;">
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+                                </div>
+
+                            </div>
+
+                            <!-- Sábado -->
+                            <div class="day">
+                                <h3>Sábado</h3>
+                                <div class="Aula" id="Aula-sabado">
+                                    <fieldset id="fieldset-sabado" disabled>
+                                        <label for="aulaNome-sabado">Nome da Aula:</label>
+                                        <input type="text" id="aulaNome-sabado" name="aulaNome[]" minlength="2" maxlength="100"data-required-on-active="true">
+                                        <label>Selecione</label>
+                                        <select id="aulaTipo-sabado" name="aulaTipo[]" class="select-modalidade" data-required-on-active="true">
+                                            <option value="">Selecione o tipo de aula</option>
+                                            <?php foreach ($modalidade as $mod): ?>
+                                                <option value="<?= htmlspecialchars($mod['id_modalidade']) ?>">
+                                                    <?= htmlspecialchars($mod['nm_modalidade']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label>Inicio da aula</label><input type="time" id="aulaTime-sabado" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-sabado" name="aulaTime[]" data-required-on-active="true">
+                                          </fieldset>
+                                </div>
+                              
+                                <ul class="lista-resumos"></ul>
+                                <button type="button" class="btn-adicionar" id="btn-adicionar-sabado">Adicionar aula</button>
+                                <div class="btn-actions" id="btn-actions-sabado" style="display: none; margin-top: 10px;">
+                                    <button type="button" class="btn-salvar">Salvar</button>
+                                    <button type="button" class="btn-excluir">Excluir</button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
         </div>
+
+        </form>
+
     </main>
 
     <script>
 
-        // Removido: buscarEndereco duplicado
+   document.addEventListener("DOMContentLoaded", () => {
+
+  const form = document.querySelector('form.dojo-form');
+  if (!form) return;
+
+  const dias = ["domingo","segunda","terca","quarta","quinta","sexta","sabado"];
+
+  // container oculto para inputs hidden
+  let container = document.getElementById('aulas-salvas');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'aulas-salvas';
+    container.style.display = 'none';
+    form.appendChild(container);
+  }
+
+  dias.forEach(dia => {
+    const aula = document.getElementById(`Aula-${dia}`);
+    const fieldset = document.getElementById(`fieldset-${dia}`);
+    const btnActions = document.getElementById(`btn-actions-${dia}`);
+    const btnSalvar = btnActions ? btnActions.querySelector('.btn-salvar') : null;
+    const btnAdicionar = document.getElementById(`btn-salvar-${dia}`);
+    const lista = (aula && aula.parentElement.querySelector('.lista-resumos')) || null;
+
+    if (!aula || !fieldset || !btnSalvar || !btnAdicionar || !lista) return;
+
+    // estado inicial
+    btnActions.style.display = 'none';
+    fieldset.disabled = true;
+
+    // Adicionar -> abre o editor (determinístico)
+    btnAdicionar.addEventListener('click', () => {
+      btnAdicionar.style.display = 'none';
+      btnActions.style.display = 'block';
+      fieldset.disabled = false;
+      // ativa required nos inputs marcados
+      aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.setAttribute('required','required'));
+    });
+
+    // Salvar -> cria hidden inputs e adiciona resumo
+    btnSalvar.addEventListener('click', () => {
+      // lê valores
+      const nomeInput = aula.querySelector(`[id^="aulaNome"]`);
+      const tipoInput = aula.querySelector(`[id^="aulaTipo"]`);
+      const inicioInput = aula.querySelector(`[id^="aulaTime"]`);
+      const fimInput = aula.querySelector(`[id^="aulaTimefim"]`);
+
+      const nome = nomeInput ? nomeInput.value.trim() : '';
+      const tipo = tipoInput ? tipoInput.value : '';
+      const inicio = inicioInput ? inicioInput.value : '';
+      const fim = fimInput ? fimInput.value : '';
+
+      if (!nome || !tipo || !inicio || !fim) {
+        alert('Preencha todos os campos da aula antes de salvar.');
+        return;
+      }
+
+      // cria um id único para esse conjunto salvo
+      const savedId = 'saved-' + Date.now() + '-' + Math.floor(Math.random()*1000);
+
+      // criar hidden inputs
+      const hNome = document.createElement('input'); hNome.type='hidden'; hNome.name='aulaNome[]'; hNome.value=nome; hNome.dataset.savedId = savedId;
+      const hTipo = document.createElement('input'); hTipo.type='hidden'; hTipo.name='aulaTipo[]'; hTipo.value=tipo; hTipo.dataset.savedId = savedId;
+      const hInicio = document.createElement('input'); hInicio.type='hidden'; hInicio.name='aulaTime[]'; hInicio.value=inicio; hInicio.dataset.savedId = savedId;
+      const hFim = document.createElement('input'); hFim.type='hidden'; hFim.name='aulaTimefim[]'; hFim.value=fim; hFim.dataset.savedId = savedId;
+
+      container.appendChild(hNome); container.appendChild(hTipo); container.appendChild(hInicio); container.appendChild(hFim);
+
+      // adiciona item visual na lista com botão remover
+      const li = document.createElement('li');
+      li.className = 'resumo-item';
+      li.dataset.savedId = savedId;
+      li.textContent = `${nome} — ${inicio}–${fim} — ${tipoInput.options[tipoInput.selectedIndex].text}`;
+
+      const btnRemove = document.createElement('button');
+      btnRemove.type = 'button';
+      btnRemove.textContent = 'Remover';
+      btnRemove.style.marginLeft = '8px';
+      btnRemove.addEventListener('click', () => {
+        // remove hidden inputs correspondentes
+        container.querySelectorAll(`input[data-saved-id="${savedId}"]`).forEach(n => n.remove());
+        // Remove by dataset property (we used dataset.savedId above but HTML dataset attributes are kebab-case)
+        container.querySelectorAll('input').forEach(n => {
+          if (n.dataset.savedId === savedId) n.remove();
+        });
+        // remove li
+        li.remove();
+      });
+
+      li.appendChild(btnRemove);
+      lista.appendChild(li);
+
+      // limpa editor e fecha
+      aula.querySelectorAll('input, select').forEach(i => i.value = '');
+      aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.removeAttribute('required'));
+      fieldset.disabled = true;
+      btnActions.style.display = 'none';
+      btnAdicionar.style.display = 'inline-block';
+    });
+
+    // Excluir (cancelar edição atual) -> volta ao estado inicial e limpa inputs editor
+    const btnExcluir = btnActions.querySelector('.btn-excluir');
+    if (btnExcluir) {
+      btnExcluir.addEventListener('click', () => {
+        aula.querySelectorAll('input, select').forEach(i => i.value = '');
+        aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.removeAttribute('required'));
+        fieldset.disabled = true;
+        btnActions.style.display = 'none';
+        btnAdicionar.style.display = 'inline-block';
+      });
+    }
+  });
+
+  // Antes do submit: garantir que não existam fieldsets disabled que bloqueiem inputs já salvos.
+  form.addEventListener('submit', () => {
+    // hidden inputs já existem no container; apenas como segurança:
+    document.querySelectorAll('fieldset').forEach(fs => {
+      // se quiser garantir que nenhum fieldset disabled contenha inputs com name[] (não deveria)
+      // nada a fazer, apenas aviso para console se necessário
+    });
+  });
+});
+
+  // Mostrar/esconder a agenda
+  document.getElementById("btn-agenda").addEventListener("click", function() {
+    const agenda = document.querySelector(".Agenda");
+    agenda.style.display = getComputedStyle(agenda).display === "none" ? "flex" : "none";
+  });
+
+  const dias = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
+
+  dias.forEach(dia => {
+    const btnAdicionar = document.getElementById(`btn-adicionar-${dia}`);
+    const btnActions = document.getElementById(`btn-actions-${dia}`);
+    const aula = document.getElementById(`Aula-${dia}`);
+    const fieldset = document.getElementById(`fieldset-${dia}`);
+    const day = btnAdicionar?.closest('.day');
+
+    if (btnAdicionar && btnActions && aula && fieldset && day) {
+
+      const resumoLista = day.querySelector('.lista-resumos'); // 👈 adicionamos aqui
+
+      // ➕ ADICIONAR AULA
+      btnAdicionar.addEventListener('click', () => {
+        btnAdicionar.style.display = 'none';
+        btnActions.style.display = 'flex';
+        day.classList.add('expandido');
+        fieldset.disabled = false;
+      });
+
+      // ❌ EXCLUIR
+      const btnExcluir = btnActions.querySelector('.btn-excluir');
+      btnExcluir.addEventListener('click', () => {
+        aula.querySelectorAll('input, select').forEach(i => i.value = '');
+        day.classList.remove('expandido');
+        btnActions.style.display = 'none';
+        btnAdicionar.style.display = 'inline-block';
+        fieldset.disabled = true;
+
+        // 👇 também limpa os resumos
+        if (resumoLista) resumoLista.innerHTML = '';
+      });
+
+      // 💾 SALVAR
+      const btnSalvar = btnActions.querySelector('.btn-salvar');
+      btnSalvar.addEventListener('click', () => {
+        const nome = day.querySelector('input[name="aulaNome[]"]').value;
+        const modalidade = day.querySelector('select[name="aulaTipo[]"] option:checked').text;
+        const inicio = day.querySelector('input[name="aulaTime[]"]').value;
+        const fim = day.querySelector('input[name="aulaTimefim[]"]').value;
+
+        // Se todos os campos estiverem preenchidos → cria resumo
+        if (nome && modalidade && inicio && fim) {
+          const li = document.createElement('li');
+          li.textContent = `${nome} - ${modalidade} (${inicio} às ${fim})`;
+          resumoLista.appendChild(li);
+        }
+
+        // Fecha o campo mas mantém os dados salvos
+        day.classList.remove('expandido');
+        btnActions.style.display = 'none';
+        btnAdicionar.style.display = 'inline-block';
+        fieldset.disabled = false;
+
+        // Limpa os inputs (para adicionar nova aula)
+        aula.querySelectorAll('input, select').forEach(el => el.value = "");
+      });
+    }
+  });
 
         // CEP restringindo oa forma com que ele será escrito 
         document.getElementById('dojoCEP').addEventListener('input', function(e) {
@@ -151,7 +585,9 @@ $academias = "SELECT * from tb_academia";
             var cep = e.target.value.replace(/\D/g, '');
             if (cep.length === 8) {
                 fetch('https://viacep.com.br/ws/' + cep + '/json/')
-                    .then(function(response) { return response.json(); })
+                    .then(function(response) {
+                        return response.json();
+                    })
                     .then(function(data) {
                         if (!data.erro) {
                             document.getElementById('rua').value = data.logradouro || '';
@@ -181,14 +617,33 @@ $academias = "SELECT * from tb_academia";
 
         // Mapeamento de DDDs por UF
         const dddPorUF = {
-            "AC": ["68"], "AL": ["82"], "AP": ["96"], "AM": ["92", "97"],
-            "BA": ["71", "73", "74", "75", "77"], "CE": ["85", "88"], "DF": ["61"],
-            "ES": ["27", "28"], "GO": ["61", "62", "64"], "MA": ["98", "99"],
-            "MT": ["65", "66"], "MS": ["67"], "MG": ["31","32","33","34","35","37","38"],
-            "PA": ["91","93","94"], "PB": ["83"], "PR": ["41","42","43","44","45","46"],
-            "PE": ["81","87"], "PI": ["86","89"], "RJ": ["21","22","24"], "RN": ["84"],
-            "RS": ["51","53","54","55"], "RO": ["69"], "RR": ["95"], "SC": ["47","48","49"],
-            "SP": ["11","12","13","14","15","16","17","18","19"], "SE": ["79"], "TO": ["63"]
+            "AC": ["68"],
+            "AL": ["82"],
+            "AP": ["96"],
+            "AM": ["92", "97"],
+            "BA": ["71", "73", "74", "75", "77"],
+            "CE": ["85", "88"],
+            "DF": ["61"],
+            "ES": ["27", "28"],
+            "GO": ["61", "62", "64"],
+            "MA": ["98", "99"],
+            "MT": ["65", "66"],
+            "MS": ["67"],
+            "MG": ["31", "32", "33", "34", "35", "37", "38"],
+            "PA": ["91", "93", "94"],
+            "PB": ["83"],
+            "PR": ["41", "42", "43", "44", "45", "46"],
+            "PE": ["81", "87"],
+            "PI": ["86", "89"],
+            "RJ": ["21", "22", "24"],
+            "RN": ["84"],
+            "RS": ["51", "53", "54", "55"],
+            "RO": ["69"],
+            "RR": ["95"],
+            "SC": ["47", "48", "49"],
+            "SP": ["11", "12", "13", "14", "15", "16", "17", "18", "19"],
+            "SE": ["79"],
+            "TO": ["63"]
         };
 
         // Se quiser preencher DDD, chame preencherDDDs(data.uf) dentro do fetch do evento acima
@@ -227,7 +682,7 @@ $academias = "SELECT * from tb_academia";
                 '@hotmail.com',
                 '@yahoo.com',
                 '@icloud.com',
-                '@aol.com' 
+                '@aol.com'
             ];
             const isValid = allowedDomains.some(domain => email.endsWith(domain));
             if (email && !isValid) {
@@ -237,8 +692,8 @@ $academias = "SELECT * from tb_academia";
             }
         });
 
-              
-                
+
+
         // Form handling and validation
         document.getElementById('dojoForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -251,7 +706,10 @@ $academias = "SELECT * from tb_academia";
             const schedules = [];
             for (const dia in horariosPorDia) {
                 if (horariosPorDia[dia].length > 0) {
-                    schedules.push({ day: dia, times: horariosPorDia[dia].filter(h=>h) });
+                    schedules.push({
+                        day: dia,
+                        times: horariosPorDia[dia].filter(h => h)
+                    });
                 }
             }
             // Imagem
@@ -295,7 +753,7 @@ $academias = "SELECT * from tb_academia";
             }
         }
         // Preview da imagem
-       function previewDojoImage(event) {
+        function previewDojoImage(event) {
             const container = document.getElementById('dojoImagePreviewContainer');
             container.innerHTML = '';
             const files = event.target.files;
@@ -314,14 +772,14 @@ $academias = "SELECT * from tb_academia";
                         };
                         reader.readAsDataURL(file);
                     }
-                });
+                })
+            };
+            // Add sample data on first load
+            if (DojoStorage.getAllDojos().length === 0) {
+                DojoStorage.addSampleDojos();
             }
-        }
-
-        // Add sample data on first load
-        if (DojoStorage.getAllDojos().length === 0) {
-            DojoStorage.addSampleDojos();
-        }
+        };
     </script>
 </body>
+
 </html>
