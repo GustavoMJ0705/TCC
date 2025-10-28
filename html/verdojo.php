@@ -1,4 +1,9 @@
-<?php require_once '../php/infodojo.php'; ?>
+<?php
+session_start();
+require_once 'lista_horarios.php';
+ require_once '../php/infodojo.php'; 
+ 
+ ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -113,48 +118,9 @@
         <div class="cards-container">
             
             <!-- Card de Horários -->
-            <div class="card-wrapper">
-                <div class="infoHorarios">
-                    <img src="../img/relogio.png" alt="Relógio" />
-                    <h3>Horários da Semana</h3>
-                </div>
-                <div class="semana-horarios">
-                    <div class="dia-coluna">
-                        <div class="dia-nome">Segunda</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                    </div>
-                    <div class="dia-coluna">
-                        <div class="dia-nome">Terça</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                    </div>
-                    <div class="dia-coluna">
-                        <div class="dia-nome">Quarta</div>                        
-                        <div class="horario-item">00:00 - 00:00</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                    </div>
-                    <div class="dia-coluna">
-                        <div class="dia-nome">Quinta</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                    </div>
-                    <div class="dia-coluna">
-                        <div class="dia-nome">Sexta</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                    </div>
-                    <div class="dia-coluna">
-                        <div class="dia-nome">Sábado</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                        <div class="horario-item">00:00 - 00:00</div>
-                    </div>
-                    <div class="dia-coluna">
-                        <div class="dia-nome">Domingo</div>
-                        <div class="horario-item">Fechado</div>
-                    </div>
-                </div>
-            </div>
+           <?php 
+           exibirHorariosPorDia($grouped, $daysOrder);
+           ?>
 
             <!-- Card de Endereço -->
             <div class="card-wrapper">

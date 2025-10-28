@@ -2,3 +2,23 @@
 
 2025-10-28T17:24:03+01:00 - PARAMS: {":nm":"das",":ds":null,":dur":null,":hin":"21:33",":hfn":"21:34",":prof":null,":id_dia":1,":dt":"Domingo"}
 
+2025-10-28T18:09:34+01:00 - PARAMS: {":nm":"Boxe 1",":ds":null,":dur":null,":hin":"15:55",":hfn":"16:55",":prof":null,":id_dia":1,":dt":"Domingo"}
+
+2025-10-28T18:09:34+01:00 - PARAMS: {":nm":"Boxe 2",":ds":null,":dur":null,":hin":"17:00",":hfn":"18:00",":prof":null,":id_dia":1,":dt":"Domingo"}
+
+2025-10-28T18:09:34+01:00 - PARAMS: {":nm":"Boxe 1",":ds":null,":dur":null,":hin":"15:55",":hfn":"16:55",":prof":null,":id_dia":3,":dt":"Ter\u00e7a-feira"}
+
+2025-10-28T18:09:35+01:00 - PARAMS: {":nm":"Boxe 2",":ds":null,":dur":null,":hin":"13:55",":hfn":"16:55",":prof":null,":id_dia":3,":dt":"Ter\u00e7a-feira"}
+
+2025-10-28T18:09:35+01:00 - PARAMS: {":nm":"Jiu jitsu",":ds":null,":dur":null,":hin":"16:55",":hfn":"17:55",":prof":null,":id_dia":5,":dt":"Quinta-feira"}
+
+2025-10-28T18:22:49+01:00 - PARAMS: {":nm":"dsadsad",":ds":null,":dur":null,":hin":"21:22",":hfn":"23:03",":prof":null,":id_dia":1,":dt":"Domingo"}
+
+2025-10-28T18:22:49+01:00 - PARAMS: {":nm":"fdsafasf",":ds":null,":dur":null,":hin":"21:22",":hfn":"23:21",":prof":null,":id_dia":2,":dt":"Segunda-feira"}
+
+2025-10-28T18:22:49+01:00 - PARAMS: {":nm":"dsad",":ds":null,":dur":null,":hin":"21:22",":hfn":"22:33",":prof":null,":id_dia":1,":dt":"Domingo"}
+
+2025-10-28T18:22:49+01:00 - PARAMS: {":nm":"dsad",":ds":null,":dur":null,":hin":"21:23",":hfn":"22:33",":prof":null,":id_dia":3,":dt":"Ter\u00e7a-feira"}
+
+2025-10-28T18:22:49+01:00 - PARAMS: {":nm":"dasdas",":ds":null,":dur":null,":hin":"21:22",":hfn":"22:22",":prof":null,":id_dia":4,":dt":"Quarta-feira"}
+

@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 // Dados de exemplo para visualização
 $matriculas = [
     [

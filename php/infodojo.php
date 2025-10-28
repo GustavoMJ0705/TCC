@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+
 
 // 1. Verifica se o ID foi passado na URL e se é um número
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
