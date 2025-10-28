@@ -1,13 +1,3 @@
-<?php
-session_start();
-require_once 'Lista_Academia.php';
-
-// Garantir que $academias existe mesmo se houver erro na conexão
-if (!isset($academias)) {
-    $academias = [];
-}
-?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -19,6 +9,7 @@ if (!isset($academias)) {
     <script src="../js/nav.js"></script>
 </head>
 <body>
+
     <header>
         <nav class="navbar">
         <div class="menu-search">
@@ -36,10 +27,11 @@ if (!isset($academias)) {
                 </div>
             </a>
         </div>
-            <div class="logo">
+
+        <div class="logo">
                 <img src="../img/match_ofc2.0.png" alt="Logo do Match Fight, um homem chutando ao lado da escrita Match Fight" width="150rem">
-            </div>
-            <div class="Perfil">
+        </div>
+        <div class="Perfil">
                 <?php if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
                     <a href="mperfil.php" class="lbottom_AlunoProf"><img src="../img/Perfil.png" alt=""></a>
                 <?php elseif (isset($_SESSION['academia_id'])):?>
@@ -49,7 +41,7 @@ if (!isset($academias)) {
                 <?php if (isset($_SESSION['academia_id'])): ?>
                     <a href="criardojo.php" class="lbottom">Criar Academia</a>
                 <?php endif; ?>
-            </div>       
+        </div>       
         </nav>
         
         <aside class="sidebar" id="sidebar">
@@ -67,28 +59,5 @@ if (!isset($academias)) {
         </aside>
     </header>
 
-    <main>
-        <div class="page-header">
-            
-        </div>
-
-        <div class="cards-container">
-            <header><h1>Academias Disponíveis</h1></header>
-            <div class="main">
-                <?php
-                    
-                    exibirAcademias($academias);
-                ?>
-            </div>
-        </div>
-        
-        <div class="cards-container">
-            <!-- Additional cards container -->
-        </div>
-    </main>
-
-    <!--<div class="test">
-        <p>oi</p>
-    </div>-->
 </body>
 </html>
