@@ -49,10 +49,12 @@ main{
 
 .Container-Carrossel .main-image {
     width: 100%;
-    max-width: 500px; /* Limita a largura da imagem principal */
+    max-width: 600px;
+    height: auto;
     border-radius: 10px;
-    margin-top: 2vh;
+    object-fit: cover;
 }
+
 
 /*Carrossel! oi misu*/
 .carrossel{
@@ -252,13 +254,27 @@ main{
 }
 
 
-/*Descrição do Dojo*/
+/* Layout: descrição + botão */
+.descricao-e-matricula {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    max-width: 1100px;
+    box-sizing: border-box;
+    padding: 0 16px;
+    margin-top: 10px;
+}
+
+
 
 .containerDescricao{
     width: 100%; /* Ajusta a largura para ocupar o espaço disponível */
-    max-width: 900px; /* Mantém a consistência com os outros elementos */
+    max-width: 800px; /* Mantém a consistência com os outros elementos */
     margin-left: 0;
 }
+
 
 .DescriçãoDojo h3 {
     font-size: 1.5rem;
@@ -268,4 +284,52 @@ main{
 .DescriçãoDojo p {
     line-height: 1.6;
     color: #555;
+}
+
+/* Matricule-se button styles */
+.btn-matricula {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* posiciona o botão à direita */
+    flex: 0 0 auto;
+    width: 220px; /* largura fixa para ajudar no alinhamento */
+}
+
+.matricule-btn {
+    background: #ff7728;
+    border: none;
+    color: #fff;
+    padding: 0.9rem 1.6rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(255,77,109,0.18), inset 0 -2px 0 rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.matricule-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(255,77,109,0.22);
+}
+
+.matricule-btn:active {
+    transform: translateY(-1px) scale(0.995);
+}
+
+.matricule-btn:focus {
+    outline: 3px solid rgba(255,122,45,0.18);
+    outline-offset: 4px;
+}
+
+/* Small responsive tweak */
+@media (max-width: 480px) {
+    .matricule-btn {
+        width: 90%;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+    }
 }
