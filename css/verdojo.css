@@ -49,10 +49,7 @@ main{
 
 .Container-Carrossel .main-image {
     width: 100%;
-    min-width: 37.5rem;
-    max-width: 37.5rem;
-    max-height: 27rem;
-    min-height: 27rem;
+    max-width: 600px;
     height: auto;
     border-radius: 10px;
     object-fit: cover;

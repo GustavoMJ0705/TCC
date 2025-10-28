@@ -32,7 +32,7 @@ try {
 <body>
     <div class="logo">
         <a href="../html/contas.html">
-        <img src="../img/match_ofc2.0.png" width="300px"  alt="LogoMatch">
+        <img src="../img/match_ofc2.0.png" width="600px"  alt="LogoMatch">
         </a>
     </div>
 
@@ -45,8 +45,7 @@ try {
 
 
         <label for="dojoPhone">Telefone:</label>
-        <input type="tel" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX" onkeydown="return apenasNumeros(event)" minlength="8" maxlength="15" required>
-
+        <input type="tel" id="dojoPhone" name="dojoPhone" placeholder="XXXXX-XXXX" onkeydown="return apenasNumeros(event)" minlength="8" maxlength="15" required>
         <br>
         <label for="email">E-mail:</label>
         <input type="email" id="email" name="email" placeholder="matchfight@gmail.com" required>
@@ -147,16 +146,16 @@ try {
             }
         });
 
-        document.getElementById('telefone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 2) {
-                value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
-            }
+         document.getElementById('telefone').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 2) {
+        value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
+        }
             if (value.length > 10) {
-                value = value.substring(0, 10) + '-' + value.substring(10, 15);
-            }
+             value = value.substring(0, 10) + '-' + value.substring(10, 15);
+                }
             e.target.value = value;
-        });
+             });
 
     </script>
 
