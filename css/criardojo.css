@@ -39,7 +39,7 @@ body {
    display: flex;
    flex-direction: row;
    flex-wrap: wrap;
-   gap: 3%;
+gap: 3%;
 }
 
 .form-row {

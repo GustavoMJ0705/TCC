@@ -39,23 +39,16 @@ try {
 <body>
     <header>
         <nav class="navbar">
-        <div class="menu-search">
             <div class="menu-icon" onclick="toggleSidebar()">
                 <div class="bar"></div>
                 <div class="bar"></div>
                 <div class="bar"></div>
             </div>
-            <a href="search.php">
-                <div class="search">
-                    <button class="buttonSearch hover-button">
-                        <img src="../img/lupa.png" alt="Lupa" class="icon-lupa">
-                        <span class="search-text">Pesquisar Dojo</span>
-                    </button>
-                </div>
-            </a>
-        </div>
-            <div class="logo">
-                <img src="../img/match_ofc2.0.png" alt="Logo do Match Fight, um homem chutando ao lado da escrita Match Fight" width="150rem">
+
+
+
+            <div class="search-bar">
+                <input type="text" placeholder="Pesquisar academias...">
             </div>
             <div class="Perfil">
                 <?php if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>

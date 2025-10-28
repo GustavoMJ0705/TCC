@@ -21,27 +21,17 @@ if (!isset($academias)) {
 <body>
     <header>
         <nav class="navbar">
-        <div class="menu-search">
             <div class="menu-icon" onclick="toggleSidebar()">
                 <div class="bar"></div>
                 <div class="bar"></div>
                 <div class="bar"></div>
             </div>
-            <a href="search.php">
-                <div class="search">
-                    <button class="buttonSearch hover-button">
-                        <img src="../img/lupa.png" alt="Lupa" class="icon-lupa">
-                        <span class="search-text">Pesquisar Dojo</span>
-                    </button>
-                </div>
-            </a>
-        </div>
-            <div class="logo">
-                <img src="../img/match_ofc2.0.png" alt="Logo do Match Fight, um homem chutando ao lado da escrita Match Fight" width="150rem">
+            <div class="search-bar">
+                <input type="text" placeholder="Pesquisar academias...">
             </div>
             <div class="Perfil">
                 <?php if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
-                    <a href="mperfil.php" class="lbottom_AlunoProf"><img src="../img/Perfil.png" alt=""></a>
+                    <a href="mperfil.php" class="lbottom">Meu Perfil</a>
                 <?php elseif (isset($_SESSION['academia_id'])):?>
                 <?php else: ?>
                     <a href="contas.html" id="login-link" class="lbottom">Cadastrar</a>
@@ -49,7 +39,8 @@ if (!isset($academias)) {
                 <?php if (isset($_SESSION['academia_id'])): ?>
                     <a href="criardojo.php" class="lbottom">Criar Academia</a>
                 <?php endif; ?>
-            </div>       
+            </div>
+          
         </nav>
         
         <aside class="sidebar" id="sidebar">
@@ -86,9 +77,5 @@ if (!isset($academias)) {
             <!-- Additional cards container -->
         </div>
     </main>
-
-    <!--<div class="test">
-        <p>oi</p>
-    </div>-->
 </body>
 </html>

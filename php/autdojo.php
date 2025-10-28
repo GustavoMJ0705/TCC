@@ -5,7 +5,7 @@ try {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nome = $_POST['nomeacad'];
-        $telefone = $_POST['telefone'];
+        $telefone = $_POST['dojoPhone'];
         $email = $_POST['email'];
         $senha = $_POST['senha'];
         $confirmar = $_POST['confirmar'];
