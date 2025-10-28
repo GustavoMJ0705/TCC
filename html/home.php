@@ -1,6 +1,11 @@
 <?php
 session_start();
 require_once 'Lista_Academia.php';
+
+// Garantir que $academias existe mesmo se houver erro na conexão
+if (!isset($academias)) {
+    $academias = [];
+}
 ?>
 
 <!DOCTYPE html>

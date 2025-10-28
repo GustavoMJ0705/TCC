@@ -1,9 +1,5 @@
 <?php
-
-$host = 'localhost';
-$dbname = 'matchfight';
-$username = 'root';
-$password = 'root';
+require_once __DIR__ . '/../php/db_connect.php';
 
 session_start();
 if (!isset($_SESSION['academia_id']) && !isset($_SESSION['academia_id'])) {
@@ -14,8 +10,7 @@ if (!isset($_SESSION['academia_id']) && !isset($_SESSION['academia_id'])) {
 
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+   
 
     $sql = "SELECT id_modalidade, nm_modalidade FROM tb_modalidade";
     $result = $pdo->query($sql);
@@ -38,6 +33,7 @@ try {
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/criardojo.css">
     <script src="../js/nav.js"></script>
+
 </head>
 
 <body>
@@ -85,7 +81,7 @@ try {
     <main>
         <div class="form-container">
             <h1>Criar Nova Academia</h1>
-            <form action="../php/Criacao_dojo.php" method="post" enctype="multipart/form-data" class="dojo-form">
+            <form id="dojoForm" action="../php/Criacao_dojo.php" method="post" enctype="multipart/form-data" class="dojo-form">
                 <div class="form-group">
                     <label for="dojoName">Nome da Academia:</label>
                     <input type="text" id="dojoName" name="dojoName" minlength="2" maxlength="100" required>
@@ -353,7 +349,7 @@ try {
                                             <?php endforeach; ?>
                                         </select>
                                         <label>Inicio da aula</label><input type="time" id="aulaTime-sabado" name="aulaTime[]" data-required-on-active="true">
-                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-sabado" name="aulaTime[]" data-required-on-active="true">
+                                        <label>Fim da aula</label><input type="time" id="aulaTimefim-sabado" name="aulaTimefim[]" data-required-on-active="true">
                                           </fieldset>
                                 </div>
                               
@@ -386,6 +382,7 @@ try {
   if (!form) return;
 
   const dias = ["domingo","segunda","terca","quarta","quinta","sexta","sabado"];
+  const displayDias = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sabado"];
 
   // container oculto para inputs hidden
   let container = document.getElementById('aulas-salvas');
@@ -396,102 +393,112 @@ try {
     form.appendChild(container);
   }
 
-  dias.forEach(dia => {
-    const aula = document.getElementById(`Aula-${dia}`);
-    const fieldset = document.getElementById(`fieldset-${dia}`);
-    const btnActions = document.getElementById(`btn-actions-${dia}`);
-    const btnSalvar = btnActions ? btnActions.querySelector('.btn-salvar') : null;
-    const btnAdicionar = document.getElementById(`btn-salvar-${dia}`);
-    const lista = (aula && aula.parentElement.querySelector('.lista-resumos')) || null;
+    dias.forEach(dia => {
+        const aula = document.getElementById(`Aula-${dia}`);
+        const fieldset = document.getElementById(`fieldset-${dia}`);
+        const btnActions = document.getElementById(`btn-actions-${dia}`);
+        const btnSalvar = btnActions ? btnActions.querySelector('.btn-salvar') : null;
+        // CORREÇÃO: seletor do botão de adicionar estava errado (btn-salvar-...).
+        const btnAdicionar = document.getElementById(`btn-adicionar-${dia}`);
+        const lista = (aula && aula.parentElement.querySelector('.lista-resumos')) || null;
 
-    if (!aula || !fieldset || !btnSalvar || !btnAdicionar || !lista) return;
+        if (!aula || !fieldset || !btnSalvar || !btnAdicionar || !lista) return;
 
-    // estado inicial
-    btnActions.style.display = 'none';
-    fieldset.disabled = true;
+        // elemento .day (usado para controle de expansão visual)
+        const day = btnAdicionar.closest('.day');
 
-    // Adicionar -> abre o editor (determinístico)
-    btnAdicionar.addEventListener('click', () => {
-      btnAdicionar.style.display = 'none';
-      btnActions.style.display = 'block';
-      fieldset.disabled = false;
-      // ativa required nos inputs marcados
-      aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.setAttribute('required','required'));
-    });
-
-    // Salvar -> cria hidden inputs e adiciona resumo
-    btnSalvar.addEventListener('click', () => {
-      // lê valores
-      const nomeInput = aula.querySelector(`[id^="aulaNome"]`);
-      const tipoInput = aula.querySelector(`[id^="aulaTipo"]`);
-      const inicioInput = aula.querySelector(`[id^="aulaTime"]`);
-      const fimInput = aula.querySelector(`[id^="aulaTimefim"]`);
-
-      const nome = nomeInput ? nomeInput.value.trim() : '';
-      const tipo = tipoInput ? tipoInput.value : '';
-      const inicio = inicioInput ? inicioInput.value : '';
-      const fim = fimInput ? fimInput.value : '';
-
-      if (!nome || !tipo || !inicio || !fim) {
-        alert('Preencha todos os campos da aula antes de salvar.');
-        return;
-      }
-
-      // cria um id único para esse conjunto salvo
-      const savedId = 'saved-' + Date.now() + '-' + Math.floor(Math.random()*1000);
-
-      // criar hidden inputs
-      const hNome = document.createElement('input'); hNome.type='hidden'; hNome.name='aulaNome[]'; hNome.value=nome; hNome.dataset.savedId = savedId;
-      const hTipo = document.createElement('input'); hTipo.type='hidden'; hTipo.name='aulaTipo[]'; hTipo.value=tipo; hTipo.dataset.savedId = savedId;
-      const hInicio = document.createElement('input'); hInicio.type='hidden'; hInicio.name='aulaTime[]'; hInicio.value=inicio; hInicio.dataset.savedId = savedId;
-      const hFim = document.createElement('input'); hFim.type='hidden'; hFim.name='aulaTimefim[]'; hFim.value=fim; hFim.dataset.savedId = savedId;
-
-      container.appendChild(hNome); container.appendChild(hTipo); container.appendChild(hInicio); container.appendChild(hFim);
-
-      // adiciona item visual na lista com botão remover
-      const li = document.createElement('li');
-      li.className = 'resumo-item';
-      li.dataset.savedId = savedId;
-      li.textContent = `${nome} — ${inicio}–${fim} — ${tipoInput.options[tipoInput.selectedIndex].text}`;
-
-      const btnRemove = document.createElement('button');
-      btnRemove.type = 'button';
-      btnRemove.textContent = 'Remover';
-      btnRemove.style.marginLeft = '8px';
-      btnRemove.addEventListener('click', () => {
-        // remove hidden inputs correspondentes
-        container.querySelectorAll(`input[data-saved-id="${savedId}"]`).forEach(n => n.remove());
-        // Remove by dataset property (we used dataset.savedId above but HTML dataset attributes are kebab-case)
-        container.querySelectorAll('input').forEach(n => {
-          if (n.dataset.savedId === savedId) n.remove();
-        });
-        // remove li
-        li.remove();
-      });
-
-      li.appendChild(btnRemove);
-      lista.appendChild(li);
-
-      // limpa editor e fecha
-      aula.querySelectorAll('input, select').forEach(i => i.value = '');
-      aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.removeAttribute('required'));
-      fieldset.disabled = true;
-      btnActions.style.display = 'none';
-      btnAdicionar.style.display = 'inline-block';
-    });
-
-    // Excluir (cancelar edição atual) -> volta ao estado inicial e limpa inputs editor
-    const btnExcluir = btnActions.querySelector('.btn-excluir');
-    if (btnExcluir) {
-      btnExcluir.addEventListener('click', () => {
-        aula.querySelectorAll('input, select').forEach(i => i.value = '');
-        aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.removeAttribute('required'));
-        fieldset.disabled = true;
+        // estado inicial
         btnActions.style.display = 'none';
-        btnAdicionar.style.display = 'inline-block';
-      });
-    }
-  });
+        fieldset.disabled = true;
+
+        // Adicionar -> abre o editor
+            btnAdicionar.addEventListener('click', () => {
+                btnAdicionar.style.display = 'none';
+                // usar flex para manter layout quando aplicado
+                btnActions.style.display = 'flex';
+                fieldset.disabled = false;
+                // marca visualmente o dia como expandido (CSS usa .day.expandido)
+                if (day) day.classList.add('expandido');
+                // ativa required nos inputs marcados
+                aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.setAttribute('required','required'));
+            });
+
+        // Salvar -> cria hidden inputs e adiciona resumo
+        btnSalvar.addEventListener('click', () => {
+            // lê valores
+            const nomeInput = aula.querySelector(`[id^="aulaNome"]`);
+            const tipoInput = aula.querySelector(`[id^="aulaTipo"]`);
+            const inicioInput = aula.querySelector(`[id^="aulaTime"]`);
+            const fimInput = aula.querySelector(`[id^="aulaTimefim"]`);
+
+            const nome = nomeInput ? nomeInput.value.trim() : '';
+            const tipo = tipoInput ? tipoInput.value : '';
+            const inicio = inicioInput ? inicioInput.value : '';
+            const fim = fimInput ? fimInput.value : '';
+
+            if (!nome || !tipo || !inicio || !fim) {
+                alert('Preencha todos os campos da aula antes de salvar.');
+                return;
+            }
+
+            // cria um id único para esse conjunto salvo
+            const savedId = 'saved-' + Date.now() + '-' + Math.floor(Math.random()*1000);
+
+            // criar hidden inputs (usar setAttribute para garantir o atributo data-saved-id)
+            const hNome = document.createElement('input'); hNome.type='hidden'; hNome.name='aulaNome[]'; hNome.value=nome; hNome.setAttribute('data-saved-id', savedId);
+            const hTipo = document.createElement('input'); hTipo.type='hidden'; hTipo.name='aulaTipo[]'; hTipo.value=tipo; hTipo.setAttribute('data-saved-id', savedId);
+            const hInicio = document.createElement('input'); hInicio.type='hidden'; hInicio.name='aulaTime[]'; hInicio.value=inicio; hInicio.setAttribute('data-saved-id', savedId);
+            const hFim = document.createElement('input'); hFim.type='hidden'; hFim.name='aulaTimefim[]'; hFim.value=fim; hFim.setAttribute('data-saved-id', savedId);
+
+            // dia (id) e nome do dia (para dt_hora_aula caso queira armazenar o nome)
+            const dayIndex = dias.indexOf(dia) + 1; // 1..7
+            const hDia = document.createElement('input'); hDia.type='hidden'; hDia.name='aulaDia[]'; hDia.value=dayIndex; hDia.setAttribute('data-saved-id', savedId);
+            const hDt = document.createElement('input'); hDt.type='hidden'; hDt.name='aulaDate[]'; hDt.value=displayDias[dias.indexOf(dia)]; hDt.setAttribute('data-saved-id', savedId);
+
+            container.appendChild(hNome); container.appendChild(hTipo); container.appendChild(hInicio); container.appendChild(hFim); container.appendChild(hDia); container.appendChild(hDt);
+
+            // adiciona item visual na lista com botão remover
+            const li = document.createElement('li');
+            li.className = 'resumo-item';
+            li.setAttribute('data-saved-id', savedId);
+            li.textContent = `${nome} — ${inicio}–${fim} — ${tipoInput.options[tipoInput.selectedIndex].text}`;
+
+            const btnRemove = document.createElement('button');
+            btnRemove.type = 'button';
+            btnRemove.textContent = 'Remover';
+            btnRemove.style.marginLeft = '8px';
+            btnRemove.addEventListener('click', () => {
+                // remove hidden inputs correspondentes (seleção pelo atributo data-saved-id)
+                container.querySelectorAll(`input[data-saved-id="${savedId}"]`).forEach(n => n.remove());
+                // remove li
+                li.remove();
+            });
+
+            li.appendChild(btnRemove);
+            lista.appendChild(li);
+
+                    // limpa editor e fecha
+            aula.querySelectorAll('input, select').forEach(i => i.value = '');
+            aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.removeAttribute('required'));
+            fieldset.disabled = true;
+            btnActions.style.display = 'none';
+            btnAdicionar.style.display = 'inline-block';
+                    if (day) day.classList.remove('expandido');
+        });
+
+        // Excluir (cancelar edição atual) -> volta ao estado inicial e limpa inputs editor
+        const btnExcluir = btnActions.querySelector('.btn-excluir');
+        if (btnExcluir) {
+            btnExcluir.addEventListener('click', () => {
+            aula.querySelectorAll('input, select').forEach(i => i.value = '');
+            aula.querySelectorAll('[data-required-on-active="true"]').forEach(i => i.removeAttribute('required'));
+            fieldset.disabled = true;
+            btnActions.style.display = 'none';
+            btnAdicionar.style.display = 'inline-block';
+            if (day) day.classList.remove('expandido');
+            });
+        }
+    });
 
   // Antes do submit: garantir que não existam fieldsets disabled que bloqueiem inputs já salvos.
   form.addEventListener('submit', () => {
@@ -503,72 +510,16 @@ try {
   });
 });
 
-  // Mostrar/esconder a agenda
-  document.getElementById("btn-agenda").addEventListener("click", function() {
-    const agenda = document.querySelector(".Agenda");
-    agenda.style.display = getComputedStyle(agenda).display === "none" ? "flex" : "none";
-  });
+    // Mostrar/esconder a agenda
+    document.getElementById("btn-agenda").addEventListener("click", function() {
+        const agenda = document.querySelector(".Agenda");
+        agenda.style.display = getComputedStyle(agenda).display === "none" ? "flex" : "none";
+    });
 
-  const dias = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
-
-  dias.forEach(dia => {
-    const btnAdicionar = document.getElementById(`btn-adicionar-${dia}`);
-    const btnActions = document.getElementById(`btn-actions-${dia}`);
-    const aula = document.getElementById(`Aula-${dia}`);
-    const fieldset = document.getElementById(`fieldset-${dia}`);
-    const day = btnAdicionar?.closest('.day');
-
-    if (btnAdicionar && btnActions && aula && fieldset && day) {
-
-      const resumoLista = day.querySelector('.lista-resumos'); // 👈 adicionamos aqui
-
-      // ➕ ADICIONAR AULA
-      btnAdicionar.addEventListener('click', () => {
-        btnAdicionar.style.display = 'none';
-        btnActions.style.display = 'flex';
-        day.classList.add('expandido');
-        fieldset.disabled = false;
-      });
-
-      // ❌ EXCLUIR
-      const btnExcluir = btnActions.querySelector('.btn-excluir');
-      btnExcluir.addEventListener('click', () => {
-        aula.querySelectorAll('input, select').forEach(i => i.value = '');
-        day.classList.remove('expandido');
-        btnActions.style.display = 'none';
-        btnAdicionar.style.display = 'inline-block';
-        fieldset.disabled = true;
-
-        // 👇 também limpa os resumos
-        if (resumoLista) resumoLista.innerHTML = '';
-      });
-
-      // 💾 SALVAR
-      const btnSalvar = btnActions.querySelector('.btn-salvar');
-      btnSalvar.addEventListener('click', () => {
-        const nome = day.querySelector('input[name="aulaNome[]"]').value;
-        const modalidade = day.querySelector('select[name="aulaTipo[]"] option:checked').text;
-        const inicio = day.querySelector('input[name="aulaTime[]"]').value;
-        const fim = day.querySelector('input[name="aulaTimefim[]"]').value;
-
-        // Se todos os campos estiverem preenchidos → cria resumo
-        if (nome && modalidade && inicio && fim) {
-          const li = document.createElement('li');
-          li.textContent = `${nome} - ${modalidade} (${inicio} às ${fim})`;
-          resumoLista.appendChild(li);
-        }
-
-        // Fecha o campo mas mantém os dados salvos
-        day.classList.remove('expandido');
-        btnActions.style.display = 'none';
-        btnAdicionar.style.display = 'inline-block';
-        fieldset.disabled = false;
-
-        // Limpa os inputs (para adicionar nova aula)
-        aula.querySelectorAll('input, select').forEach(el => el.value = "");
-      });
-    }
-  });
+    // Observação: o bloco original que também adicionava resumos foi removido
+    // porque duplicava handlers e não criava os inputs ocultos necessários
+    // para o envio ao servidor. A lógica de salvar (criação de inputs
+    // hidden) está implementada dentro do DOMContentLoaded acima.
 
         // CEP restringindo oa forma com que ele será escrito 
         document.getElementById('dojoCEP').addEventListener('input', function(e) {
@@ -694,11 +645,15 @@ try {
 
 
 
-        // Form handling and validation
-        document.getElementById('dojoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            createDojo();
-        });
+        // Form handling: não previne o envio para o servidor — permitir submit normal
+        const dojoFormEl = document.getElementById('dojoForm');
+        if (dojoFormEl) {
+            dojoFormEl.addEventListener('submit', function(e) {
+                // Garantir que os hidden inputs (em #aulas-salvas) estejam presentes.
+                // Não chamamos e.preventDefault() aqui para permitir que o formulário
+                // seja enviado normalmente para ../php/Criacao_dojo.php
+            });
+        }
 
         function createDojo() {
             const formData = new FormData(document.getElementById('dojoForm'));

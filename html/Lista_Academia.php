@@ -1,14 +1,9 @@
 <?php
-$host = 'localhost'; 
-$dbname = 'matchfight'; 
-$username = 'root'; 
-$password = 'root'; 
+require_once __DIR__ . '/../php/db_connect.php';
 
 $academias = [];
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Consulta para buscar academias e a primeira imagem de cada uma
     $sql = "SELECT p.*, i.url_imagem 

@@ -1,8 +1,5 @@
 <?php
-$host = 'localhost'; 
-$dbname = 'matchfight'; 
-$username = 'root'; 
-$password = 'root'; 
+require_once __DIR__ . '/../php/db_connect.php';
 
 $erroSenha = '';
 if (isset($_GET['erro'])) {
@@ -15,10 +12,6 @@ if (isset($_GET['erroemail'])) {
 
 
 try {
-    // Alterado a porta de 3306 para 3307
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     $sql = "SELECT id_genero, nm_genero FROM tb_genero";
     $result = $pdo->query($sql);
 

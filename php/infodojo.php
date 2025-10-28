@@ -13,16 +13,10 @@ $id_academia = $_GET['id'];
 $academia = null; // Inicializa a variável
 $imagens = []; // Inicializa o array de imagens
 
-// 2. Configurações do banco de dados
-$host = 'localhost'; 
-$dbname = 'matchfight'; 
-$username = 'root'; 
-$password = 'root'; 
+// 2. Conexão com o banco de dados
+require_once __DIR__ . '/db_connect.php';
 
 try {
-    // 3. Conecta ao banco de dados
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // 4. Prepara e executa a consulta para buscar a academia específica
     $stmt = $pdo->prepare("SELECT * FROM tb_perfil_academia WHERE id_perfil_academia = ?");
