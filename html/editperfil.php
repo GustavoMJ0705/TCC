@@ -104,9 +104,7 @@ if ($id_usuario && $tipo) {
            
              
           
-            <div class="search-bar">
-                <input type="text" placeholder="Pesquisar academias...">
-            </div>
+           
             <div class="Perfil">
                  <?php if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
                    
@@ -162,13 +160,49 @@ if ($id_usuario && $tipo) {
             
 <div class="btn-group">
                 
-                <button type="button" class="btn-save" onclick="validarESalvar()" name="salvar" style= "align-items: center; background: #ff7728; color: #fff">Salvar Alterações</button>
-                <button type="button" class="btn-trocarsenha" style="background: #ff2828ff; color: #fff; " > Alterar a senha?</button>
+                <button type="submit" class="btn-save" name="salvar">Salvar Alterações</button>
+                <button type="button" class="btn-trocarsenha"> Alterar a senha?</button>
             </div>
         </form>
 
-       
+        <!-- Modal de alteração de senha -->
+        <div id="senhaModal" class="modal">
+            <div class="modal-content">
+                <h3>Alteração de senha</h3>
+                <p class="senha-info">.</p>
+                
+                <form id="alterarSenhaForm" method="post" action="../php/altsenha.php"> <!-- envia para altsenha.php para processar a alteração -->
+                    <div class="form-group">
+                        <label for="senhaAtual">Digite a senha atual</label>
+                        <div class="password-input">
+                            <input type="password" id="senhaAtual" name="senhaAtual" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('senhaAtual')">&nbsp;&#128065;</span>
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="novaSenha">Nova senha</label>
+                        <div class="password-input">
+                            <input type="password" id="novaSenha" name="novaSenha" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('novaSenha')">&nbsp;&#128065;</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmarSenha">Confirme a senha</label>
+                        <div class="password-input">
+                            <input type="password" id="confirmarSenha" name="confirmarSenha" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('confirmarSenha')">&nbsp;&#128065;</span>
+                        </div>
+                    </div>
+
+                    <div class="modal-buttons">
+                        <button type="submit" class="btn-confirmar">Confirmar</button>
+                        <button type="button" class="btn-limpar" onclick="limparFormulario()">Limpar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
 <script>
 function AtualizarUsuario() {
@@ -207,6 +241,29 @@ document.getElementById('inputFoto').addEventListener('change', function(event) 
                 }
     e.target.value = value;
 });
+
+// Modal de senha
+const modal = document.getElementById('senhaModal');
+const btnTrocarSenha = document.querySelector('.btn-trocarsenha');
+
+btnTrocarSenha.onclick = function() {
+    modal.style.display = "block";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function limparFormulario() {
+    document.getElementById('alterarSenhaForm').reset();
+}
 
 </script>
 

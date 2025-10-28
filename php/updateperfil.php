@@ -48,8 +48,8 @@ try {
         }
 
         // Verifica se o usuário quer alterar a senha
-        $novaSenha = $_POST['nova_senha'] ?? '';
-        $confirmaNova = $_POST['confirma_nova_senha'] ?? '';
+        $novaSenha = $_POST['novaSenha'] ?? '';
+        $confirmaNova = $_POST['confirmarSenha'] ?? '';
         if (!empty($novaSenha) || !empty($confirmaNova)) {
             // checa se os dois campos foram preenchidos
             if (empty($novaSenha) || empty($confirmaNova)) {
@@ -76,7 +76,7 @@ try {
             }
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
-            header("Location: logout.php");
+            header("Location: ../html/home.php");
             exit;
         } else {
             echo "Nenhum campo para atualizar.";
@@ -87,4 +87,7 @@ try {
 } catch (PDOException $e) {
     echo "Erro: " . $e->getMessage();
 }
+
+
+
 ?>
