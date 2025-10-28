@@ -91,14 +91,22 @@
             </div>
 
         </div>
-  <!--Descrição da academia-->
-            <div class="containerDescricao">
-                <div class="DescriçãoDojo">
-                    <h3>Descrição</h3>
-                    <!-- Descrição dinâmica -->
-                    <p>
-                        <?php echo nl2br(htmlspecialchars($academia['ds_descricao'])); ?>
-                    </p>
+  <!--Descrição da academia com botão ao lado-->
+            <div class="descricao-e-matricula">
+                <div class="containerDescricao">
+                    <div class="DescriçãoDojo">
+                        <h3>Descrição</h3>
+                        <!-- Descrição dinâmica -->
+                        <p>
+                            <?php echo nl2br(htmlspecialchars($academia['ds_descricao'])); ?>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="btn-matricula">
+                    <a href="matricula.php?id=<?php echo urlencode($id_academia); ?>" title="Matricular-se">
+                        <button class="matricule-btn" aria-label="Matricule-se">Matricule-se</button>
+                    </a>
                 </div>
             </div>
         <!--Cards de informações-->
