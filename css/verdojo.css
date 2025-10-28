@@ -49,10 +49,15 @@ main{
 
 .Container-Carrossel .main-image {
     width: 100%;
-    max-width: 500px; /* Limita a largura da imagem principal */
+    min-width: 37.5rem;
+    max-width: 37.5rem;
+    max-height: 27rem;
+    min-height: 27rem;
+    height: auto;
     border-radius: 10px;
-    margin-top: 2vh;
+    object-fit: cover;
 }
+
 
 /*Carrossel! oi misu*/
 .carrossel{

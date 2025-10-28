@@ -54,7 +54,7 @@ header h1{
 }
 
 /*Estilização do botão do card*/
-button{
+.buttonDojo{
     margin-top: 15px;
     margin-bottom: 5%;
     background-color: #ff7728;
@@ -66,37 +66,12 @@ button{
     cursor: pointer;
 }
 
-/* Remove o sublinhado e define a cor do link dentro do botão */
-.card button a {
+.card a{
     text-decoration: none;
-    color: white;
+    color: #fff;
 }
 
-.lbottom {
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 16px;
-    border: 1px solid #ffffff;
-    padding: 5px 10px;
-    list-style: none;
-    transition: 0.3s;
+.buttonDojo:hover{
+    background-color: #eb7633;
 }
 
-.Perfil a:hover {
-    background-color: white;
-    color: black;
-}
-
-.Perfil {
-    margin: 20px 20px 20px 20px;
-    display: flex;
-    align-items: center;
-
-}
-
-.profile-icon {
-    width: 62px;
-    height: 62px;
-    object-fit: cover;
-}
