@@ -83,7 +83,7 @@ button{
     transition: 0.3s;
 }
 
-.Perfil a:hover {
+.cadastrar a:hover {
     background-color: white;
     color: black;
 }
@@ -99,4 +99,10 @@ button{
     width: 62px;
     height: 62px;
     object-fit: cover;
+}
+
+.cadastrar {
+ margin: 20px 20px 20px 20px;
+    display: flex;
+    align-items: center;
 }

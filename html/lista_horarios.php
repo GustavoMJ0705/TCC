@@ -9,11 +9,13 @@ if ($id <= 0) {
 }
 
 try {
+    // Select dia id as well so we can reliably order/group by numeric day
     $sql = "SELECT
         a.id_aulas,
         a.nm_aulas AS nome_aula,
         a.hr_inicio_aula AS horario_inicio,
         a.hr_fim_aula AS horario_fim,
+        d.id_dia AS dia_id,
         d.nm_dia AS dia_semana
     FROM
         tb_academia_aulas aa
@@ -24,7 +26,7 @@ try {
     WHERE
         aa.id_perfil_academia = ?
     ORDER BY
-        FIELD(d.nm_dia, 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'), a.hr_inicio_aula";
+        d.id_dia, a.hr_inicio_aula";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
@@ -34,17 +36,21 @@ try {
     die("Erro ao conectar ao banco de dados: " . $e->getMessage());
 }
 
-// Order of days to render
-$daysOrder = ['Domingo', 'Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+// Map day id -> display name (assumes tb_dia ids: 1=Domingo, 2=Segunda ... 7=Sábado)
+$dayNamesById = [1=>'Domingo',2=>'Segunda',3=>'Terça',4=>'Quarta',5=>'Quinta',6=>'Sexta',7=>'Sábado'];
 
-// Group by day
+// Order of days to render (by id)
+$daysOrder = array_values($dayNamesById);
+
+// Group by normalized day name (use dia_id to avoid inconsistent text in DB)
 $grouped = [];
 foreach ($aulas_academia as $row) {
-    $day = $row['dia_semana'] ?? 'Outros';
-    if (!isset($grouped[$day])) {
-        $grouped[$day] = [];
+    $diaId = isset($row['dia_id']) ? intval($row['dia_id']) : 0;
+    $dayName = $dayNamesById[$diaId] ?? ($row['dia_semana'] ?? 'Outros');
+    if (!isset($grouped[$dayName])) {
+        $grouped[$dayName] = [];
     }
-    $grouped[$day][] = $row;
+    $grouped[$dayName][] = $row;
 }
 
 function exibirHorariosPorDia($grouped, $daysOrder)
@@ -79,15 +85,17 @@ function exibirHorariosPorDia($grouped, $daysOrder)
                 $inicio = isset($item['horario_inicio']) ? substr($item['horario_inicio'], 0, 5) : '00:00';
                 $fim = isset($item['horario_fim']) ? substr($item['horario_fim'], 0, 5) : '00:00';
                 $nome = isset($item['nome_aula']) ? htmlspecialchars($item['nome_aula']) : '';
-                echo '            <div class="horario-item">' . $inicio . ' - ' . $fim . ' <span class="nome-aula">' . $nome . '</span></div>';
+                // Show class name above the time
+                echo '            <div class="horario-item">';
+                echo '                <div class="nome-aula">' . $nome . '</div>';
+                echo '                <div class="horario-time">' . $inicio . ' - ' . $fim . '</div>';
+                echo '            </div>';
             }
         } else {
             // For Sunday it might be closed, show Fechado; otherwise show placeholder
-            if ($dayName === 'Domingo') {
-                echo '            <div class="horario-item">Fechado</div>';
-            } else {
+           
                 echo '            <div class="horario-item">-</div>';
-            }
+            
         }
 
         echo '        </div>';

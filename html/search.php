@@ -1,40 +1,20 @@
+
 <?php
-session_start();
+session_start();?>
 
-
-// Dados de exemplo para visualização
-$matriculas = [
-    [
-        'nm_aluno' => 'João Silva',
-        'ds_email' => 'joao@email.com',
-        'nr_telefone' => '(11) 99999-9999',
-        'nm_academia' => 'Academia Power Fight',
-        'ds_cidade' => 'São Paulo',
-        'ds_estado' => 'SP',
-        'dt_matricula' => '2025-10-23'
-    ],
-    [
-        'nm_aluno' => 'Maria Santos',
-        'ds_email' => 'maria@email.com',
-        'nr_telefone' => '(11) 88888-8888',
-        'nm_academia' => 'Academia Dragon',
-        'ds_cidade' => 'São Paulo',
-        'ds_estado' => 'SP',
-        'dt_matricula' => '2025-10-22'
-    ]
-];
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizar Matrículas - MatchFight</title>
+    <title>MatchFight - Academias</title>
+    <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="../css/matricula.css">
+    <script src="../js/nav.js"></script>
 </head>
 <body>
-   <header>
+
+      <header>
      <nav class="navbar">
         <div class="menu-search">
             <div class="menu-icon" onclick="toggleSidebar()">
@@ -78,8 +58,8 @@ $matriculas = [
         
         <aside class="sidebar" id="sidebar">
             <span class="close-btn" onclick="toggleSidebar()">&times;</span>
-            <ul>                
-                <li><a href="home.php">Home</a></li>      
+            <ul>                  
+                <li><a href="home.php">Home</a></li>    
                 <li><a href="suporte_tecnico.php">Suporte técnico</a></li>
                 <li><a href="seja_parceiro.php">Seja um parceiro</a></li>
                 <li><a href="#">Calendário de aulas</a></li>
@@ -92,14 +72,5 @@ $matriculas = [
         </aside>
     </header>
 
-    <!-- Títulos de seção com classes para posicionamento -->
-    <section class="page-headings">
-        <h3 class="alunos-cadastrados">Alunos Cadastrados</h3>
-
-        <div class="pedidos">
-            <h4 class="pedidos-pendentes">Pedidos Pendentes:</h4>
-        </div>
-    </section>
-    <script src="../js/nav.js"></script>
 </body>
 </html>

@@ -1,5 +1,14 @@
 <?php
+session_start();
 require_once __DIR__ . '/db_connect.php';
+
+// Ensure the academy account id is available in session
+$id_academia_account = isset($_SESSION['academia_id']) ? intval($_SESSION['academia_id']) : null;
+if (empty($id_academia_account)) {
+    // If there's no logged-in academy account, stop the creation (foreign key requires it)
+    header("Location: ../html/criardojo.php?erro=É necessário estar logado como conta de academia para criar um perfil");
+    exit();
+}
 
 try {
     // Recebe os dados do formulário
@@ -125,10 +134,11 @@ try {
 
 
     // Agora inserir o perfil da academia (não existe mais coluna id_aulas na tabela)
+    // Insert perfil_academia and associate it with the logged-in academy account (id_academia)
     $stmt = $pdo->prepare("INSERT INTO tb_perfil_academia
-            (nm_academia, vl_mensalidade, nr_cep, ds_rua, nr_numero_endereco, ds_bairro, ds_cidade, ds_estado, ds_descricao, id_modalidade, latitude, longitude, nr_telefone, ds_email)
+            (nm_academia, vl_mensalidade, nr_cep, ds_rua, nr_numero_endereco, ds_bairro, ds_cidade, ds_estado, ds_descricao, id_modalidade, latitude, longitude, nr_telefone, ds_email, id_academia)
             VALUES
-            (:nome, :vl, :cep, :rua, :numero, :bairro, :cidade, :estado, :descricao, :id_modalidade, :lat, :lng, :telefone, :email)");
+            (:nome, :vl, :cep, :rua, :numero, :bairro, :cidade, :estado, :descricao, :id_modalidade, :lat, :lng, :telefone, :email, :id_academia)");
 
     $stmt->execute([
         ':nome' => $nome,
@@ -144,7 +154,8 @@ try {
         ':lat' => null,
         ':lng' => null,
         ':telefone' => $telefone,
-        ':email' => $email
+        ':email' => $email,
+        ':id_academia' => $id_academia_account
     ]);
 
     $id_perfil_academia = $pdo->lastInsertId();

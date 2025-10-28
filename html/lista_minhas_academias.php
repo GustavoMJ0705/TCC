@@ -1,29 +1,35 @@
 <?php
 require_once __DIR__ . '/../php/db_connect.php';
 
-function getTodasAcademias() {
+function getMinhasAcademias($idAcademia) {
     global $pdo;
     
+    if (empty($idAcademia)) {
+        return [];
+    }
+
     try {
-        $sql = "SELECT p.*, i.url_imagem 
+        $sql = "SELECT p.*, i.url_imagem
                 FROM tb_perfil_academia p
                 LEFT JOIN (
-                    SELECT id_perfil_academia, MIN(url_imagem) as url_imagem 
-                    FROM tb_perfil_academia_imagem 
+                    SELECT id_perfil_academia, MIN(url_imagem) AS url_imagem
+                    FROM tb_perfil_academia_imagem
                     GROUP BY id_perfil_academia
                 ) i ON p.id_perfil_academia = i.id_perfil_academia
+                WHERE p.id_academia = ?
                 ORDER BY p.nm_academia";
-                
-        $stmt = $pdo->query($sql);
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$idAcademia]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     } catch (PDOException $e) {
-        error_log("Erro ao buscar academias: " . $e->getMessage());
+        error_log("Erro ao buscar minhas academias: " . $e->getMessage());
         return [];
     }
 }
 
-function exibirAcademias($academias) {
+function minhasAcademias($academias) {
     if (empty($academias)) {
         echo "<p>Nenhuma academia encontrada.</p>";
         return;

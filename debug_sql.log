@@ -22,3 +22,11 @@
 
 2025-10-28T18:22:49+01:00 - PARAMS: {":nm":"dasdas",":ds":null,":dur":null,":hin":"21:22",":hfn":"22:22",":prof":null,":id_dia":4,":dt":"Quarta-feira"}
 
+2025-10-28T20:21:10+01:00 - PARAMS: {":nm":"dsdsa",":ds":null,":dur":null,":hin":"21:33",":hfn":"22:33",":prof":null,":id_dia":3,":dt":"Ter\u00e7a-feira"}
+
+2025-10-28T20:27:44+01:00 - PARAMS: {":nm":"teste1",":ds":null,":dur":null,":hin":"23:23",":hfn":"23:55",":prof":null,":id_dia":1,":dt":"Domingo"}
+
+2025-10-28T20:27:44+01:00 - PARAMS: {":nm":"teste2",":ds":null,":dur":null,":hin":"21:23",":hfn":"21:55",":prof":null,":id_dia":2,":dt":"Segunda-feira"}
+
+2025-10-28T20:27:44+01:00 - PARAMS: {":nm":"teste3",":ds":null,":dur":null,":hin":"21:23",":hfn":"22:23",":prof":null,":id_dia":3,":dt":"Ter\u00e7a-feira"}
+

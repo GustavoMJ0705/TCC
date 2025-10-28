@@ -21,7 +21,7 @@ if (isset($_GET['erro'])) {
 <body>
     <div class="logo">
         <a href="../html/contas.html">
-        <img src="../img/match_ofc2.0.png" width="600px"  alt="LogoMatch">
+        <img src="../img/match_ofc2.0.png" width="300rem"  alt="LogoMatch">
         </a>
     </div>
      <form action="../php/logaluno.php" method="POST">

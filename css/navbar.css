@@ -8,13 +8,12 @@
   justify-content: space-between;
   align-items: center;
   position: sticky;
-  width: 100vga;
+  width: auto;
 }
 
-
-nav a:hover {
-    background-color: white;
-    color: black;
+.menu-search {
+  display: flex;
+  align-items: center;
 }
 
 /* Estilização do ícone do menu*/
@@ -31,34 +30,86 @@ nav a:hover {
   transition: 0.4s;
 }
 
-/* Estilização da barra de pesquisa */
-.search-bar {
-  flex-grow: 1;
-  margin-left: 1rem;
- 
+/* Estilização do botão pesquisa academia*/
+
+/* Container da lupa com botão */
+.search{
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
 }
 
-.search-bar input {
-  width: 80%;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-left: 20px; 
+.navbar a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Botão de pesquisa com lupa */
+.hover-button {
+  background-color: #ff7728;
   border: none;
-  border-radius: 15px;
-  background-color: #333;
+  padding: 10px 20px;
   color: #fff;
+  font-weight: bold;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: width 0.4s ease, padding 0.4s ease;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 45px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-
-
-.search-bar input::placeholder {
-  color: #ccc;
+/* Ícone da lupa */
+.hover-button .icon-lupa {
+  width: 25px;
+  height: 25px;
+  transition: margin-right 0.3s ease;
 }
 
+/* Texto escondido inicialmente */
+.hover-button .search-text {
+  opacity: 0;
+  margin-left: 10px;
+  transition: opacity 0.4s ease;
+}
+
+/* Quando passar o mouse */
+.search:hover .hover-button {
+  width: 180px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.search:hover .search-text {
+  opacity: 1;
+}
+
+/*.test{
+  background-color: #06b6d1;
+  height: 100rem;
+}*/
+
+
+/* logo do Match Fight: colocado como item flex, não absoluto */
 .navbar .logo {
-    position: sticky;
-    z-index: 100;
-    margin-top: 20px;
+  position: relative;
+  z-index: 100;
+  margin: 0 1rem;
+  margin-left: auto; /* empurra a logo para a direita, ficando próxima ao Perfil */
+  display: flex;
+  align-items: center;
+}
+
+.navbar .logo img {
+  width: 150px; /* tamanho base da logo */
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Estilização da Sidebar */
@@ -109,6 +160,8 @@ nav a:hover {
   width: 250px;
 }
 
+
+/*Botão cadastrar e criar academia*/
 .lbottom {
     text-decoration: none;
     color: #ffffff;
@@ -120,20 +173,82 @@ nav a:hover {
     transition: 0.3s;
 }
 
-.Perfil a:hover {
+.cadastrar a:hover {
     background-color: white;
     color: black;
 }
 
-.Perfil {
-    margin: 20px 20px 20px 20px;
+.Perfil:hover {
+  scale: calc(1.2);
+  transition: 0.8;
+}
+
+
+/*Ícone meu perfil para aluno e professor*/
+.lbottom_AlunoProf {
+    text-decoration: none;
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 5px 10px;
+    list-style: none;
+}
+
+.Perfil img{
+  width: 3rem;
+  
+}
+.cadastrar {
+ margin: 20px 20px 20px 20px;
     display: flex;
     align-items: center;
+}
 
+.Perfil {
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  transition: 0.8s;
 }
 
 .profile-icon {
     width: 62px;
     height: 62px;
     object-fit: cover;
+}
+
+/* -------------------- Responsividade -------------------- */
+/* Ajustes para notebooks / telas médias */
+@media (max-width: 1024px) {
+  .navbar .logo img { width: 120px; }
+  .hover-button { width: 40px; }
+  .search { margin-left: 1rem; }
+  .Perfil { margin-right: 0.8rem; }
+}
+
+/* Ajustes para celular */
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0.4rem 0.6rem;
+    height: auto;
+    flex-wrap: nowrap;
+  }
+
+  /* reduzir a logo e manter proporcional */
+  .navbar .logo img { width: 100px; }
+
+  /* esconder o texto da busca (fica só o ícone) para economizar espaço */
+  .hover-button { width: 45px; padding-left: 8px; padding-right: 8px; }
+  .hover-button .search-text { display: none; }
+
+  /* reduzir margens do Perfil */
+  .Perfil { margin: 0 0.4rem; }
+
+  /* permitir que o menu-hambúrguer fique bem visível */
+  .menu-icon { padding: 0.3rem; }
+}
+
+/* Toque/hover: manter transições apenas quando dispositivo suporta hover */
+@media (hover: none) {
+  .search:hover .hover-button { width: 45px; }
+  .search:hover .search-text { opacity: 0; }
 }
