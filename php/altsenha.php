@@ -1,10 +1,7 @@
 <?php
 session_start();
 
-$host = 'localhost';
-$dbname = 'matchfight';
-$username = 'root';
-$password = 'root';
+require_once __DIR__ . '/db_connect.php';
 
 // Recebe dados do formulário
 $senhaAtual = $_POST['senhaAtual'] ?? '';
@@ -33,8 +30,7 @@ if ($novaSenha !== $confirmarSenha) {
 
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+   
 
     if ($tipo === 'aluno') {
         $stmt = $pdo->prepare('SELECT nm_senha_hash FROM tb_aluno WHERE id_aluno = :id');

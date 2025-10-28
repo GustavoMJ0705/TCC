@@ -2,25 +2,6 @@
 require_once __DIR__ . '/db_connect.php';
 
 try {
-
-    // DEBUG: log versão do servidor e definição de tb_aulas conforme visto pela conexão PDO
-    try {
-        $serverInfo = $pdo->getAttribute(PDO::ATTR_SERVER_INFO) ?: '';
-        file_put_contents(__DIR__ . '/../debug_sql.log', date('c') . " - PDO server info: " . $serverInfo . PHP_EOL, FILE_APPEND);
-        $row = $pdo->query("SHOW CREATE TABLE tb_aulas")->fetch(PDO::FETCH_ASSOC);
-        if ($row && isset($row['Create Table'])) {
-            file_put_contents(__DIR__ . '/../debug_sql.log', date('c') . " - SHOW CREATE TABLE tb_aulas:\n" . $row['Create Table'] . PHP_EOL . PHP_EOL, FILE_APPEND);
-        } else {
-            // some MySQL versions return numeric keys
-            $row2 = $pdo->query("SHOW CREATE TABLE tb_aulas")->fetch(PDO::FETCH_NUM);
-            if ($row2 && isset($row2[1])) {
-                file_put_contents(__DIR__ . '/../debug_sql.log', date('c') . " - SHOW CREATE TABLE tb_aulas (alt):\n" . $row2[1] . PHP_EOL . PHP_EOL, FILE_APPEND);
-            }
-        }
-    } catch (Exception $e) {
-        file_put_contents(__DIR__ . '/../debug_sql.log', date('c') . " - SHOW CREATE TABLE error: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
-    }
-
     // Recebe os dados do formulário
     $nome = $_POST['dojoName'];
     $descricao = $_POST['dojoDescription'];
@@ -33,17 +14,13 @@ try {
     $telefone = $_POST['dojoPhone'];
     $email = $_POST['dojoEmail'];
 
-   
-
-
-
     // Validação de email existente
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM tb_perfil_academia WHERE ds_email = :email");
     $stmt->execute([':email' => $email]);
     $existe = $stmt->fetchColumn();
 
     if ($existe > 0) {
-         header("Location: ../html/criardojo.php?erroemail=E-mail já cadastrado!");
+        header("Location: ../html/criardojo.php?erroemail=E-mail já cadastrado!");
         exit();
     }
 
@@ -62,17 +39,11 @@ try {
     $insertedAulaIds = []; // coletar IDs inseridos para popular tb_academia_aulas
     if (!empty($aulaNomes)) {
         $countA = count($aulaNomes);
-    // detectar nome da coluna de dia (algumas versões usam id_dia, outras id_dia_semana)
-    $diaColumn = 'id_dia';
-    $colStmtDia = $pdo->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = :db AND TABLE_NAME = 'tb_aulas' AND COLUMN_NAME IN ('id_dia','id_dia_semana')");
-    $colStmtDia->execute([':db' => $dbname]);
-    $foundDiaCol = $colStmtDia->fetchColumn();
-    if ($foundDiaCol !== false && in_array($foundDiaCol, ['id_dia','id_dia_semana'])) {
-        $diaColumn = $foundDiaCol;
-    }
+        // usar diretamente a coluna padrão de dia do esquema atual
+        $diaColumn = 'id_dia';
 
-    // preparar insert de aula usando o nome de coluna de dia correto
-    $stmt_insert_aula = $pdo->prepare("INSERT INTO tb_aulas (nm_aulas, ds_aulas, duracao_em_min, hr_inicio_aula, hr_fim_aula, id_professor, {$diaColumn}, dt_hora_aula) VALUES (:nm, :ds, :dur, :hin, :hfn, :prof, :id_dia, :dt)");
+        // preparar insert de aula
+        $stmt_insert_aula = $pdo->prepare("INSERT INTO tb_aulas (nm_aulas, ds_aulas, duracao_em_min, hr_inicio_aula, hr_fim_aula, id_professor, {$diaColumn}, dt_hora_aula) VALUES (:nm, :ds, :dur, :hin, :hfn, :prof, :id_dia, :dt)");
         $stmt_aula_modalidade = $pdo->prepare("INSERT INTO aula_modalidade (id_aulas, id_modalidade) VALUES (:id_aula, :id_modalidade)");
 
         for ($i = 0; $i < $countA; $i++) {
@@ -93,11 +64,13 @@ try {
 
             // id_dia vindo do form (deve existir e ser 1..7)
             $idDia = intval($aulaDias[$i] ?? 0);
+
             // usar valor enviado para dt_hora_aula (nome do dia) ou NULL
             $dtHora = isset($aulaDates[$i]) ? $aulaDates[$i] : null;
 
             // Se id_dia não foi enviado ou é inválido, tentar mapear pelo nome do dia
             if ($idDia <= 0 && !empty($dtHora)) {
+
                 // Busca no banco por correspondência (case-insensitive). Primeiro por igualdade, depois por LIKE
                 $stmt_day = $pdo->prepare("SELECT id_dia FROM tb_dia WHERE LOWER(nm_dia) = LOWER(:nm) LIMIT 1");
                 $stmt_day->execute([':nm' => $dtHora]);
@@ -117,13 +90,7 @@ try {
                 continue;
             }
 
-            // debug: logar SQL e parâmetros antes do execute
-            try {
-                file_put_contents(__DIR__ . '/../debug_sql.log', date('c') . " - INSERT tb_aulas: " . $stmt_insert_aula->queryString . PHP_EOL, FILE_APPEND);
-            } catch (Exception $e) {
-                // ignore logging errors
-            }
-
+            
             $params_insert = [
                 ':nm' => $nomeAula,
                 ':ds' => null,
@@ -136,7 +103,8 @@ try {
             ];
             try {
                 file_put_contents(__DIR__ . '/../debug_sql.log', date('c') . ' - PARAMS: ' . json_encode($params_insert) . PHP_EOL . PHP_EOL, FILE_APPEND);
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
 
             $stmt_insert_aula->execute($params_insert);
 
@@ -154,7 +122,7 @@ try {
         }
     }
 
-    
+
 
     // Agora inserir o perfil da academia (não existe mais coluna id_aulas na tabela)
     $stmt = $pdo->prepare("INSERT INTO tb_perfil_academia
@@ -181,21 +149,21 @@ try {
 
     $id_perfil_academia = $pdo->lastInsertId();
 
-        // Verificar se obtivemos um id válido da academia criada
-        if (empty($id_perfil_academia) || !is_numeric($id_perfil_academia)) {
-            throw new Exception('Não foi possível obter o id da academia criada (id_perfil_academia vazio)');
-        }
+    // Verificar se obtivemos um id válido da academia criada
+    if (empty($id_perfil_academia) || !is_numeric($id_perfil_academia)) {
+        throw new Exception('Não foi possível obter o id da academia criada (id_perfil_academia vazio)');
+    }
 
-        // Se inserimos aulas antes de criar o perfil, vincular essas aulas à academia criada
-        if (!empty($insertedAulaIds)) {
-            $stmt_academia_aulas = $pdo->prepare("INSERT INTO tb_academia_aulas (id_perfil_academia, id_aulas) VALUES (:id_perfil, :id_aula)");
-            foreach ($insertedAulaIds as $ida) {
-                $stmt_academia_aulas->execute([
-                    ':id_perfil' => intval($id_perfil_academia),
-                    ':id_aula' => intval($ida)
-                ]);
-            }
+    // Se inserimos aulas antes de criar o perfil, vincular essas aulas à academia criada
+    if (!empty($insertedAulaIds)) {
+        $stmt_academia_aulas = $pdo->prepare("INSERT INTO tb_academia_aulas (id_perfil_academia, id_aulas) VALUES (:id_perfil, :id_aula)");
+        foreach ($insertedAulaIds as $ida) {
+            $stmt_academia_aulas->execute([
+                ':id_perfil' => intval($id_perfil_academia),
+                ':id_aula' => intval($ida)
+            ]);
         }
+    }
 
     // Processamento das imagens
     if (isset($_FILES['dojoImages'])) {
@@ -210,7 +178,7 @@ try {
             if ($_FILES['dojoImages']['error'][$key] === UPLOAD_ERR_OK) {
                 $fileName = uniqid() . '-' . basename($_FILES['dojoImages']['name'][$key]);
                 $targetFilePath = $uploadDir . $fileName;
-                
+
                 if (move_uploaded_file($tmp_name, $targetFilePath)) {
                     // Salva o caminho relativo no banco
                     $dbPath = '../uploads/' . $fileName;
@@ -219,14 +187,12 @@ try {
             }
         }
     }
-    
+
 
     $pdo->commit();
     header("Location: ../html/home.php");
     exit();
-
 } catch (PDOException $e) {
 
     echo "Erro: " . $e->getMessage();
 }
-?>
