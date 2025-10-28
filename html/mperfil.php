@@ -1,9 +1,6 @@
 <?php
 
-$host = 'localhost'; 
-$dbname = 'matchfight'; 
-$username = 'root'; 
-$password = 'root'; 
+require_once __DIR__ . '/../php/db_connect.php';
 
 session_start();
 header("Cache-Control: no-cache, no-store, must-revalidate");
@@ -25,8 +22,6 @@ if (!isset($_SESSION['aluno_id']) && !isset($_SESSION['professor_id'])) {
 }
 if ($id_usuario && $tipo) {
     try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         if ($tipo === 'aluno') {
             $stmt = $pdo->prepare("SELECT nm_aluno AS nome, nr_telefone AS telefone, ds_email AS email, nm_senha_hash AS senha FROM tb_aluno WHERE id_aluno = :id");
@@ -159,7 +154,7 @@ if ($id_usuario && $tipo) {
         </div>
         <form id="perfilForm" method="post" action="../php/updateperfil.php">
            <div class="info-group"> 
-            <label for="telefone" class="title">Nome de Usuário: </label>  
+            <label for="Nome" class="title">Nome de Usuário: </label>  
              <label class="info"><?php echo htmlspecialchars($dados['nome']); ?></label>
         </div>
         
@@ -171,7 +166,7 @@ if ($id_usuario && $tipo) {
       
            
            <div class="info-group"> 
-            <label for="telefone" class="title">Email: </label>  
+            <label for="email" class="title">Email: </label>  
              <label class="info"><?php echo htmlspecialchars($dados['email']); ?></label>
         </div>
       

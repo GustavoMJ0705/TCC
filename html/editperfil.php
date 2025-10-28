@@ -1,9 +1,6 @@
 <?php
 
-$host = 'localhost'; 
-$dbname = 'matchfight'; 
-$username = 'root'; 
-$password = 'root'; 
+require_once __DIR__ . '/../php/db_connect.php';
 
 session_start();
 header("Cache-Control: no-cache, no-store, must-revalidate");
@@ -25,8 +22,6 @@ if (!isset($_SESSION['aluno_id']) && !isset($_SESSION['professor_id'])) {
 }
 if ($id_usuario && $tipo) {
     try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         if ($tipo === 'aluno') {
             $stmt = $pdo->prepare("SELECT nm_aluno AS nome, nr_telefone AS telefone, ds_email AS email, nm_senha_hash AS senha FROM tb_aluno WHERE id_aluno = :id");
@@ -93,7 +88,7 @@ if ($id_usuario && $tipo) {
 <head>
     <meta charset="UTF-8">
     <title>Meu Perfil - Aluno</title>
-    <link rel="stylesheet" href="../css/mperfil.css">
+    <link rel="stylesheet" href="../css/editperfil.css">
     <link rel="stylesheet" href="../css/navbar.css">
     <script src="../js/nav.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -158,31 +153,64 @@ if ($id_usuario && $tipo) {
             <br>
             <input type="file" id="inputFoto" accept="image/*" style="margin-top:10px;" >
         </div>
-        <form id="perfilForm" method="post" action="../php/updateperfil.php">
+    <form id="perfilForm" method="post" action="../php/updateperfil.php">
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($dados['nome']); ?>" required>
 
             <label for="telefone">Telefone</label>
-            <input type="text" id="telefone" name="telefone" value="<?php echo htmlspecialchars($dados['telefone']); ?>" required>
+            <input type="text" id="telefone" name="telefone" readonly value="<?php echo htmlspecialchars($dados['telefone']); ?>" required>
 
             <label for="email">E-mail</label>
             <input type="email" id="email" name="email" readonly value="<?php echo htmlspecialchars($dados['email']); ?>" required>
 
-            <label for="senha_confirmacao">Confirme sua senha:</label>
-<input type="password" id="senha_confirmacao" name="senha_confirmacao" required>
-
-           <!-- <label for="senha">Senha</label>
-            <input type="password" id="senha" name="senha" value="" required> -->
-            <!-- Nunca exiba o hash da senha! -->
-            <!-- Peça para digitar nova senha se quiser alterar -->
+            <label for="senha_confirmacao">Digite sua senha:</label>
+<input type="password" id="senha_confirmacao" name="senha_confirmacao" placeholder="Insira sua senha para confirmar alterações" required>
+            
 <div class="btn-group">
                 
-                <button type="button" class="btn-apagar" onclick="AtualizarUsuario()" name="botaoDel" style= "align-items: center">Salvar Alterações</button>
+                <button type="submit" class="btn-save" name="salvar">Salvar Alterações</button>
+                <button type="button" class="btn-trocarsenha"> Alterar a senha?</button>
             </div>
         </form>
 
-       
+        <!-- Modal de alteração de senha -->
+        <div id="senhaModal" class="modal">
+            <div class="modal-content">
+                <h3>Alteração de senha</h3>
+                <p class="senha-info">.</p>
+                
+                <form id="alterarSenhaForm" method="post" action="../php/altsenha.php"> <!-- envia para altsenha.php para processar a alteração -->
+                    <div class="form-group">
+                        <label for="senhaAtual">Digite a senha atual</label>
+                        <div class="password-input">
+                            <input type="password" id="senhaAtual" name="senhaAtual" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('senhaAtual')">&nbsp;&#128065;</span>
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="novaSenha">Nova senha</label>
+                        <div class="password-input">
+                            <input type="password" id="novaSenha" name="novaSenha" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('novaSenha')">&nbsp;&#128065;</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmarSenha">Confirme a senha</label>
+                        <div class="password-input">
+                            <input type="password" id="confirmarSenha" name="confirmarSenha" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('confirmarSenha')">&nbsp;&#128065;</span>
+                        </div>
+                    </div>
+
+                    <div class="modal-buttons">
+                        <button type="submit" class="btn-confirmar">Confirmar</button>
+                        <button type="button" class="btn-limpar" onclick="limparFormulario()">Limpar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
 <script>
 function AtualizarUsuario() {
@@ -191,11 +219,7 @@ function AtualizarUsuario() {
 
 }
 </script>
-
-    </div>
     <script>
-    
-
 window.addEventListener('pageshow', function(event) {
     if (event.persisted) {
         window.location.reload();
@@ -225,6 +249,29 @@ document.getElementById('inputFoto').addEventListener('change', function(event) 
                 }
     e.target.value = value;
 });
+
+// Modal de senha
+const modal = document.getElementById('senhaModal');
+const btnTrocarSenha = document.querySelector('.btn-trocarsenha');
+
+btnTrocarSenha.onclick = function() {
+    modal.style.display = "block";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function limparFormulario() {
+    document.getElementById('alterarSenhaForm').reset();
+}
 
 </script>
 

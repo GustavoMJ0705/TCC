@@ -1,8 +1,5 @@
 <?php
-$host = 'localhost'; 
-$dbname = 'matchfight'; 
-$username = 'root'; 
-$password = 'root'; 
+require_once __DIR__ . '/../php/db_connect.php';
 
 $erroSenha = '';
 if (isset($_GET['erro'])) {
@@ -15,9 +12,6 @@ if (isset($_GET['erroemail'])) {
 
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     $sql = "SELECT id_genero, nm_genero FROM tb_genero";
     $result = $pdo->query($sql);
 
@@ -46,7 +40,7 @@ try {
         <img src="../img/profile-user.png" alt="perfil">
         
          <label for="nome">Nome da academia:</label>
-        <input type="text" id="nomeacad" name="nomeacad" required>
+        <input type="text" id="nomeacad" name="nomeacad" placeholder="Academia" required>
         <br>
 
 
@@ -55,18 +49,18 @@ try {
 
         <br>
         <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" placeholder="matchfight@gmail.com" required>
          <?php if (!empty($erroEmail)): ?>
     <span style="color: red; font-size: 14px;"><?php echo htmlspecialchars($erroEmail); ?></span>
 <?php endif; ?>
         <br>
 
         <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required>
+        <input type="password" id="senha" name="senha" placeholder="Password" required>
         <br>
 
         <label for="confirmar_senha">Confirmar Senha:</label>
-        <input type="password" id="confirmar" name="confirmar" required>
+        <input type="password" id="confirmar" name="confirmar" placeholder="Password" required>
         <br>
 
         <button class="cadastrar"type="submit">Cadastre-se</button><br>

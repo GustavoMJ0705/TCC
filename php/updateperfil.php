@@ -1,13 +1,8 @@
 <?php
 session_start();
-$host = 'localhost'; 
-$dbname = 'matchfight'; 
-$username = 'root'; 
-$password = 'root'; 
+require_once __DIR__ . '/db_connect.php';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $id = $_SESSION['id_usuario'] ?? null;
     $tipo = $_SESSION['tipo'] ?? null;
@@ -31,7 +26,7 @@ try {
             exit;
         }
 
-        // Monta campos para atualização
+    // Monta campos para atualização
         $campos = [];
         $params = [':id' => $id];
 
@@ -52,6 +47,27 @@ try {
             $params[':email'] = $_POST['email'];
         }
 
+        // Verifica se o usuário quer alterar a senha
+        $novaSenha = $_POST['novaSenha'] ?? '';
+        $confirmaNova = $_POST['confirmarSenha'] ?? '';
+        if (!empty($novaSenha) || !empty($confirmaNova)) {
+            // checa se os dois campos foram preenchidos
+            if (empty($novaSenha) || empty($confirmaNova)) {
+                echo "Preencha os campos de nova senha e confirmação.";
+                exit;
+            }
+            // checa se coincidem
+            if ($novaSenha !== $confirmaNova) {
+                echo "A nova senha e a confirmação não coincidem.";
+                exit;
+            }
+            // validação básica de força (pode ser ajustada)
+        
+            // adiciona o campo de senha (hash)
+            $campos[] = "nm_senha_hash = :senha";
+            $params[':senha'] = password_hash($novaSenha, PASSWORD_DEFAULT);
+        }
+
         if ($campos) {
             if ($tipo === 'aluno') {
                 $sql = "UPDATE tb_aluno SET " . implode(', ', $campos) . " WHERE id_aluno = :id";
@@ -60,7 +76,7 @@ try {
             }
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
-            header("Location: logout.php");
+            header("Location: ../html/home.php");
             exit;
         } else {
             echo "Nenhum campo para atualizar.";
@@ -71,4 +87,7 @@ try {
 } catch (PDOException $e) {
     echo "Erro: " . $e->getMessage();
 }
+
+
+
 ?>

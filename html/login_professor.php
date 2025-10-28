@@ -28,11 +28,11 @@ if (isset($_GET['erro'])) {
         <img src="../img/profile-user.png" alt="perfil">
 
         <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" placeholder="matchfight@gmail.com" required>
         <br>
 
         <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required>
+        <input type="password" id="senha" name="senha" placeholder="Password" required>
          <?php if (!empty($erroSenha)): ?>
     <span style="color: red; font-size: 14px;"><?php echo htmlspecialchars($erroSenha); ?></span>
 <?php endif; ?>

@@ -1,8 +1,5 @@
 <?php
-$host = 'localhost'; 
-$dbname = 'matchfight'; 
-$username = 'root'; 
-$password = 'root'; 
+require_once __DIR__ . '/../php/db_connect.php';
 
 $erroSenha = '';
 if (isset($_GET['erro'])) {
@@ -15,10 +12,6 @@ if (isset($_GET['erroemail'])) {
 
 
 try {
-    // Alterado a porta de 3306 para 3307
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     $sql = "SELECT id_genero, nm_genero FROM tb_genero";
     $result = $pdo->query($sql);
 
@@ -47,10 +40,10 @@ try {
         <img src="../img/profile-user.png" alt="perfil">
 
         <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" maxlength="100" required>
+        <input type="text" id="nome" name="nome" maxlength="100" placeholder="Nome"  required>
 
         <label for="nascimento">Data de nascimento:</label>
-        <input type="date" id="nascimento" name="nascimento" min="1930-01-01" 
+        <input type="date" id="nascimento" name="nascimento" min="1960-01-01" 
         max="2025-12-31" required>
 
         <label for="genero">Gênero:</label>
@@ -67,16 +60,16 @@ try {
         <input type="tel" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX" onkeydown="return apenasNumeros(event)" minlength="8" maxlength="15" required>
 
         <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" maxlength="40" required>
+        <input type="email" id="email" name="email" maxlength="40" placeholder="matchfight@gmail.com" required>
          <?php if (!empty($erroEmail)): ?>
     <span style="color: red; font-size: 14px;"><?php echo htmlspecialchars($erroEmail); ?></span>
 <?php endif; ?>
 
         <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" maxlength="40" required>
+        <input type="password" id="senha" name="senha" maxlength="40" placeholder="Password" required>
 
         <label for="confirmar_senha">Confirmar Senha:</label>
-        <input type="password" id="confirmar" name="confirmar" maxlength="40" required>
+        <input type="password" id="confirmar" name="confirmar" maxlength="40" placeholder="Password" required>
 
         <button class="cadastrar" type="submit">
             <a href="../html/login_aluno_professor.html">Cadastre-se</a>
