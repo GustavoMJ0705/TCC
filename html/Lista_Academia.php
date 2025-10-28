@@ -39,7 +39,7 @@ function exibirAcademias($academias) {
         echo '<div class="card-content">';
         echo '<h3>' . htmlspecialchars($academia['nm_academia']) . '</h3>';
         echo '<p>' . htmlspecialchars(substr($academia['ds_descricao'], 0, 100)) . '...</p>';
-        echo '<button><a href="../html/verdojo.php?id=' . htmlspecialchars($academia['id_perfil_academia']) . '">Ver academia</a></button>';
+        echo '<a class="botao" href="../html/verdojo.php?id=' . htmlspecialchars($academia['id_perfil_academia']) . '">Ver academia</a>';
         echo '</div>';
         echo '</div>';
     }

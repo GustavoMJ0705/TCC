@@ -38,14 +38,15 @@ function minhasAcademias($academias) {
     foreach ($academias as $academia) {
         $imagem = !empty($academia['url_imagem']) ? htmlspecialchars($academia['url_imagem']) : '../img/imgDojoTeste.jpg';
         
-        echo '<div class="card">';
+        echo '<div class="card_minha_academia">';
         echo '<a href="verdojo.php?id=' . htmlspecialchars($academia['id_perfil_academia']) . '">';
         echo '<img src="' . $imagem . '" alt="Imagem da academia ' . htmlspecialchars($academia['nm_academia']) . '">';
         echo '</a>';
-        echo '<div class="card-content">';
+        echo '<div class="card-content-minha">';
         echo '<h3>' . htmlspecialchars($academia['nm_academia']) . '</h3>';
         echo '<p>' . htmlspecialchars(substr($academia['ds_descricao'], 0, 100)) . '...</p>';
-        echo '<button><a href="../html/verdojo.php?id=' . htmlspecialchars($academia['id_perfil_academia']) . '">Ver academia</a></button>';
+        echo '<a class="botao" href="../html/verdojo.php?id=' . htmlspecialchars($academia['id_perfil_academia']) . '">Ver academia</a>';
+        echo '<a class="botao" href="../html/editdojo.php?id=' . htmlspecialchars($academia['id_perfil_academia']) . '">Editar academia</a>';
         echo '</div>';
         echo '</div>';
     }

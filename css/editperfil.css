@@ -33,7 +33,7 @@
         }
 
         input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
-            width: 100%; padding: 7px; padding-right: 0px; padding-left: 0px; border: 1px solid #ccc; border-radius: 4px;
+            width: 100%; padding: 7px; border: 1px solid #ccc; border-radius: 4px;
         }
 
         .btn-group {

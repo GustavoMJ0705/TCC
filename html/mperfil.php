@@ -180,7 +180,7 @@ if ($id_usuario && $tipo) {
 
            <div class="btn-group">
                 <button type="button" id="btn-apagar" class="btn-apagar">Apagar Usuário</button>
-                <a href="editperfil.php" class="btn-salvar">Editar meu perfil</a>
+                <a href="editperfil.php" class="btn-edit">Editar meu perfil</a>
             </div>
 
             <div class="modal" id="modalQuestion">
