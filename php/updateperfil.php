@@ -26,6 +26,53 @@ try {
             exit;
         }
 
+        // Processamento de upload de imagem (se enviado)
+        if (isset($_FILES['profile_image']) && isset($_FILES['profile_image']['tmp_name']) && $_FILES['profile_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+            $file = $_FILES['profile_image'];
+            if ($file['error'] !== UPLOAD_ERR_OK) {
+                echo "Erro no upload da imagem. Código: " . $file['error'];
+                exit;
+            }
+
+            // Validação de tipo (usando finfo)
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mime = finfo_file($finfo, $file['tmp_name']);
+            finfo_close($finfo);
+            $allowed = [
+                'image/jpeg' => 'jpg',
+                'image/png' => 'png',
+                'image/gif' => 'gif',
+                'image/webp' => 'webp'
+            ];
+            if (!array_key_exists($mime, $allowed)) {
+                echo "Tipo de arquivo não permitido. Envie JPG, PNG, GIF ou WEBP.";
+                exit;
+            }
+
+            $ext = $allowed[$mime];
+            $uploadsDir = __DIR__ . '/../uploads';
+            if (!is_dir($uploadsDir)) {
+                mkdir($uploadsDir, 0755, true);
+            }
+
+            $targetName = $tipo . '_' . $id . '.' . $ext;
+            $targetPath = $uploadsDir . '/' . $targetName;
+
+            // Remove arquivos antigos do mesmo usuário (com outra extensão)
+            foreach (glob($uploadsDir . '/' . $tipo . '_' . $id . '.*') as $old) {
+                if ($old !== $targetPath) {
+                    @unlink($old);
+                }
+            }
+
+            if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
+                echo "Falha ao salvar a imagem.";
+                exit;
+            }
+            // permissões seguras
+            @chmod($targetPath, 0644);
+        }
+
     // Monta campos para atualização
         $campos = [];
         $params = [':id' => $id];

@@ -52,12 +52,7 @@ require_once 'lista_horarios.php';
                 <?php endif; ?>
             </div>
 
-            <div class="Perfil">
-                <?php
-                if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
-                    <a href="mperfil.php" class="lbottom_AlunoProf"><img src="../img/Perfil.png" alt=""></a>
-                <?php endif; ?>
-            </div>
+            <?php include __DIR__ . '/inc_profile_img.php'; ?>
         </nav>
         
         <aside class="sidebar" id="sidebar">
@@ -66,7 +61,7 @@ require_once 'lista_horarios.php';
                 <li><a href="home.php">Home</a></li>              
                 <li><a href="suporte_tecnico.php">Suporte técnico</a></li>
                 <li><a href="seja_parceiro.php">Seja um parceiro</a></li>
-                <li><a href="#">Calendário de aulas</a></li>
+                
                 <?php if (isset($_SESSION['academia_id']) || isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
                     <li><a href="../php/logout.php" id="logout-link">Sair</a></li>
                
@@ -108,13 +103,7 @@ require_once 'lista_horarios.php';
 
 
             </div>
-            <div class="entrardojo" style="display: flex; align-items: center; justify-content: center; margin-top: 2vh; ">
-               <div class="btn-matricula">
-                    <a href="matricula.php?id=<?php echo urlencode($id_academia); ?>" title="Matricular-se">
-                        <button class="matricule-btn" aria-label="Matricule-se">Matricule-se</button>
-                    </a>
-                </div>
-            </div>
+            <!-- botão de matrícula movido para ficar ao lado da descrição mais abaixo -->
 
         </div>
   <!--Descrição da academia com botão ao lado-->
@@ -129,7 +118,13 @@ require_once 'lista_horarios.php';
                     </div>
                 </div>
 
-                
+                <!-- Botão Matricule-se ao lado direito da descrição -->
+                <div class="btn-matricula">
+                    <a href="matricula.php?id=<?php echo urlencode($id_academia); ?>" title="Matricular-se">
+                        <button class="matricule-btn" aria-label="Matricule-se">Matricule-se</button>
+                    </a>
+                </div>
+
             </div>
         <!--Cards de informações-->
         <div class="cards-container">

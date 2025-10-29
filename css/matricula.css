@@ -29,7 +29,6 @@ body {
     background: var(--bg);
     padding: 22px;
     border-radius: 10px;
-    box-shadow: var(--card-shadow);
     box-sizing: border-box;
 }
 
@@ -46,7 +45,7 @@ body {
 /* Form container with border */
 .matricula-form {
     margin-top: 20px;
-    padding: 24px;
+    padding: 15px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     background: #fff; 
@@ -177,6 +176,38 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="password
     font-size: 1rem;
     color: #000;
     margin: 0;
+}
+
+/* Layout: descrição à esquerda e botão de matrícula à direita */
+.descricao-e-matricula {
+    max-width: 720px;
+    margin: 20px auto;
+    padding: 0 22px;
+    display: flex;
+    align-items: center; /* alinha verticalmente descrição e botão */
+    gap: 40px;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.containerDescricao {
+    flex: 1 1 auto;
+}
+
+.DescriçãoDojo h3 {
+    margin-top: 0;
+}
+
+.btn-matricula {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+}
+
+.btn-matricula .matricule-btn {
+    /* garantia de boa visibilidade e tamanho */
+    padding: 0.8rem 1.4rem;
 }
 
 @media (max-width: 900px){

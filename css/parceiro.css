@@ -1,4 +1,10 @@
 /* estilos específicos para a página Seja um Parceiro e organização geral */
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
 body {
     background: #f5f6fa;
     color: #222;
@@ -72,7 +78,7 @@ body {
     color: #333;
     text-decoration: none;
     background: transparent;
-    padding: 8px 12px;
+    padding: 10px 16px;
     border-radius: 6px;
     border: 1px solid transparent;
 }

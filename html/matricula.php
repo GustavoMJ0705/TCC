@@ -1,20 +1,44 @@
 <?php
+
+require_once __DIR__ . '/../php/db_connect.php';
+
 // Página de matrícula de aluno
 // Mantemos a consistência incluindo a navbar e os estilos
 session_start();
+// tipo e id do usuário (usados para buscar dados do usuário logado)
+$tipo = $_SESSION['tipo'] ?? null;
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+$dados = [
+    'nome' => '',
+    'telefone' => '',
+    'genero' => '',
+    'nascimento' => '',
+    'email' => '',
+    'senha' => ''
+];
 
 // busca generos para o select (mesma lógica de cad_aluno.php)
-$host = 'localhost';
-$dbname = 'matchfight';
-$username = 'root';
-$password = 'root';
+
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql = "SELECT id_genero, nm_genero FROM tb_genero";
     $result = $pdo->query($sql);
     $generos = $result->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
+
+    // Se houver um usuário logado, buscar seus dados para pré-preencher o formulário
+    if ($id_usuario) {
+        $stmt = $pdo->prepare("SELECT nm_aluno AS nome, nr_telefone AS telefone, ds_email AS email, nm_senha_hash AS senha, id_genero AS genero, dt_nascimento AS nascimento FROM tb_aluno WHERE id_aluno = :id");
+        $stmt->execute([':id' => $id_usuario]);
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC) ?: $dados;
+    }
+} 
+
+catch (PDOException $e) {
     $generos = [];
 }
 ?>
@@ -65,7 +89,7 @@ try {
             <div class="Perfil">
                 <?php
                 if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
-                    <a href="mperfil.php" class="lbottom_AlunoProf"><img src="../img/Perfil.png" alt=""></a>
+                    <a href="mperfil.php" class="l  bottom_AlunoProf"><img src="../img/Perfil.png" alt=""></a>
                 <?php endif; ?>
             </div>
         </nav>
@@ -94,31 +118,31 @@ try {
 
             <?php $academia_id = isset($_GET['id']) && is_numeric($_GET['id']) ? intval($_GET['id']) : ''; ?>
 
-            <form action="../php/autaluno.php" method="post" autocomplete="on" class="matricula-form">
+            <form action="../php/matricula_usuario.php" method="post" autocomplete="on" class="matricula-form">
                 <input type="hidden" name="academia_id" value="<?php echo htmlspecialchars($academia_id); ?>">
                 <div class="form-row">
                     <label for="nome">Nome completo</label>
-                    <input id="nome" name="nome" type="text" maxlength="100" required>
+                    <input id="nome" name="nome" type="text" maxlength="100" required value="<?php echo htmlspecialchars($dados['nome']); ?>">
                 </div>
 
                 <div class="form-row">
                     <label for="nascimento">Data de nascimento</label>
-                    <input id="nascimento" name="nascimento" type="date" min="1960-01-01" max="2025-12-31" required>
+                    <input id="nascimento" name="nascimento" type="date" min="1960-01-01" max="2025-12-31" value="<?php echo htmlspecialchars($dados['nascimento']); ?>" required>
                 </div>
 
                 <div class="form-row">
                     <label for="genero">Gênero</label>
                     <select id="genero" name="genero" required>
-                        <option value="" selected>Selecione seu gênero</option>
+                        <option value="" <?php echo ($dados['genero'] === '') ? 'selected' : ''; ?>>Selecione seu gênero</option>
                         <?php foreach ($generos as $genero): ?>
-                            <option value="<?php echo htmlspecialchars($genero['id_genero']); ?>"><?php echo htmlspecialchars($genero['nm_genero']); ?></option>
+                            <option value="<?php echo htmlspecialchars($genero['id_genero']); ?>" <?php echo ($dados['genero'] == $genero['id_genero']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($genero['nm_genero']); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="form-row">
                     <label for="telefone">Telefone</label>
-                    <input id="telefone" name="telefone" type="tel" placeholder="(XX) XXXXX-XXXX" onkeydown="return apenasNumeros(event)" minlength="8" maxlength="15" required>
+                     <input type="text" id="telefone" name="telefone" readonly value="<?php echo htmlspecialchars($dados['telefone']); ?>" required>
                 </div>
 
                 <div class="form-row">
@@ -133,7 +157,7 @@ try {
 
                 <div class="form-row">
                     <label for="senha2">Confirme a senha</label>
-                    <input id="senha2" name="senha2" type="password" maxlength="40" required>
+                    <input id="senha2" name="confirmar" type="password" maxlength="40" required>
                 </div>
 
                 <div class="checkbox-row">
@@ -150,6 +174,17 @@ try {
     </main>
 
     <script>
+        // Intercepta o envio do formulário para confirmar pagamento
+        document.querySelector('.matricula-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede o envio imediato do formulário
+            
+            if (confirm('O pagamento já foi efetuado?')) {
+                // Se confirmar que pagou, envia o formulário
+                this.submit();
+            }
+            // Se não confirmou, nada acontece e o formulário não é enviado
+        });
+
         // Função para permitir apenas numero no telefone
         function apenasNumeros(event) {
             const charCode = event.keyCode;
