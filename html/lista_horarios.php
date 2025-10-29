@@ -65,7 +65,27 @@ function exibirHorariosPorDia($grouped, $daysOrder)
     }
 
     if (!$hasAny) {
-        echo "<p>A academia não possui uma grade de aulas definida</p>";
+       echo '<div class="card-wrapper">';
+    echo '    <div class="infoHorarios">';
+    echo '        <img src="../img/relogio.png" alt="Relógio" />';
+    echo '        <h3>Horários da Semana</h3>';
+    echo '    </div>';
+    echo '    <div class="semana-horarios">';
+
+    // render empty day columns (no placeholders)
+    foreach ($daysOrder as $dayName) {
+        echo '        <div class="dia-coluna">';
+        echo '            <div class="dia-nome">' . htmlspecialchars($dayName) . '</div>';
+        // leave column body empty when there are no schedules
+        echo '            <div class="horario-item" style="visibility:hidden; height:0; padding:0; margin:0; border:0;"></div>';
+        echo '        </div>';
+    }
+
+    // single centered message that spans all 7 columns (styling moved to CSS)
+    echo '        <div class="horario-item horario-empty">A academia não possui uma grade de aulas definida</div>';
+
+    echo '    </div>';
+    echo '</div>';
         return;
     }
 

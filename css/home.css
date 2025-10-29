@@ -143,3 +143,67 @@ header h1{
     display: flex;
     align-items: center;
 }
+
+/* Responsive styles for mobile devices */
+@media (max-width: 768px) {
+    /* Stack cards vertically and center them */
+    .main {
+        flex-direction: column;
+        padding-left: 5%;
+        gap: 18px;
+        align-items: center;
+    }
+
+    .card, .card_minha_academia {
+        width: calc(100% - 40px); /* keep side padding from container */
+        max-width: 620px;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .card img, .card_minha_academia img {
+        height: 50px;
+    }
+
+    .botao {
+        width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Fit cards nicely on typical phones (e.g. 360-420px) */
+    .main {
+        padding-left: 4%;
+        padding-right: 4%;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .card, .card_minha_academia {
+        width: 100%;
+        max-width: 250px; /* match typical phone width */
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .card img, .card_minha_academia img {
+        height: 140px;
+    }
+
+    .botao {
+        width: 60%;
+        padding: 10px 14px;
+        font-size: 0.95rem;
+    }
+
+    header h1 {
+        padding-left: 4%;
+        font-size: 1.15rem;
+    }
+
+    .card, .card_minha_academia {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}

@@ -63,7 +63,10 @@ input, textarea, select {
     border-radius: 8px;
     font-size: 14px;
     transition: border-color 0.3s;
+
 }
+input[type="time"] {
+    width: 87%;}
 
 input:focus, textarea:focus, select:focus {
     outline: none;
@@ -197,6 +200,12 @@ button[type="button"]:hover {
     .form-actions {
         flex-direction: column;
     }
+    .dojo-form {
+       flex-direction: column;
+}
+.form-group {
+    width: 100%;
+    }
 }
 
         
@@ -305,7 +314,10 @@ button[type="button"]:hover {
 /* Responsividade */
 @media (max-width: 768px) {
     .calendar {
+        display: flex;
+        flex-direction: column;
         justify-content: flex-start;
+        align-items: center;
         padding: 15px;
         gap: 10px;
     }
@@ -340,17 +352,20 @@ display: none;
 }
 
 .btn-excluir {
-background-color: white;
+background-color: red;
+color: white;
 border: 1px solid red;
 border-radius: 8px;
-width: 50%;
+width: 80%;
 }
 
 .btn-salvar {
-background-color: white;
+background-color: #e55a00;
+color: white;
 border: 1px solid #e55a00;
 border-radius: 8px;
-width: 50%;
+width: 80%;
+margin-bottom: 0.5rem;
 }
 
 .btn-actions {
@@ -364,23 +379,35 @@ gap: 5%;
 
 
 .day.expandido .lista-resumos {
-  display: none; /* quando expandido, esconde os resumos */
+    display: none; /* quando expandido, esconde os resumos */
 }
 
-.day:not(.expandido) .lista-resumos {
+/* only show lista-resumos when it actually contains items */
+.lista-resumos {
+        display: none; /* hidden by default when empty */
+}
 
-  display: flex; /* quando encolhido, mostra os resumos */
+.day:not(.expandido) .lista-resumos:not(:empty) {
+    /* when not expanded and the list contains items show it in the right column
+       and make it a vertically scrollable list if it grows too tall */
+    display: flex; /* quando encolhido e não vazio, mostra os resumos */
     flex-direction: column;
     list-style: none;
     text-decoration: none;
-background-color: #fafafa;
-justify-content: center;
-align-items: center;
-padding: 0.5rem;
-font-weight: bold;
+    background-color: #fafafa;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0.5rem;
+    gap: 0.4rem;
+    font-weight: bold;
     border-radius: 8px;
     border: 0.05rem solid #000000;
     font-size: 0.83rem;
+    grid-column: 2; /* occupy the right column in the .day grid */
+    width: 100%;
+    max-height: 40vh; /* limit height on small screens */
+    overflow-y: auto; /* allow scrolling when there are many items */
+    box-sizing: border-box;
 }
 
 fieldset {
@@ -394,5 +421,203 @@ fieldset {
     border-radius: 8px;
     font-size: 14px;
     transition: border-color 0.3s;
-    width: 90%;
+    width: 100%;
+}
+
+/* Layout change: put the day label on the left and the created classes on the right for small screens */
+@media (max-width: 768px) {
+    /* each day is a row with two columns: fixed left column for the day label, flexible right column for classes */
+    .day {
+        display: grid;
+        grid-template-columns: 140px 2fr; /* day left, content right */
+        align-items: start;
+        gap: 12px;
+        width: 100%;
+        max-width: 720px;
+        padding: 8px 12px;
+        background: transparent;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+
+    /* day title on the left column */
+    .day h3 {
+        grid-column: 1;
+        margin: 0;
+        align-self: start;
+        text-align: left;
+        padding-left: 6px;
+    }
+
+    /* summaries and expanded Aula go to the right column */
+    .day .lista-resumos,
+    .day .Aula {
+        grid-column: 2;
+        width: 100%;
+        margin: 0;
+        justify-self: start;
+        align-self: start;
+    }
+
+    /* When expanded, Aula stays in right column and its inputs are stacked but narrow */
+    .day.expandido .Aula {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-width: 100%;
+    }
+
+    /* Visual tweak for summaries (right column) */
+    .day .lista-resumos {
+        background-color: #fff7f0;
+        padding: 6px 8px;
+        border-radius: 6px;
+        border: 1px solid #ffd8c4;
+        font-size: 0.95rem;
+    }
+
+    /* Shrink inputs/selects inside the Aula so they don't overflow the screen */
+    .day .Aula input,
+    .day .Aula select,
+    .day .Aula textarea {
+        max-width: 180px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 6px 8px;
+        font-size: 0.95rem;
+    }
+
+    /* For schedule-item inside mobile layout reduce columns to fit */
+    .schedule-item {
+        grid-template-columns: 1fr 1fr auto;
+        gap: 8px;
+    }
+
+    /* Make sure the calendar container fits within viewport */
+    .calendar {
+        width: 95%;
+        max-width: 95%;
+        overflow-x: visible;
+        padding-left: 12px;
+        padding-right: 12px;
+        box-sizing: border-box;
+    }
+    .form-container {
+        width: 80%;
+        margin: 10px auto;
+        padding: 15px;
+    }
+}
+
+/* Extra small screens (<= 400px / common phones like 360-390px) */
+@media (max-width: 400px) {
+    /* Make the calendar and form use nearly full viewport width */
+    .form-container {
+        width: calc(100% - 24px);
+        margin: 8px auto;
+        padding: 12px;
+    }
+
+    .calendar {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: visible;
+    }
+    .btn-excluir {
+background-color: red;
+color: white;
+border: 1px solid red;
+border-radius: 8px;
+height: 5vh;
+width: 60%;
+}
+
+.btn-salvar {
+background-color: #e55a00;
+color: white;
+border: 1px solid #e55a00;
+border-radius: 8px;
+width: 60%;
+height: 5vh;
+margin-bottom: 0.5rem;
+}
+
+    /* Reduce the left day column and ensure right column takes remaining space;
+       stack the day title and add button vertically in the left column while
+       the summaries list appears on the right and becomes scrollable when long */
+    .day {
+        grid-template-columns: 110px 1fr; /* left narrow column for day + button, right for content */
+        padding: 6px 8px;
+        gap: 8px;
+        max-width: 100%;
+        height: auto;
+        min-width: 0; /* allow day to shrink inside small calendar */
+        align-items: start;
+    }
+
+    /* place title and add button in the left column (they will stack vertically) */
+    .day h3,
+    .day .btn-adicionar {
+        grid-column: 1;
+        justify-self: start;
+    }
+
+    .day h3 {
+        font-size: 0.95rem;
+        padding-left: 4px;
+        margin: 0;
+    }
+
+    .day .btn-adicionar {
+        width: 100%;
+        max-width: 110px;
+        padding: 8px 10px;
+        font-size: 13px;
+        margin-top: 6px;
+        box-sizing: border-box;
+    }
+
+    /* Ensure Aula content fits: shorter inputs and stacked layout */
+    .day .Aula input,
+    .day .Aula select,
+    .day .Aula textarea {
+        max-width: 140px;
+        width: 100%;
+        padding: 6px 6px;
+        font-size: 0.9rem;
+        box-sizing: border-box;
+    }
+
+    .schedule-item {
+        grid-template-columns: 1fr auto; /* compress columns for mobile */
+        gap: 6px;
+    }
+
+    /* lista-resumos should live in the right column; visual/spacing only here.
+       Leave display to the :not(:empty) rule so empty lists remain hidden. */
+    .day .lista-resumos {
+        grid-column: 2;
+        font-size: 0.82rem;
+        padding: 6px;
+        width: 100%;
+        box-sizing: border-box;
+        gap: 0.35rem;
+        align-items: flex-start;
+        /* do NOT set display/overflow/max-height here — controlled when there are items */
+    }
+ 
+    /* Ensure Agenda container expands to show calendar content */
+    .Agenda {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 0px;
+        margin: 0px;
+        height: auto;
+    }
+    .day.expandido {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
 }

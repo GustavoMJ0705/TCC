@@ -138,10 +138,10 @@ main{
 .cards-container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     align-items: flex-start; /* Alterado para 'flex-start' para alinhar os cards no topo */
     gap: 50px; /* Aumenta o espaço entre os dois cards */
-
+    width: 100%;
     max-width: 1600px; /* Define uma largura máxima para o container dos cards */
     margin-top: 30px;
 }
@@ -152,7 +152,7 @@ main{
     flex-direction: column;
     align-items: flex-start; /* Alinha o conteúdo de cada card (título) à esquerda */
     flex-basis: 50%; /* Define que cada card deve tentar ocupar 50% do espaço */
-    max-width: 800px; /* Define uma largura máxima para cada card */
+    max-width: 850px; /* Define uma largura máxima para cada card */
 }
 
 .card {
@@ -206,12 +206,13 @@ main{
         grid-template-columns: repeat(7, 1fr);
         gap: 0;
         margin: 32px 0;
-        background: #fff;
+        background: #fafbfc;
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.07);
         padding: 0;
         width: 100%;
-        max-width: 100%; /* Garante que a tabela não ultrapasse o container */
+        
+
 }
 
 .dia-coluna {
@@ -252,12 +253,227 @@ main{
         text-align: center;
         width: 100%;
         box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-        border: 1px solid #ececec;
+        border: 1px solid #FFF;
 }
 .horario-item:last-child {
         margin-bottom: 0;
 }
 
+/* Message shown when there are no schedules: span full grid but centered */
+.horario-empty {
+    grid-column: 1 / -1;          /* span all 7 columns */
+    justify-self: center;         /* center within the grid track */
+    width: 70%;                   /* keeps message reasonably narrow */
+    max-width: 850px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px;
+    background: #fafbfc;
+    border-radius: 8px;
+
+    font-weight: 600;
+    margin: 12px 0;
+    z-index: 10;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .cards-container {
+        padding: 0 20px;
+        gap: 30px;
+    }
+    
+    main {
+        gap: 30px;
+    }
+    
+    #main-image {
+        min-width: 25rem;
+        max-width: 25rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .card-wrapper {
+        
+        flex-basis: 100%;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 16px;
+        flex-direction: column;
+    }
+    
+    #main-image {
+        min-width: 17rem;
+        max-width: 17rem;
+        min-height: 10rem;
+        max-height: 10rem;
+    }
+    
+    .semana-horarios {
+        overflow-x: auto;
+        padding: 12px;
+        gap: 8px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(7, minmax(140px, 1fr));
+        min-width: 980px; /* Força uma largura mínima total para garantir layout horizontal */
+    }
+    
+    .dia-coluna {
+        min-width: 140px;
+        padding: 12px 6px;
+    }
+    
+    .horario-empty {
+        width: 80%;
+        margin: 16px auto;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        gap: 24px;
+        padding: 0;
+    }
+    
+    .card-wrapper {
+        padding: 0 12px;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: auto; /* Permite rolagem horizontal */
+        -webkit-overflow-scrolling: touch; /* Rolagem suave em dispositivos iOS */
+    }
+    
+    .Container-Carrossel {
+        padding: 0 16px;
+    }
+    
+    #main-image {
+        min-width: 18rem;
+        max-width: 18rem;
+        min-height: 18rem;
+        max-height: 18rem;
+    }
+    
+    .carrossel .minimg {
+        max-width: 3rem;
+        max-height: 3rem;
+    }
+    
+    .buttonleft, .buttonright {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+    
+    .semana-horarios {
+        margin: 16px 0;
+        padding: 8px;
+    }
+    
+    .dia-coluna {
+        min-width: 120px;
+        padding: 10px 4px;
+    }
+    
+    .dia-nome {
+        font-size: 0.9rem;
+        padding-bottom: 4px;
+    }
+    
+    .horario-empty {
+        width: 90%;
+        padding: 14px;
+        font-size: 0.9rem;
+    }
+    
+    .enderecoNome {
+        font-size: 1rem;
+    }
+    
+    .infoEndereco, .infoHorarios {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-wrapper {
+        padding: 0 8px;
+         align-items: center;
+    }
+    /* On very small screens show one day per row and let the grid fit the viewport
+       override the global min-width so the layout doesn't force horizontal overflow */
+    .semana-horarios {
+        display: grid;
+        grid-template-columns: 1fr; /* one column per row */
+        gap: 8px;
+        padding: 12px;
+        width: 90%;
+        max-width: 90%;
+        min-width: 0; /* override larger min-width used for desktop */
+        overflow: visible;
+        margin: 8px 0;
+        border-radius: 8px;
+    }
+    .Container-Carrossel .titulo {
+        font-size: 1.1rem;
+        padding: 4vw;
+    }
+    
+    .carrossel {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .carrossel .minimg {
+        max-width: 2.5rem;
+        max-height: 2.5rem;
+    }
+    
+    .buttonleft, .buttonright {
+        width: 3rem !important;
+        height: 3rem!important;
+    }
+    
+    .dia-coluna {
+        min-width: 0; /* allow full-width column in single-column layout */
+        width: 100%;
+        padding: 8px 6px;
+    }
+    
+    .horario-item {
+        font-size: 0.85rem;
+        padding: 6px 4px;
+    }
+    
+    .horario-empty {
+        width: 95%;
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+    
+    .infoHorarios, .infoEndereco {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+    }
+    
+    .entrar-button {
+        width: 8rem;
+        height: 2.5rem;
+        font-size: 0.9rem;
+    }
+}
 
 /*Descrição do Dojo*/
 

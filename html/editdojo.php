@@ -12,7 +12,7 @@ require_once 'lista_horarios.php';
     <!-- Título dinâmico -->
     <title><?php echo htmlspecialchars($academia['nm_academia']); ?></title>
     <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="../css/verdojo.css">
+    <link rel="stylesheet" href="../css/editdojo.css">
     <script src="../js/nav.js"></script>
 </head>
 <body>

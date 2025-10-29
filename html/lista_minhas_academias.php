@@ -39,7 +39,6 @@ function minhasAcademias($academias) {
         $imagem = !empty($academia['url_imagem']) ? htmlspecialchars($academia['url_imagem']) : '../img/imgDojoTeste.jpg';
         
         echo '<div class="card_minha_academia">';
-        echo '<a href="verdojo.php?id=' . htmlspecialchars($academia['id_perfil_academia']) . '">';
         echo '<img src="' . $imagem . '" alt="Imagem da academia ' . htmlspecialchars($academia['nm_academia']) . '">';
         echo '</a>';
         echo '<div class="card-content-minha">';

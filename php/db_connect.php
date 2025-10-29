@@ -3,8 +3,8 @@
 $host = 'localhost';
 $dbname = 'matchfight';
 $username = 'root';
-$password = 'root';
-$port = 3307; // XAMPP default MySQL port
+$password = '';
+$port = 3306; // XAMPP default MySQL port
 
 try {
     $pdo = new PDO("mysql:host={$host};dbname={$dbname};port={$port};charset=utf8", $username, $password);
