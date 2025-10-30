@@ -58,12 +58,7 @@ if (isset($_SESSION['academia_id'])) {
                 <?php endif; ?>
             </div>
 
-            <div class="Perfil">
-                <?php
-                if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
-                    <a href="mperfil.php" class="lbottom_AlunoProf"><img src="../img/Perfil.png" alt=""></a>
-                <?php endif; ?>
-            </div>
+            <?php include __DIR__ . '/inc_profile_img.php'; ?>
         </nav>
         
         <aside class="sidebar" id="sidebar">
@@ -71,7 +66,7 @@ if (isset($_SESSION['academia_id'])) {
             <ul>                  
                 <li><a href="suporte_tecnico.php">Suporte técnico</a></li>
                 <li><a href="seja_parceiro.php">Seja um parceiro</a></li>
-                <li><a href="#">Calendário de aulas</a></li>
+                
                 <?php if (isset($_SESSION['academia_id']) || isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
                     <li><a href="../php/logout.php" id="logout-link">Sair</a></li>
                

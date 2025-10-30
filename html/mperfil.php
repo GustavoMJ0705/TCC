@@ -128,12 +128,7 @@ if ($id_usuario && $tipo) {
                 <?php endif; ?>
             </div>
 
-            <div class="Perfil">
-                <?php
-                if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
-                    <a href="mperfil.php" class="lbottom_AlunoProf"><img src="../img/Perfil.png" alt=""></a>
-                <?php endif; ?>
-            </div>
+            <?php include __DIR__ . '/inc_profile_img.php'; ?>
         </nav>
         
         <aside class="sidebar" id="sidebar">
@@ -142,7 +137,6 @@ if ($id_usuario && $tipo) {
                 <li><a href="home.php">Home</a></li>          
                 <li><a href="suporte_tecnico.php">Suporte técnico</a></li>
                 <li><a href="seja_parceiro.php">Seja um parceiro</a></li>
-                <li><a href="#">Calendário de aulas</a></li>
                 <?php if (isset($_SESSION['academia_id']) || isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
                     <li><a href="../php/logout.php" id="logout-link">Sair</a></li>
                
@@ -155,7 +149,23 @@ if ($id_usuario && $tipo) {
         <h2>Meu Perfil</h2>
         <!-- Foto de perfil -->
         <div style="text-align:center; margin-bottom:20px;">
-            <img id="fotoPerfil" src="../img/profile-user.png" alt="Foto de Perfil" style="width:100px; height:100px; aspect-ratio:1/1; border-radius:50%; object-fit:cover; border:2px solid #ccc;">
+            <?php
+            // tenta carregar imagem personalizada se existir em uploads
+            $profileSrc = '../img/profile-user.png';
+            if (!empty($tipo) && !empty($id_usuario)) {
+                $uploadsDirRel = '../uploads/';
+                $uploadsDir = __DIR__ . '/../uploads';
+                $exts = ['png','jpg','jpeg','gif','webp'];
+                foreach ($exts as $e) {
+                    $candidate = $uploadsDir . '/' . $tipo . '_' . $id_usuario . '.' . $e;
+                    if (file_exists($candidate)) {
+                        $profileSrc = $uploadsDirRel . $tipo . '_' . $id_usuario . '.' . $e;
+                        break;
+                    }
+                }
+            }
+            ?>
+            <img id="fotoPerfil" src="<?php echo htmlspecialchars($profileSrc); ?>" alt="Foto de Perfil" style="width:100px; height:100px; aspect-ratio:1/1; border-radius:50%; object-fit:cover; border:2px solid #ccc;">
             <br>
         </div>
         <form id="perfilForm" method="post" action="../php/updateperfil.php">

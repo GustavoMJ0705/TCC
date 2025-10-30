@@ -48,12 +48,7 @@ session_start();
                 <?php endif; ?>
             </div>
 
-            <div class="Perfil">
-                <?php
-                if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
-                    <a href="mperfil.php" class="lbottom_AlunoProf"><img src="../img/Perfil.png" alt=""></a>
-                <?php endif; ?>
-            </div>
+            <?php include __DIR__ . '/inc_profile_img.php'; ?>
         </nav>
         
         <aside class="sidebar" id="sidebar">
@@ -62,7 +57,7 @@ session_start();
                  <li><a href="home.php">Home</a></li>
                 <li><a href="suporte_tecnico.php">Suporte técnico</a></li>
                 <li><a href="seja_parceiro.php">Seja um parceiro</a></li>
-                <li><a href="#">Calendário de aulas</a></li>
+            
                 <?php if (isset($_SESSION['academia_id']) || isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
                     <li><a href="../php/logout.php" id="logout-link">Sair</a></li>
                
@@ -89,9 +84,6 @@ session_start();
 
             <label for="email">E-mail *</label>
             <input id="email" name="email" type="email" required>
-
-            <label for="telefone">Telefone (opcional)</label>
-            <input id="telefone" name="telefone" type="number">
 
             <label for="motivo">Por que você tem interesse em se tornar afiliado ao MatchFight? *</label>
             <textarea id="motivo" name="motivo" rows="6" required style="resize: none;"></textarea>
