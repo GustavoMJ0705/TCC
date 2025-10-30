@@ -1,20 +1,70 @@
 <?php
+
+require_once __DIR__ . '/../php/db_connect.php';
+
 // Página de matrícula de aluno
 // Mantemos a consistência incluindo a navbar e os estilos
 session_start();
+// tipo e id do usuário (usados para buscar dados do usuário logado)
+$tipo = $_SESSION['tipo'] ?? null;
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+$dados = [
+    'nome' => '',
+    'telefone' => '',
+    'genero' => '',
+    'nascimento' => '',
+    'email' => '',
+    'senha' => ''
+];
 
 // busca generos para o select (mesma lógica de cad_aluno.php)
-$host = 'localhost';
-$dbname = 'matchfight';
-$username = 'root';
-$password = 'root';
+
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;port=3307;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+   $erroSenha = '';
+if (isset($_GET['erro'])) {
+    $erroSenha = $_GET['erro'];
+}
+
+$erroEmail = '';
+if (isset($_GET['erroemail'])) {
+    $erroEmail = $_GET['erroemail'];
+}
+
+try {
+    // Buscar gêneros
     $sql = "SELECT id_genero, nm_genero FROM tb_genero";
     $result = $pdo->query($sql);
     $generos = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    // Buscar modalidades disponíveis através das aulas oferecidas pelo perfil da academia
+    $perfil_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    $sql_modalidades = "SELECT DISTINCT m.id_modalidade, m.nm_modalidade 
+                       FROM tb_modalidade m 
+                       INNER JOIN aula_modalidade am ON m.id_modalidade = am.id_modalidade
+                       INNER JOIN tb_aulas a ON am.id_aulas = a.id_aulas
+                       INNER JOIN tb_academia_aulas aa ON a.id_aulas = aa.id_aulas
+                       INNER JOIN tb_perfil_academia pa ON aa.id_perfil_academia = pa.id_perfil_academia
+                       WHERE pa.id_perfil_academia = :perfil_id";
+    $stmt_modalidades = $pdo->prepare($sql_modalidades);
+    $stmt_modalidades->execute([':perfil_id' => $perfil_id]);
+    $modalidades = $stmt_modalidades->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
+    die("Erro ao conectar ou consultar: " . $e->getMessage());
+}
+
+    // Se houver um usuário logado, buscar seus dados para pré-preencher o formulário
+    if ($id_usuario) {
+        $stmt = $pdo->prepare("SELECT nm_aluno AS nome, nr_telefone AS telefone, ds_email AS email, nm_senha_hash AS senha, id_genero AS genero, dt_nascimento AS nascimento FROM tb_aluno WHERE id_aluno = :id");
+        $stmt->execute([':id' => $id_usuario]);
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC) ?: $dados;
+    }
+}
+
+catch (PDOException $e) {
     $generos = [];
 }
 ?>
@@ -65,7 +115,7 @@ try {
             <div class="Perfil">
                 <?php
                 if (isset($_SESSION['professor_id']) || isset($_SESSION['aluno_id'])): ?>
-                    <a href="mperfil.php" class="lbottom_AlunoProf"><img src="../img/Perfil.png" alt=""></a>
+                    <a href="mperfil.php" class="l  bottom_AlunoProf"><img src="../img/Perfil.png" alt=""></a>
                 <?php endif; ?>
             </div>
         </nav>
@@ -92,38 +142,60 @@ try {
                 <h2>Inscrição de Aluno</h2>
                 <p class="lead">Preencha seus dados para se inscrever nesta academia.</p>
 
-            <?php $academia_id = isset($_GET['id']) && is_numeric($_GET['id']) ? intval($_GET['id']) : ''; ?>
+            <?php $perfil_id = isset($_GET['id']) && is_numeric($_GET['id']) ? intval($_GET['id']) : ''; ?>
 
-            <form action="../php/autaluno.php" method="post" autocomplete="on" class="matricula-form">
-                <input type="hidden" name="academia_id" value="<?php echo htmlspecialchars($academia_id); ?>">
+            <form action="../php/matricula_usuario.php" method="post" autocomplete="on" class="matricula-form">
+                <input type="hidden" name="perfil_id" value="<?php echo htmlspecialchars($perfil_id); ?>">
                 <div class="form-row">
                     <label for="nome">Nome completo</label>
-                    <input id="nome" name="nome" type="text" maxlength="100" required>
+                    <input id="nome" name="nome" type="text" maxlength="100" required value="<?php echo htmlspecialchars($dados['nome']); ?>">
                 </div>
 
                 <div class="form-row">
                     <label for="nascimento">Data de nascimento</label>
-                    <input id="nascimento" name="nascimento" type="date" min="1960-01-01" max="2025-12-31" required>
+                    <input id="nascimento" name="nascimento" type="date" min="1960-01-01" max="2025-12-31" value="<?php echo htmlspecialchars($dados['nascimento']); ?>" required>
                 </div>
 
                 <div class="form-row">
                     <label for="genero">Gênero</label>
                     <select id="genero" name="genero" required>
                         <option value="" selected>Selecione seu gênero</option>
-                        <?php foreach ($generos as $genero): ?>
-                            <option value="<?php echo htmlspecialchars($genero['id_genero']); ?>"><?php echo htmlspecialchars($genero['nm_genero']); ?></option>
-                        <?php endforeach; ?>
+            <?php foreach ($generos as $genero): ?>
+                <option value="<?php echo htmlspecialchars($genero['id_genero']); ?>">
+                    <?php echo htmlspecialchars($genero['nm_genero']); ?>
+                </option>
+            <?php endforeach; ?>
                     </select>
                 </div>
 
+
                 <div class="form-row">
                     <label for="telefone">Telefone</label>
-                    <input id="telefone" name="telefone" type="tel" placeholder="(XX) XXXXX-XXXX" onkeydown="return apenasNumeros(event)" minlength="8" maxlength="15" required>
+                     <input type="text" id="telefone" name="telefone" readonly value="<?php echo htmlspecialchars($dados['telefone']); ?>" required>
                 </div>
 
                 <div class="form-row">
                     <label for="email">E-mail</label>
                     <input id="email" name="email" type="email" maxlength="40" placeholder="matchfight@gmail.com" required>
+                </div>
+                
+                <div class="form-row">
+                    <label for="modalidade">Modalidade</label>
+                    <select id="modalidade" name="modalidade"  required onchange="carregarHorarios()">
+                        <option value="" selected>Selecione a modalidade</option>
+                        <?php foreach ($modalidades as $modalidade): ?>
+                            <option value="<?php echo htmlspecialchars($modalidade['id_modalidade']); ?>">
+                                <?php echo htmlspecialchars($modalidade['nm_modalidade']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label>Horários Disponíveis</label>
+                    <div id="horarios-container">
+                        <!-- Os horários serão carregados aqui via AJAX -->
+                    </div>
                 </div>
 
                 <div class="form-row">
@@ -133,7 +205,7 @@ try {
 
                 <div class="form-row">
                     <label for="senha2">Confirme a senha</label>
-                    <input id="senha2" name="senha2" type="password" maxlength="40" required>
+                    <input id="senha2" name="confirmar" type="password" maxlength="40" required>
                 </div>
 
                 <div class="checkbox-row">
@@ -150,6 +222,89 @@ try {
     </main>
 
     <script>
+        function carregarHorarios() {
+            const modalidadeId = document.getElementById('modalidade').value;
+            const perfilId = <?php echo $perfil_id; ?>;
+            const horariosContainer = document.getElementById('horarios-container');
+            
+            console.log('Carregando horários para:', {
+                modalidadeId: modalidadeId,
+                perfilId: perfilId
+            });
+            
+            if (!modalidadeId) {
+                horariosContainer.innerHTML = '';
+                return;
+            }
+
+            // Fazer requisição AJAX para buscar horários (usando id do perfil da academia)
+            fetch(`../php/get_horarios.php?perfil_id=${perfilId}&modalidade_id=${modalidadeId}`)
+                .then(response => {
+                    console.log('Resposta recebida:', response);
+                    return response.json();
+                })
+                .then(horarios => {
+                    console.log('Horários recebidos:', horarios);
+                    let html = '';
+                    if (horarios.length === 0) {
+                        html = '<p>Nenhum horário disponível para esta modalidade.</p>';
+                    } else {
+                        // Agrupar horários por dia da semana
+                        const horariosPorDia = {};
+                        horarios.forEach(horario => {
+                            if (!horariosPorDia[horario.dia_semana]) {
+                                horariosPorDia[horario.dia_semana] = [];
+                            }
+                            horariosPorDia[horario.dia_semana].push(horario);
+                        });
+
+                        // Criar HTML para cada dia e seus horários
+                        for (const dia in horariosPorDia) {
+                            html += `<div class="dia-horarios"><h4>${dia}</h4>`;
+                            horariosPorDia[dia].forEach(horario => {
+                                html += `
+                                    <div class="horario-item">
+                                        <input type="checkbox" 
+                                               name="horarios_aula[]" 
+                                               id="horario_${horario.id_aulas}" 
+                                               value="${horario.id_aulas}"
+                                               class="horario-checkbox">
+                                        <label for="horario_${horario.id_aulas}">
+                                            ${horario.nome_aula} - 
+                                            ${horario.horario_inicio.substring(0, 5)} às 
+                                            ${horario.horario_fim.substring(0, 5)}
+                                        </label>
+                                    </div>`;
+                            });
+                            html += '</div>';
+                        }
+                    }
+                    horariosContainer.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar horários:', error);
+                    horariosContainer.innerHTML = '<p>Erro ao carregar horários. Por favor, tente novamente.</p>';
+                });
+        }
+
+        // Intercepta o envio do formulário para validar e confirmar pagamento
+        document.querySelector('.matricula-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede o envio imediato do formulário
+            
+            // Verifica se pelo menos um horário foi selecionado
+            const horariosSelecionados = document.querySelectorAll('input[name="horarios_aula[]"]:checked');
+            if (horariosSelecionados.length === 0) {
+                alert('Por favor, selecione pelo menos um horário de aula.');
+                return;
+            }
+            
+            if (confirm('O pagamento já foi efetuado?')) {
+                // Se confirmar que pagou, envia o formulário
+                this.submit();
+            }
+            // Se não confirmou, nada acontece e o formulário não é enviado
+        });
+
         // Função para permitir apenas numero no telefone
         function apenasNumeros(event) {
             const charCode = event.keyCode;

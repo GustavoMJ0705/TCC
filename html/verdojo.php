@@ -109,11 +109,15 @@ require_once 'lista_horarios.php';
 
             </div>
             <div class="entrardojo" style="display: flex; align-items: center; justify-content: center; margin-top: 2vh; ">
-               <div class="btn-matricula">
+              <?php 
+                if (isset($_SESSION['aluno_id'])): ?>
+                   
+            <div class="btn-matricula">
                     <a href="matricula.php?id=<?php echo urlencode($id_academia); ?>" title="Matricular-se">
                         <button class="matricule-btn" aria-label="Matricule-se">Matricule-se</button>
                     </a>
                 </div>
+                <?php endif; ?>
             </div>
 
         </div>

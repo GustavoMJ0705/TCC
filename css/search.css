@@ -1,0 +1,362 @@
+* {
+      padding: 0;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    main{
+      padding: 5vw 1.5vw;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 3rem; 
+    }
+
+    /*Estilização da barra de pesquisa*/
+    .barra-pesquisa {
+      position: relative;
+      width: 60%;
+      max-width: 600px;
+      margin: 3rem auto 2rem auto; /* centraliza e dá espaçamento */
+    }
+
+    /* Input da pesquisa */
+    .pesquisa {
+      width: 90%;
+      padding: 12px 50px 12px 20px; /* espaço à direita para o botão */
+      border-radius: 25px;
+      border: 2px solid #ff7728;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    /* Botão com ícone de lupa */
+    .botao-lupa {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #ff7728;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .botao-lupa img {
+      width: 18px;
+      height: 18px;
+    }
+
+    .botao-lupa:hover {
+      background-color: #e6671f;
+      transform: translateY(-50%) scale(1.05);
+    }
+    /*fim da estilização da barra de pesquisa*/
+
+
+    
+    /*div filtro que enconbre todo os filtros*/
+
+    .filtro {
+      border: 2px solid #000;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 20px;
+      width: 250px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 2rem;
+    }
+
+    .filtro h2 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #999;
+      margin: 8px 0;
+    }
+
+    .seçoes {
+      margin-bottom: 10px;
+    }
+
+    /*títulos dos filtros modalides, localidade...*/
+
+    .tituloFiltro {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .seta {
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .tituloFiltro.ativo .seta {
+      transform: rotate(180deg);
+    }
+
+    .conteudo-filtro {
+      display: none;
+      flex-direction: column;
+    }
+
+    /*a div que comporta todo o conteúdo dos filtros modalidades e localidade*/
+
+    #modalidades {
+      gap: 8px;
+    }
+
+    #localidade label {
+      margin-top: 0.5rem;
+    }
+
+    #localidade select{
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fdfdfd;
+      font-size: 0.95rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #localidade input {
+      width: 14.2rem;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fdfdfd;
+      font-size: 0.95rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Estilo da barra que aparece no input de cidades */
+    #lista-cidades {
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 14.2rem;
+      max-height: 150px; /* ← altura máxima */
+      overflow-y: auto; /* ← adiciona scroll */
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      display: none;
+      padding: 3px 6px;
+    }
+
+    #lista-cidades div {
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+
+    #lista-cidades div:hover {
+      border: none;
+      border-radius: 5px;
+      color: #ff7728;
+      font-weight: bold;
+    }
+
+    /*Botão de filtrar*/
+
+    .botao-filtrar {
+      background-color: #ff7728;
+      color: white;
+      border: none;
+      padding: 8px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .botao-filtrar:hover {
+      background-color: #e6671f;
+    }
+
+    /*fim da estilização da div filtros*/
+
+
+    /*Área que mostra as academias (dojos) */
+    .academias {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 1.5rem;
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 400px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    /* Exemplo de cartão de academia */
+    .academia-card {
+      width: calc(50% - 1rem);
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      background-color: #fdfdfd;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .academia-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+
+    /* Novos estilos para os cards das academias (layout solicitado) */
+  .academias-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .order-form {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .order-form select {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  .dojo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .dojo-card {
+    background: #ff8a36; /* laranja parecido com a foto */
+    border-radius: 30px;
+    padding: 16px;
+    box-shadow: 0 2px 0 #00000080; /* borda preta fina por baixo */
+    border: 4px solid #000; /* contorno preto externo */
+  }
+
+  .dojo-card-inner {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .dojo-img-wrap {
+    width: 120px;
+    height: 120px;
+    background: #111;
+    border-radius: 18px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .dojo-img-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 12px;
+    display: block;
+  }
+
+  .dojo-info {
+    flex: 1;
+  }
+
+  .dojo-name {
+    margin: 0 0 6px 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .dojo-endereco, .dojo-avaliacao {
+    margin: 6px 0;
+    color: #000;
+    font-weight: 600;
+  }
+
+  .dojo-avaliacao strong { font-weight: 800; }
+
+  .botao {
+    display: inline-block;
+    margin-top: 8px;
+    background-color: #000;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .nenhuma-academia {
+    padding: 20px;
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+  }
+
+    /*Fim área que mostra as academias (dojos) */
+
+
+    @media (max-width: 1000px) {
+
+      .barra-pesquisa {
+        width: 80%;
+      }
+      main {
+        flex-direction: column;
+            align-items: center;
+        gap: 2rem;
+      }
+
+      .filtro {
+        width: 90%;
+        position: static;
+      }
+
+      .academias {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .academia-card {
+        width: 100%;
+      }
+      
+      .dojo-card-inner {
+         flex-direction: row;
+      }
+      .dojo-img-wrap { 
+        width: 96px; height: 96px; 
+      }
+    }
+
+  
+
+  @media (max-width: 1000px) {
+    
+  }

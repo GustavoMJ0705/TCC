@@ -45,7 +45,7 @@ function minhasAcademias($academias) {
         echo '<h3>' . htmlspecialchars($academia['nm_academia']) . '</h3>';
         echo '<p>' . htmlspecialchars(substr($academia['ds_descricao'], 0, 100)) . '...</p>';
         echo '<a class="botao" href="../html/verdojo.php?id=' . htmlspecialchars($academia['id_perfil_academia']) . '">Ver academia</a>';
-        echo '<a class="botao" href="../html/editdojo.php?id=' . htmlspecialchars($academia['id_perfil_academia']) . '">Editar academia</a>';
+        echo '<a class="botao" href="../html/editdojo.php?id=' . htmlspecialchars($academia['id_perfil_academia']) . '">Gerenciar academia</a>';
         echo '</div>';
         echo '</div>';
     }

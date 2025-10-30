@@ -59,6 +59,7 @@ session_start();
         <aside class="sidebar" id="sidebar">
             <span class="close-btn" onclick="toggleSidebar()">&times;</span>
             <ul>                  
+                 <li><a href="home.php">Home</a></li>
                 <li><a href="suporte_tecnico.php">Suporte técnico</a></li>
                 <li><a href="seja_parceiro.php">Seja um parceiro</a></li>
                 <li><a href="#">Calendário de aulas</a></li>

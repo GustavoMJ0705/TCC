@@ -29,7 +29,6 @@ body {
     background: var(--bg);
     padding: 22px;
     border-radius: 10px;
-    box-shadow: var(--card-shadow);
     box-sizing: border-box;
 }
 
@@ -46,7 +45,7 @@ body {
 /* Form container with border */
 .matricula-form {
     margin-top: 20px;
-    padding: 24px;
+    padding: 15px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     background: #fff; 
@@ -179,6 +178,38 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="password
     margin: 0;
 }
 
+/* Layout: descrição à esquerda e botão de matrícula à direita */
+.descricao-e-matricula {
+    max-width: 720px;
+    margin: 20px auto;
+    padding: 0 22px;
+    display: flex;
+    align-items: center; /* alinha verticalmente descrição e botão */
+    gap: 40px;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.containerDescricao {
+    flex: 1 1 auto;
+}
+
+.DescriçãoDojo h3 {
+    margin-top: 0;
+}
+
+.btn-matricula {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+}
+
+.btn-matricula .matricule-btn {
+    /* garantia de boa visibilidade e tamanho */
+    padding: 0.8rem 1.4rem;
+}
+
 @media (max-width: 900px){
     .matricula-wrapper{ padding: 12px; }
     .form-actions{ justify-content:center; }
@@ -189,3 +220,72 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="password
     .alunos-cadastrados { margin-left: 2%; }
     .pedidos-pendentes { margin-left: 4%; }
 }
+
+.horario-item {
+    display: flex;
+flex-direction: row;
+gap: 1rem;
+}
+
+/* Alinha o layout */
+.horario-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Remove aparência padrão */
+.horario-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid black;
+  border-radius: 4px;
+  background-color: #ff7728;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Quando o checkbox está marcado */
+.horario-checkbox:checked::after {
+  content: "✔";
+  position: absolute;
+  top: -2px;
+  left: 3px;
+  font-size: 15px;
+  color: white; /* 🎨 Cor do check */
+  font-weight: bold;
+}
+
+.modalidade-titulo {
+            color: #333;
+            margin: 30px 0 15px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-left: 4px solid #007bff;
+        }
+        
+        .horario-titulo {
+            color: #666;
+            margin: 15px 0 10px;
+            font-size: 1.1em;
+            padding: 5px 10px;
+            background-color: #f9f9f9;
+            border-left: 3px solid #28a745;
+        }
+        
+        .matriculas-table {
+            margin-bottom: 20px;
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .matriculas-list {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
